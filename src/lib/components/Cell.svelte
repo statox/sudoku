@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { openModal } from '$lib/components/Modal';
+    import NumberPicker from './NumberPicker.svelte';
     type ValueCell = {
         value: number | undefined;
         fixed?: true;
@@ -33,11 +35,11 @@
 </script>
 
 {#if isValueCell(state)}
-<div class="cell value" class:fixed={state.fixed}>
+<button class="cell value" class:fixed={state.fixed} disabled={state.fixed} on:click={() => openModal(NumberPicker)}>
     {state.value}
-</div>
+</button>
 {:else if state.notes}
-<div class="cell notes">
+<button class="cell notes" on:click={() => openModal(NumberPicker)}>
     {#each [1, 2, 3, 4, 5, 6, 7, 8, 9] as note}
         <div class="note">
             {#if state.notes.includes(note)}
@@ -45,12 +47,13 @@
             {/if}
         </div>
     {/each}
-</div>
+</button>
 {/if}
 
 <style>
     .cell {
         border: 1px solid var(--nc-tx-2);
+        background: inherit;
     }
     .value {
         display: flex;
@@ -58,7 +61,7 @@
         justify-content: center;
     }
     .fixed {
-        font-weight: bold;
+        font-weight: bolder;
     }
 
     .notes {
