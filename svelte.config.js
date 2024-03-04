@@ -1,7 +1,10 @@
-import adapter from '@sveltejs/adapter-static';
-import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
+import adapter from 'svelte-adapter-auto';
+import { vitePreprocess } from '@sveltejs/kit/vite';
 
-const base = '/sudoku';
+// CHANGEME
+const REPO_NAME = '/sudoku';
+const prod = process.env.ENV === 'prod';
+const base = prod ? REPO_NAME : '';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -15,15 +18,10 @@ const config = {
             assets: 'docs',
             fallback: null,
             precompress: false,
-            fallback: '404.html',
             domain: '',
             jekyll: false
         }),
-        alias: {
-            $config: 'src/config'
-        },
         paths: {
-            relative: false,
             base
         }
     }
