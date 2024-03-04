@@ -14,7 +14,7 @@
     },
     "devDependencies": {
         "@rollup/plugin-node-resolve": "^15.2.3",
-        "@sveltejs/adapter-auto": "^3.1.0",
+        "@sveltejs/adapter-auto": "^3.1.1",
         "@sveltejs/kit": "^2.0.6",
         "@sveltejs/vite-plugin-svelte": "^3.0.0",
         "@typescript-eslint/eslint-plugin": "^6.18.0",
