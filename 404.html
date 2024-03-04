@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" href="/sudoku/favicon.png" />
+        <meta name="viewport" content="width=device-width" />
+        
+		<link rel="modulepreload" href="/sudoku/_app/immutable/entry/start.sFvqqP4S.js">
+		<link rel="modulepreload" href="/sudoku/_app/immutable/chunks/scheduler.k-kUyWhY.js">
+		<link rel="modulepreload" href="/sudoku/_app/immutable/chunks/singletons.bwPFGm1o.js">
+		<link rel="modulepreload" href="/sudoku/_app/immutable/entry/app.oxlXMlgn.js">
+		<link rel="modulepreload" href="/sudoku/_app/immutable/chunks/index.wJJws_a0.js">
+    </head>
+
+    <body data-sveltekit-preload-data="hover">
+        <div style="display: contents">
+			<script>
+				{
+					__sveltekit_ornw1g = {
+						assets: "/sudoku",
+						base: "/sudoku",
+						env: null
+					};
+
+					const element = document.currentScript.parentElement;
+
+					Promise.all([
+						import("/sudoku/_app/immutable/entry/start.sFvqqP4S.js"),
+						import("/sudoku/_app/immutable/entry/app.oxlXMlgn.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element);
+					});
+				}
+			</script>
+		</div>
+
+        <!-- TODO There is probably a better place for that -->
+        <script src="https://kit.fontawesome.com/cc32401bee.js" crossorigin="anonymous"></script>
+    </body>
+</html>

@@ -1,0 +1,1 @@
+export const env={"PUBLIC_GITHUB_RUN_ID":"8147185407","PUBLIC_GITHUB_COMMIT_URL":"https://github.com/statox/sudoku/commit/4b7d40bf2e3f0576d90d734a9644d449d7e3dda7","PUBLIC_GITHUB_COMMIT_MESSAGE":"initial commit","PUBLIC_GITHUB_COMMIT_SHA":"4b7d40bf2e3f0576d90d734a9644d449d7e3dda7"}
