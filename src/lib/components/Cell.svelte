@@ -56,6 +56,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        font-size: 1.5em;
     }
     .fixed {
         font-weight: bolder;
@@ -69,5 +70,6 @@
 
     .note {
         justify-self: center;
+        color: var(--nc-lk-2);
     }
 </style>
