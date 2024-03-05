@@ -51,3 +51,23 @@ export const getOrderedGrid = () => {
 
     return grid;
 };
+
+export const getEmptyGrid = () => {
+    const grid: Grid = [];
+    let i = 0;
+    for (let row = 0; row < 9; row++) {
+        grid.push([]);
+
+        for (let row = 0; row < 9; row++) {
+            const cell: Cell = {
+                value: undefined,
+                fixed: false,
+                notes: [] as number[]
+            };
+
+            grid[grid.length - 1].push(cell);
+        }
+    }
+
+    return grid;
+};
