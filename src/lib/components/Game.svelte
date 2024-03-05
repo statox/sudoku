@@ -1,14 +1,31 @@
 <script lang="ts">
-    import { getEmptyGrid, getOrderedGrid, getRandomGrid, gridHasError, gridIsFilled, gridIsValid, updateCell, type Cell } from '$lib/services/sudoku';
+    import {
+        getEmptyGrid,
+        getEmptyGridWithAllPossibles,
+        getOrderedGrid,
+        getRandomGrid,
+        gridHasError,
+        gridIsFilled,
+        gridIsValid,
+        updateCell,
+        wfcCollapse,
+        wfcPickOne,
+        wfcStep,
+        type Cell
+    } from '$lib/services/sudoku';
     import Sudoku from "./Sudoku.svelte";
 
-    let grid = getRandomGrid();
+    let grid = getEmptyGridWithAllPossibles();
 
     let hasErrors = gridHasError(grid);
     let isFilled = gridIsFilled(grid);
     let isValid  = gridIsValid(grid);
     const onCellUpdate = (event: CustomEvent<{cell: Cell, selection: number[]}>) => {
         updateCell(event.detail.cell, event.detail.selection);
+        refreshGrid();
+    }
+
+    const refreshGrid = () => {
         hasErrors = gridHasError(grid);
         isFilled = gridIsFilled(grid);
         isValid  = gridIsValid(grid);
@@ -16,9 +33,13 @@
     }
 </script>
 
-<button on:click={() => grid = getRandomGrid()}>Random Grid</button>
-<button on:click={() => grid = getOrderedGrid()}>Ordered Grid</button>
-<button on:click={() => grid = getEmptyGrid()}>Empty Grid</button>
+<button on:click={() => {grid = getRandomGrid(); refreshGrid()}}>Random Grid</button>
+<button on:click={() => {grid = getOrderedGrid(); refreshGrid()}}>Ordered Grid</button>
+<button on:click={() => {grid = getEmptyGrid(); refreshGrid()}}>Empty Grid</button>
+<button on:click={() => {grid = getEmptyGridWithAllPossibles(); refreshGrid()}}>All possibles</button>
+<button on:click={() => {wfcCollapse(grid); refreshGrid()}}>WFC collapse</button>
+<button on:click={() => {wfcPickOne(grid); refreshGrid()}}>WFC pick</button>
+<button on:click={() => {wfcStep(grid); refreshGrid()}}>WFC step</button>
 
 {#key grid}
     <Sudoku on:cellUpdate={onCellUpdate} {grid}/>

@@ -71,3 +71,23 @@ export const getEmptyGrid = () => {
 
     return grid;
 };
+
+export const getEmptyGridWithAllPossibles = () => {
+    const grid: Grid = [];
+    let i = 0;
+    for (let row = 0; row < 9; row++) {
+        grid.push([]);
+
+        for (let row = 0; row < 9; row++) {
+            const cell: Cell = {
+                value: undefined,
+                fixed: false,
+                notes: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+            };
+
+            grid[grid.length - 1].push(cell);
+        }
+    }
+
+    return grid;
+};
