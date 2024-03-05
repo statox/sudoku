@@ -11,6 +11,14 @@
 
         onSelectionUpdated(selection.map((_, i) => i+1).filter((i) => selection[i-1]));
     }
+
+    const onKeypress = (event: KeyboardEvent) => {
+        const { key } = event;
+        if (isNaN(Number(key))) {
+            return;
+        }
+        toggleValue(Number(key));
+    }
 </script>
 
 {#if isOpen}
@@ -31,6 +39,8 @@
         </div>
     </div>
 {/if}
+
+<svelte:window on:keydown={onKeypress} />
 
 <style>
     .modal {
