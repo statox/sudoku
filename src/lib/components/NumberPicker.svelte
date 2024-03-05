@@ -1,6 +1,16 @@
 <script lang="ts">
     import { closeModal } from '$lib/components/Modal';
     export let isOpen: boolean;
+    export let onSelectionUpdated: ((selection: number[]) => void);
+    export let initialValues: number[];
+
+    let selection = new Array(9).fill(false).map((_, i) => initialValues.includes(i+1));
+    const toggleValue = (choice: number) => {
+        selection[choice-1] = !selection[choice-1]
+        selection = selection;
+
+        onSelectionUpdated(selection.map((_, i) => i+1).filter((i) => selection[i-1]));
+    }
 </script>
 
 {#if isOpen}
@@ -13,7 +23,9 @@
 
             <div class="grid">
                 {#each [1, 2, 3, 4, 5, 6, 7, 8, 9] as choice}
-                    <div>{choice}</div>
+                    {#key selection}
+                    <button class="choice-btn" class:selected={selection[choice-1]} on:click={() => toggleValue(choice)}>{choice}</button>
+                    {/key}
                 {/each}
             </div>
         </div>
@@ -30,6 +42,9 @@
         margin: 3em;
         z-index: 9999;
 
+        width: 300px;
+        height: 300px;
+
         /* allow click-through to backdrop */
         pointer-events: none;
     }
@@ -38,11 +53,13 @@
         min-width: 240px;
         border-radius: 26px;
         padding: 16px;
-        background: white;
+        background: #FFFFFF88;
         pointer-events: auto;
 
         max-height: 90%;
         overflow: auto;
+
+        border: 1px solid white;
     }
 
     .title-bar {
@@ -56,5 +73,13 @@
         display: grid;
         grid-template-columns: 33% 33% 33%;
         grid-template-rows: 33% 33% 33%;
+    }
+
+    .choice-btn {
+        background: inherit;
+    }
+
+    .selected {
+        background: var(--nc-bg-3);
     }
 </style>

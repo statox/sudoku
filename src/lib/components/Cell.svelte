@@ -13,6 +13,27 @@
     function isValueCell(cell: Cell): cell is ValueCell {
         return (cell as NotesCell).notes === undefined;
     }
+    function isNotesCell(cell: Cell): cell is NotesCell {
+        return (cell as NotesCell).notes !== undefined;
+    }
+
+    const handleOpenModal = (state: Cell) => {
+        let initialValues: number[] = [];
+        if (isValueCell(state) && state.value) {
+            initialValues.push(state.value);
+        } else if (isNotesCell(state)) {
+            initialValues = [...state.notes];
+        }
+
+        const onSelectionUpdated = (selection: number[]) => {
+            console.log(state, selection);
+        }
+
+        openModal(
+            NumberPicker,
+            {initialValues, onSelectionUpdated}
+        )
+    }
 
     let state: Cell = {
         value: Math.ceil(Math.random() * 9)
@@ -35,19 +56,24 @@
 </script>
 
 {#if isValueCell(state)}
-<button class="cell value" class:fixed={state.fixed} disabled={state.fixed} on:click={() => openModal(NumberPicker)}>
-    {state.value}
-</button>
+    <button
+        class="cell value"
+        class:fixed={state.fixed}
+        disabled={state.fixed}
+        on:click={() => handleOpenModal(state)}
+    >
+        {state.value}
+    </button>
 {:else if state.notes}
-<button class="cell notes" on:click={() => openModal(NumberPicker)}>
-    {#each [1, 2, 3, 4, 5, 6, 7, 8, 9] as note}
-        <div class="note">
-            {#if state.notes.includes(note)}
-                {note}
-            {/if}
-        </div>
-    {/each}
-</button>
+    <button class="cell notes" on:click={() => handleOpenModal(state)}>
+        {#each [1, 2, 3, 4, 5, 6, 7, 8, 9] as note}
+            <div class="note">
+                {#if state.notes.includes(note)}
+                    {note}
+                {/if}
+            </div>
+        {/each}
+    </button>
 {/if}
 
 <style>
