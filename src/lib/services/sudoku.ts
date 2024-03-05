@@ -82,3 +82,24 @@ export const getCellsForSquare = (squarePosition: number, grid: Grid) => {
         grid[Y + 2][X + 2]
     ];
 };
+
+export const updateCell = (cell: Cell, selection: number[]) => {
+    if (cell.fixed) {
+        throw new Error('Tried to update fixed cell');
+    }
+
+    if (!selection.length) {
+        cell.value = undefined;
+        cell.notes = [];
+        return;
+    }
+
+    if (selection.length === 1) {
+        cell.value = selection[0];
+        cell.notes = [];
+        return;
+    }
+
+    cell.value = undefined;
+    cell.notes = [...selection];
+};

@@ -13,17 +13,17 @@
 </script>
 
 <div class="cell-grid" class:borderLeftRight class:borderTopBottom>
-    <Cell cell={cells[0]}/>
-    <Cell cell={cells[1]}/>
-    <Cell cell={cells[2]}/>
+    <Cell on:cellUpdate cell={cells[0]}/>
+    <Cell on:cellUpdate cell={cells[1]}/>
+    <Cell on:cellUpdate cell={cells[2]}/>
 
-    <Cell cell={cells[3]}/>
-    <Cell cell={cells[4]}/>
-    <Cell cell={cells[5]}/>
+    <Cell on:cellUpdate cell={cells[3]}/>
+    <Cell on:cellUpdate cell={cells[4]}/>
+    <Cell on:cellUpdate cell={cells[5]}/>
 
-    <Cell cell={cells[6]}/>
-    <Cell cell={cells[7]}/>
-    <Cell cell={cells[8]}/>
+    <Cell on:cellUpdate cell={cells[6]}/>
+    <Cell on:cellUpdate cell={cells[7]}/>
+    <Cell on:cellUpdate cell={cells[8]}/>
 </div>
 
 <style>

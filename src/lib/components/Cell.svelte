@@ -1,8 +1,11 @@
 <script lang="ts">
     import { openModal } from '$lib/components/Modal';
     import type { Cell } from '$lib/services/sudoku';
+    import { createEventDispatcher } from 'svelte';
     import NumberPicker from './NumberPicker.svelte';
     export let cell: Cell;
+
+    const dispatch = createEventDispatcher<{cellUpdate: {cell: Cell, selection: number[]}}>();
 
     const handleOpenModal = () => {
         let initialValues: number[] = [];
@@ -13,7 +16,7 @@
         }
 
         const onSelectionUpdated = (selection: number[]) => {
-            console.log(cell, selection);
+            dispatch('cellUpdate', { cell, selection });
         }
 
         openModal(
@@ -32,7 +35,7 @@
     >
         {cell.value}
     </button>
-{:else if cell.notes}
+{:else}
     <button class="cell notes" on:click={handleOpenModal}>
         {#each [1, 2, 3, 4, 5, 6, 7, 8, 9] as note}
             <div class="note">
