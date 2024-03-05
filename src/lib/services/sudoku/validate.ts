@@ -118,14 +118,21 @@ export const gridHasError = (grid: Grid) => {
             }
         }
     }
+    return false;
+};
 
-    console.log('0', square0Values);
-    console.log('1', square1Values);
-    console.log('2', square2Values);
-    console.log('3', square3Values);
-    console.log('4', square4Values);
-    console.log('5', square5Values);
-    console.log('6', square6Values);
-    console.log('7', square7Values);
-    console.log('8', square8Values);
+export const gridIsFilled = (grid: Grid) => {
+    for (let row = 0; row < 9; row++) {
+        for (let col = 0; col < 9; col++) {
+            if (!grid[row][col].value) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+};
+
+export const gridIsValid = (grid: Grid) => {
+    return gridIsFilled(grid) && !gridHasError(grid);
 };
