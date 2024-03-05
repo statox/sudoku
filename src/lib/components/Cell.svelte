@@ -1,32 +1,19 @@
 <script lang="ts">
     import { openModal } from '$lib/components/Modal';
+    import type { Cell } from '$lib/services/sudoku';
     import NumberPicker from './NumberPicker.svelte';
-    type ValueCell = {
-        value: number | undefined;
-        fixed?: true;
-    };
-    type NotesCell = {
-        notes: number[];
-    };
-    type Cell = ValueCell | NotesCell;
+    export let cell: Cell;
 
-    function isValueCell(cell: Cell): cell is ValueCell {
-        return (cell as NotesCell).notes === undefined;
-    }
-    function isNotesCell(cell: Cell): cell is NotesCell {
-        return (cell as NotesCell).notes !== undefined;
-    }
-
-    const handleOpenModal = (state: Cell) => {
+    const handleOpenModal = () => {
         let initialValues: number[] = [];
-        if (isValueCell(state) && state.value) {
-            initialValues.push(state.value);
-        } else if (isNotesCell(state)) {
-            initialValues = [...state.notes];
+        if (cell.value) {
+            initialValues.push(cell.value);
+        } else {
+            initialValues = [...cell.notes];
         }
 
         const onSelectionUpdated = (selection: number[]) => {
-            console.log(state, selection);
+            console.log(cell, selection);
         }
 
         openModal(
@@ -34,41 +21,22 @@
             {initialValues, onSelectionUpdated}
         )
     }
-
-    let state: Cell = {
-        value: Math.ceil(Math.random() * 9)
-    }
-
-    if (Math.random() < 0.1) {
-        state.fixed = true;
-    }
-
-    if (Math.random() < 0.2) {
-        state = {
-            notes: []
-        }
-        for (let i=1; i<=9; i++) {
-            if (Math.random() < 0.3) {
-                state.notes.push(i);
-            }
-        }
-    }
 </script>
 
-{#if isValueCell(state)}
+{#if cell.value}
     <button
         class="cell value"
-        class:fixed={state.fixed}
-        disabled={state.fixed}
-        on:click={() => handleOpenModal(state)}
+        class:fixed={cell.fixed}
+        disabled={cell.fixed}
+        on:click={handleOpenModal}
     >
-        {state.value}
+        {cell.value}
     </button>
-{:else if state.notes}
-    <button class="cell notes" on:click={() => handleOpenModal(state)}>
+{:else if cell.notes}
+    <button class="cell notes" on:click={handleOpenModal}>
         {#each [1, 2, 3, 4, 5, 6, 7, 8, 9] as note}
             <div class="note">
-                {#if state.notes.includes(note)}
+                {#if cell.notes.includes(note)}
                     {note}
                 {/if}
             </div>

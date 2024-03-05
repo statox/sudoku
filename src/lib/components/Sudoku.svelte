@@ -1,20 +1,22 @@
 <script lang="ts">
+    import type { Grid } from "$lib/services/sudoku";
     import Square from "./Square.svelte";
 
+    export let grid: Grid;
 </script>
 
 <div class="main-grid">
-    <Square position={0}/>
-    <Square position={1}/>
-    <Square position={2}/>
+    <Square position={0} {grid}/>
+    <Square position={1} {grid}/>
+    <Square position={2} {grid}/>
 
-    <Square position={3}/>
-    <Square position={4}/>
-    <Square position={5}/>
+    <Square position={3} {grid}/>
+    <Square position={4} {grid}/>
+    <Square position={5} {grid}/>
 
-    <Square position={6}/>
-    <Square position={7}/>
-    <Square position={8}/>
+    <Square position={6} {grid}/>
+    <Square position={7} {grid}/>
+    <Square position={8} {grid}/>
 </div>
 
 <style>

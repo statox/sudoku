@@ -1,23 +1,29 @@
 <script lang="ts">
+    import type { Grid } from "$lib/services/sudoku";
+    import { getCellsForSquare } from "$lib/services/sudoku";
     import Cell from "./Cell.svelte";
     export let position: number;
+    export let grid: Grid;
 
     const borderLeftRight = [1, 4, 7].includes(position);
     const borderTopBottom = [3, 4, 5].includes(position);
+
+
+    const cells = getCellsForSquare(position, grid);
 </script>
 
 <div class="cell-grid" class:borderLeftRight class:borderTopBottom>
-    <Cell />
-    <Cell />
-    <Cell />
+    <Cell cell={cells[0]}/>
+    <Cell cell={cells[1]}/>
+    <Cell cell={cells[2]}/>
 
-    <Cell />
-    <Cell />
-    <Cell />
+    <Cell cell={cells[3]}/>
+    <Cell cell={cells[4]}/>
+    <Cell cell={cells[5]}/>
 
-    <Cell />
-    <Cell />
-    <Cell />
+    <Cell cell={cells[6]}/>
+    <Cell cell={cells[7]}/>
+    <Cell cell={cells[8]}/>
 </div>
 
 <style>
