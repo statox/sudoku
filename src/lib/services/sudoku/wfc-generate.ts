@@ -2,6 +2,34 @@ import { getEmptyGridWithAllPossibles } from './generate';
 import type { Grid } from './types';
 import { gridHasError, gridIsFilled, gridIsValid } from './validate';
 
+// Use generateNewGridWFC() and remove enough values to
+// turn the grid into a grid game;
+export const generateNewGame = (): Grid => {
+    const grid = generateNewGridWFC();
+
+    const cells = [];
+    for (let row = 0; row < 9; row++) {
+        for (let col = 0; col < 9; col++) {
+            cells.push({ row, col });
+        }
+    }
+
+    for (let i = 81; i > 30; i--) {
+        const posRandIndex = Math.floor(Math.random() * cells.length);
+        const { row, col } = cells[posRandIndex];
+        grid[row][col].value = undefined;
+        grid[row][col].notes = [];
+        grid[row][col].fixed = false;
+        cells.splice(posRandIndex, 1);
+    }
+
+    for (const { row, col } of cells) {
+        grid[row][col].fixed = true;
+    }
+
+    return grid;
+};
+
 export const generateNewGridWFC = (): Grid => {
     const grid = getEmptyGridWithAllPossibles();
     let tries = 0;
@@ -10,6 +38,7 @@ export const generateNewGridWFC = (): Grid => {
         wfcStep(grid);
     }
     if (gridIsValid(grid)) {
+        console.log('Got valid grid');
         return grid;
     }
     return generateNewGridWFC();

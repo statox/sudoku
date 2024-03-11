@@ -1,20 +1,15 @@
 <script lang="ts">
     import {
-        getEmptyGrid,
-        getEmptyGridWithAllPossibles,
-        getOrderedGrid,
-        getRandomGrid,
-        generateNewGridWFC,
+        generateNewGame,
         gridHasError,
         gridIsFilled,
         gridIsValid,
         updateCell,
-        wfcStep,
         type Cell
     } from '$lib/services/sudoku';
     import Sudoku from "$lib/components/Sudoku.svelte";
 
-    let grid = getEmptyGridWithAllPossibles();
+    let grid = generateNewGame();
 
     let hasErrors = gridHasError(grid);
     let isFilled = gridIsFilled(grid);
@@ -32,12 +27,7 @@
     }
 </script>
 
-<button on:click={() => {grid = getRandomGrid(); refreshGrid()}}>Random Grid</button>
-<button on:click={() => {grid = getOrderedGrid(); refreshGrid()}}>Ordered Grid</button>
-<button on:click={() => {grid = getEmptyGrid(); refreshGrid()}}>Empty Grid</button>
-<button on:click={() => {grid = getEmptyGridWithAllPossibles(); refreshGrid()}}>All possibles</button>
-<button on:click={() => {grid = generateNewGridWFC(); refreshGrid()}}>WFC Grid</button>
-<button on:click={() => {wfcStep(grid); refreshGrid()}}>WFC step</button>
+<button on:click={() => {grid = generateNewGame(); refreshGrid()}}>Random Grid</button>
 
 {#key grid}
     <Sudoku on:cellUpdate={onCellUpdate} {grid}/>
