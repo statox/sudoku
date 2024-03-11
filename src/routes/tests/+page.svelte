@@ -4,6 +4,7 @@
         gridHasError,
         gridIsFilled,
         gridIsValid,
+        recomputeAllNotes,
         updateCell,
         type Cell
     } from '$lib/services/sudoku';
@@ -28,6 +29,7 @@
 </script>
 
 <button on:click={() => {grid = generateNewGame(); refreshGrid()}}>Random Grid</button>
+<button on:click={() => {recomputeAllNotes(grid); refreshGrid()}}>Compute notes</button>
 
 {#key grid}
     <Sudoku on:cellUpdate={onCellUpdate} {grid}/>

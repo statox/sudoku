@@ -4,6 +4,14 @@ import { gridHasError, gridIsFilled, gridIsValid } from './validate';
 
 // Use generateNewGridWFC() and remove enough values to
 // turn the grid into a grid game;
+// The code is not complete. Some references
+// Answer from a dev with a puzzle app https://gamedev.stackexchange.com/a/76170/64458
+// Simple approach https://puzzling.stackexchange.com/a/146
+// 1. Remove a number,
+// 2. Run a solver,
+// 3. Check if the puzzle is still unique,
+// 4. Repeat until solver is unable to find a solution, or solution is not unique.
+// => Need to have a solver which also check if solutions are unique
 export const generateNewGame = (): Grid => {
     const grid = generateNewGridWFC();
 
@@ -14,7 +22,8 @@ export const generateNewGame = (): Grid => {
         }
     }
 
-    for (let i = 81; i > 30; i--) {
+    const mustRemain = 30;
+    for (let i = 81; i > mustRemain; i--) {
         const posRandIndex = Math.floor(Math.random() * cells.length);
         const { row, col } = cells[posRandIndex];
         grid[row][col].value = undefined;
