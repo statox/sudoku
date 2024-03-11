@@ -4,7 +4,7 @@
 </script>
 
 <header>
-    <h1>P5+Svelte template</h1>
+    <h1>Sudoku</h1>
 
     <nav>
         <a href="{base}/">Home</a> |

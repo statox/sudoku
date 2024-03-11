@@ -1,9 +1,6 @@
 <script lang="ts">
     import {
-        getEmptyGrid,
         getEmptyGridWithAllPossibles,
-        getOrderedGrid,
-        getRandomGrid,
         generateNewGridWFC,
         gridHasError,
         gridIsFilled,
@@ -12,7 +9,7 @@
         wfcStep,
         type Cell
     } from '$lib/services/sudoku';
-    import Sudoku from "./Sudoku.svelte";
+    import Sudoku from "$lib/components/Sudoku.svelte";
 
     let grid = getEmptyGridWithAllPossibles();
 
@@ -32,12 +29,9 @@
     }
 </script>
 
-<button on:click={() => {grid = getRandomGrid(); refreshGrid()}}>Random Grid</button>
-<button on:click={() => {grid = getOrderedGrid(); refreshGrid()}}>Ordered Grid</button>
-<button on:click={() => {grid = getEmptyGrid(); refreshGrid()}}>Empty Grid</button>
-<button on:click={() => {grid = getEmptyGridWithAllPossibles(); refreshGrid()}}>All possibles</button>
-<button on:click={() => {grid = generateNewGridWFC(); refreshGrid()}}>WFC Grid</button>
-<button on:click={() => {wfcStep(grid); refreshGrid()}}>WFC step</button>
+<button on:click={() => {grid = getEmptyGridWithAllPossibles(); refreshGrid()}}>Reset grid</button>
+<button on:click={() => {wfcStep(grid); refreshGrid()}}>Run one step</button>
+<button on:click={() => {grid = generateNewGridWFC(); refreshGrid()}}>Generate complete grid</button>
 
 {#key grid}
     <Sudoku on:cellUpdate={onCellUpdate} {grid}/>
@@ -67,3 +61,4 @@
         color: red;
     }
 </style>
+
