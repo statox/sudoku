@@ -1,26 +1,38 @@
 import { getEmptyGridWithAllPossibles } from './generate';
 import type { Grid } from './types';
-import { gridHasError, gridIsFilled } from './validate';
+import { gridHasError, gridIsFilled, gridIsValid } from './validate';
 
 export const generateNewGridWFC = (): Grid => {
-    return getEmptyGridWithAllPossibles();
+    const grid = getEmptyGridWithAllPossibles();
+    let tries = 0;
+    while (!gridIsFilled(grid) && tries < 81) {
+        tries++;
+        wfcStep(grid);
+    }
+    if (gridIsValid(grid)) {
+        return grid;
+    }
+    return generateNewGridWFC();
 };
 
 const removePossibleValue = (grid: Grid, row: number, col: number, value: number) => {
     if (grid[row][col].value) {
-        return;
+        return false;
     }
 
     const i = grid[row][col].notes.indexOf(value);
     if (i === -1) {
-        return;
+        return false;
     }
 
     grid[row][col].notes.splice(i, 1);
 
     if (grid[row][col].notes.length === 1) {
         grid[row][col].value = grid[row][col].notes.pop();
+        return true;
     }
+
+    return false;
 };
 
 export const wfcStep = (grid: Grid) => {
@@ -42,7 +54,7 @@ export const wfcStep = (grid: Grid) => {
     }
 };
 
-export const wfcCollapse = (grid: Grid) => {
+const wfcCollapse = (grid: Grid) => {
     if (gridIsFilled(grid)) {
         return;
     }
@@ -50,6 +62,7 @@ export const wfcCollapse = (grid: Grid) => {
         throw new Error('Cant collapse a grid with errors');
     }
 
+    let didChange = false;
     for (let row = 0; row < 9; row++) {
         for (let col = 0; col < 9; col++) {
             const { value } = grid[row][col];
@@ -58,8 +71,8 @@ export const wfcCollapse = (grid: Grid) => {
             }
 
             for (let delta = 0; delta < 9; delta++) {
-                removePossibleValue(grid, delta, col, value);
-                removePossibleValue(grid, row, delta, value);
+                didChange = didChange || removePossibleValue(grid, delta, col, value);
+                didChange = didChange || removePossibleValue(grid, row, delta, value);
             }
 
             const squareCol = Math.floor(col / 3);
@@ -67,14 +80,40 @@ export const wfcCollapse = (grid: Grid) => {
 
             for (let drow = 0; drow < 3; drow++) {
                 for (let dcol = 0; dcol < 3; dcol++) {
-                    removePossibleValue(grid, 3 * squareRow + drow, 3 * squareCol + dcol, value);
+                    didChange =
+                        didChange ||
+                        removePossibleValue(
+                            grid,
+                            3 * squareRow + drow,
+                            3 * squareCol + dcol,
+                            value
+                        );
                 }
             }
         }
     }
+
+    if (didChange) {
+        wfcCollapse(grid);
+    }
 };
 
-export const wfcPickOne = (grid: Grid) => {
+const applyChoice = (grid: Grid, choice: { row: number; col: number; value: number }) => {
+    const { row, col, value } = choice;
+    if (grid[row][col].value) {
+        throw new Error(`cant apply choice ${choice} to cell ${row},${col}. Value already set`);
+    }
+    if (!grid[row][col].notes.includes(value)) {
+        throw new Error(
+            `cant apply choice ${choice} to cell ${row},${col}. New value not in notes`
+        );
+    }
+
+    grid[row][col].value = value;
+    grid[row][col].notes = [];
+};
+
+const wfcPickOne = (grid: Grid) => {
     if (gridIsFilled(grid)) {
         return;
     }
@@ -82,12 +121,17 @@ export const wfcPickOne = (grid: Grid) => {
         throw new Error('Cant pick position in a grid with errors');
     }
 
-    const openPositions = [];
+    let openPositions = [];
+    let minNbNotes = 9;
     for (let row = 0; row < 9; row++) {
         for (let col = 0; col < 9; col++) {
             const { value } = grid[row][col];
             if (!value) {
-                openPositions.push({ row, col });
+                const nbNotes = grid[row][col].notes.length;
+                if (nbNotes < minNbNotes) {
+                    minNbNotes = nbNotes;
+                }
+                openPositions.push({ row, col, nbNotes: nbNotes });
             }
         }
     }
@@ -96,11 +140,12 @@ export const wfcPickOne = (grid: Grid) => {
         throw new Error('No open position that should not happen');
     }
 
+    openPositions = openPositions.filter((v) => v.nbNotes === minNbNotes);
+
     const posRandIndex = Math.floor(Math.random() * openPositions.length);
     const { row, col } = openPositions[posRandIndex];
 
     const choiceRandIndex = Math.floor(Math.random() * grid[row][col].notes.length);
-    const choice = grid[row][col].notes[choiceRandIndex];
-    grid[row][col].value = choice;
-    grid[row][col].notes = [];
+    const value = grid[row][col].notes[choiceRandIndex];
+    applyChoice(grid, { row, col, value });
 };

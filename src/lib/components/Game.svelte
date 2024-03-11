@@ -4,12 +4,11 @@
         getEmptyGridWithAllPossibles,
         getOrderedGrid,
         getRandomGrid,
+        generateNewGridWFC,
         gridHasError,
         gridIsFilled,
         gridIsValid,
         updateCell,
-        wfcCollapse,
-        wfcPickOne,
         wfcStep,
         type Cell
     } from '$lib/services/sudoku';
@@ -37,8 +36,7 @@
 <button on:click={() => {grid = getOrderedGrid(); refreshGrid()}}>Ordered Grid</button>
 <button on:click={() => {grid = getEmptyGrid(); refreshGrid()}}>Empty Grid</button>
 <button on:click={() => {grid = getEmptyGridWithAllPossibles(); refreshGrid()}}>All possibles</button>
-<button on:click={() => {wfcCollapse(grid); refreshGrid()}}>WFC collapse</button>
-<button on:click={() => {wfcPickOne(grid); refreshGrid()}}>WFC pick</button>
+<button on:click={() => {grid = generateNewGridWFC(); refreshGrid()}}>WFC Grid</button>
 <button on:click={() => {wfcStep(grid); refreshGrid()}}>WFC step</button>
 
 {#key grid}
