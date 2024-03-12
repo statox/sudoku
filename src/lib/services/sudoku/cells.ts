@@ -25,23 +25,25 @@ export const getCellsForSquare = (squarePosition: number, grid: Grid) => {
     ];
 };
 
-export const updateCell = (cell: Cell, selection: number[]) => {
+type NotesUpdate = { notes: number[] };
+type ValueUpdate = { value: number | undefined };
+export type CellUpdate = NotesUpdate | ValueUpdate;
+
+function isNoteUpdate(update: NotesUpdate | ValueUpdate): update is NotesUpdate {
+    return (update as NotesUpdate).notes !== undefined;
+}
+
+export const updateCell = (cell: Cell, update: NotesUpdate | ValueUpdate) => {
     if (cell.fixed) {
         throw new Error('Tried to update fixed cell');
     }
 
-    if (!selection.length) {
+    if (isNoteUpdate(update)) {
         cell.value = undefined;
-        cell.notes = [];
+        cell.notes = [...update.notes];
         return;
     }
 
-    if (selection.length === 1) {
-        cell.value = selection[0];
-        cell.notes = [];
-        return;
-    }
-
-    cell.value = undefined;
-    cell.notes = [...selection];
+    cell.notes = [];
+    cell.value = update.value;
 };

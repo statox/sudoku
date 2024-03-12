@@ -7,7 +7,8 @@
         gridIsValid,
         updateCell,
         wfcStep,
-        type Cell
+        type Cell,
+        type CellUpdate
     } from '$lib/services/sudoku';
     import Sudoku from "$lib/components/Sudoku.svelte";
 
@@ -16,8 +17,8 @@
     let hasErrors = gridHasError(grid);
     let isFilled = gridIsFilled(grid);
     let isValid  = gridIsValid(grid);
-    const onCellUpdate = (event: CustomEvent<{cell: Cell, selection: number[]}>) => {
-        updateCell(event.detail.cell, event.detail.selection);
+    const onCellUpdate = (event: CustomEvent<{cell: Cell, update: CellUpdate}>) => {
+        updateCell(event.detail.cell, event.detail.update);
         refreshGrid();
     }
 

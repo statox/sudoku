@@ -1,23 +1,48 @@
 <script lang="ts">
     import { closeModal } from '$lib/components/Modal';
+    import type { CellUpdate } from '$lib/services/sudoku';
     export let isOpen: boolean;
-    export let onSelectionUpdated: ((selection: number[]) => void);
-    export let initialValues: number[];
+    export let onSelectionUpdated: ((update: CellUpdate) => void);
+    export let initialState: { notes: number[], value: number | undefined};
 
-    let selection = new Array(9).fill(false).map((_, i) => initialValues.includes(i+1));
+    let notesMode = initialState.value === undefined;
+
+    let selection = new Array(9).fill(false).map((_, i) => initialState.notes.includes(i+1));
+    let value = initialState.value;
+
     const toggleValue = (choice: number) => {
-        selection[choice-1] = !selection[choice-1]
-        selection = selection;
+        if (notesMode) {
+            selection[choice-1] = !selection[choice-1]
+            selection = selection;
 
-        onSelectionUpdated(selection.map((_, i) => i+1).filter((i) => selection[i-1]));
+            onSelectionUpdated({notes: selection.map((_, i) => i+1).filter((i) => selection[i-1])});
+            return;
+        }
+
+        value = choice;
+        onSelectionUpdated({value});
+    }
+
+    const toggleNotesMode = () => {
+        notesMode = !notesMode;
     }
 
     const onKeypress = (event: KeyboardEvent) => {
         const { key } = event;
+        if (key === 'Shift') {
+            notesMode = true;
+            return;
+        }
         if (isNaN(Number(key))) {
             return;
         }
         toggleValue(Number(key));
+    }
+    const onKeyrelease = (event: KeyboardEvent) => {
+        const { key } = event;
+        if (key === 'Shift') {
+            notesMode = false;
+        }
     }
 </script>
 
@@ -25,22 +50,30 @@
     <div role="dialog" class="modal">
         <div class="contents">
             <h3 class="title-bar">
-                Pick number
+            {notesMode ? 'Change notes' : 'Set value'}
                 <button on:click={closeModal}>Close</button>
             </h3>
 
             <div class="grid">
                 {#each [1, 2, 3, 4, 5, 6, 7, 8, 9] as choice}
-                    {#key selection}
-                    <button class="choice-btn" class:selected={selection[choice-1]} on:click={() => toggleValue(choice)}>{choice}</button>
-                    {/key}
+                    {#if notesMode}
+                        {#key selection}
+                        <button class="choice-btn" class:selected={selection[choice-1]} on:click={() => toggleValue(choice)}>{choice}</button>
+                        {/key}
+                    {:else}
+                        <button class="choice-btn" class:selected={value === choice} on:click={() => toggleValue(choice)}>{choice}</button>
+                    {/if}
                 {/each}
+            </div>
+
+            <div>
+                <button on:click={toggleNotesMode}>{notesMode ? 'Disable notes' : 'Enable notes'}</button>
             </div>
         </div>
     </div>
 {/if}
 
-<svelte:window on:keydown={onKeypress} />
+<svelte:window on:keydown={onKeypress} on:keyup={onKeyrelease} />
 
 <style>
     .modal {

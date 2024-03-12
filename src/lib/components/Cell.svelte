@@ -1,27 +1,20 @@
 <script lang="ts">
     import { openModal } from '$lib/components/Modal';
-    import type { Cell } from '$lib/services/sudoku';
+    import type { Cell, CellUpdate } from '$lib/services/sudoku';
     import { createEventDispatcher } from 'svelte';
     import NumberPicker from './NumberPicker.svelte';
     export let cell: Cell;
 
-    const dispatch = createEventDispatcher<{cellUpdate: {cell: Cell, selection: number[]}}>();
+    const dispatch = createEventDispatcher<{cellUpdate: {cell: Cell, update: CellUpdate}}>();
 
     const handleOpenModal = () => {
-        let initialValues: number[] = [];
-        if (cell.value) {
-            initialValues.push(cell.value);
-        } else {
-            initialValues = [...cell.notes];
-        }
-
-        const onSelectionUpdated = (selection: number[]) => {
-            dispatch('cellUpdate', { cell, selection });
+        const onSelectionUpdated = (update: CellUpdate) => {
+            dispatch('cellUpdate', { cell, update });
         }
 
         openModal(
             NumberPicker,
-            {initialValues, onSelectionUpdated}
+            {initialState: cell, onSelectionUpdated}
         )
     }
 </script>
