@@ -44,12 +44,31 @@
             notesMode = false;
         }
     }
+
+    let top = 0;
+    let left = 0;
+    let moving = false;
+    function onMouseDown() {
+        moving = true;
+    }
+
+    function onMouseMove(e: MouseEvent) {
+        if (moving) {
+            left += e.movementX;
+            top += e.movementY;
+        }
+    }
+
+    function onMouseUp() {
+        moving = false;
+    }
 </script>
 
 {#if isOpen}
-    <div role="dialog" class="modal">
+    {#key top}
+    <div role="dialog" class="modal" style="top: {top}px; left: {left}px;">
         <div class="contents">
-            <h3 class="title-bar">
+            <h3 class="title-bar" on:mousedown={onMouseDown}>
             {notesMode ? 'Change notes' : 'Set value'}
                 <button on:click={closeModal}>Close</button>
             </h3>
@@ -71,17 +90,18 @@
             </div>
         </div>
     </div>
+    {/key}
 {/if}
 
-<svelte:window on:keydown={onKeypress} on:keyup={onKeyrelease} />
+<svelte:window on:keydown={onKeypress} on:keyup={onKeyrelease} on:mouseup={onMouseUp} on:mousemove={onMouseMove} />
 
 <style>
     .modal {
         position: fixed;
-        top: 0;
+        /* top: 0; */
+        /* left: 0; */
         bottom: 0;
         right: 0;
-        left: 0;
         margin: 3em;
         z-index: 9999;
 
