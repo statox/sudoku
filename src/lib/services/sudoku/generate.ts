@@ -54,7 +54,6 @@ export const getOrderedGrid = () => {
 
 export const getEmptyGrid = () => {
     const grid: Grid = [];
-    let i = 0;
     for (let row = 0; row < 9; row++) {
         grid.push([]);
 
@@ -74,7 +73,6 @@ export const getEmptyGrid = () => {
 
 export const getEmptyGridWithAllPossibles = () => {
     const grid: Grid = [];
-    let i = 0;
     for (let row = 0; row < 9; row++) {
         grid.push([]);
 
