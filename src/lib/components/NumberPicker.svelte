@@ -5,21 +5,30 @@
     export let onSelectionUpdated: ((update: CellUpdate) => void);
     export let initialState: { notes: number[], value: number | undefined};
 
-    let notesMode = initialState.value === undefined;
+    let notesMode = initialState.notes.length > 0;
 
     let selection = new Array(9).fill(false).map((_, i) => initialState.notes.includes(i+1));
     let value = initialState.value;
 
-    const toggleValue = (choice: number) => {
-        if (notesMode) {
+    const toggleValue = (choice: number, mode: 'notes' | 'value') => {
+        if (mode === 'notes') {
             selection[choice-1] = !selection[choice-1]
             selection = selection;
+            value = undefined;
 
             onSelectionUpdated({notes: selection.map((_, i) => i+1).filter((i) => selection[i-1])});
             return;
         }
 
+        if (value === choice) {
+            onSelectionUpdated({clear: true});
+            value = undefined;
+            selection = [];
+            return;
+        }
+
         value = choice;
+        selection = [];
         onSelectionUpdated({value});
     }
 
@@ -28,16 +37,25 @@
     }
 
     const onKeypress = (event: KeyboardEvent) => {
-        const { key } = event;
+        const shiftedKeys = '!@#$%^&*(';
+        const modPressed = event.getModifierState('Shift');
+        let  key: number | string;
+        key = event.key;
+
         if (key === 'Shift') {
             notesMode = true;
-            return;
         }
+
+        if (shiftedKeys.includes(key)) {
+            key = shiftedKeys.indexOf(key) + 1;
+        }
+
         if (isNaN(Number(key))) {
             return;
         }
-        toggleValue(Number(key));
+        toggleValue(Number(key), modPressed ? 'notes' : 'value');
     }
+
     const onKeyrelease = (event: KeyboardEvent) => {
         const { key } = event;
         if (key === 'Shift') {
@@ -77,16 +95,16 @@
                 {#each [1, 2, 3, 4, 5, 6, 7, 8, 9] as choice}
                     {#if notesMode}
                         {#key selection}
-                        <button class="choice-btn" class:selected={selection[choice-1]} on:click={() => toggleValue(choice)}>{choice}</button>
+                        <button class="choice-btn" class:selected={selection[choice-1]} on:click={() => toggleValue(choice, "notes")}>{choice}</button>
                         {/key}
                     {:else}
-                        <button class="choice-btn" class:selected={value === choice} on:click={() => toggleValue(choice)}>{choice}</button>
+                        <button class="choice-btn" class:selected={value === choice} on:click={() => toggleValue(choice, "value")}>{choice}</button>
                     {/if}
                 {/each}
             </div>
 
             <div>
-                <button on:click={toggleNotesMode}>{notesMode ? 'Disable notes' : 'Enable notes'}</button>
+                <button on:click={toggleNotesMode}>Change mode</button>
             </div>
         </div>
     </div>
