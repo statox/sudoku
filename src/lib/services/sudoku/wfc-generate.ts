@@ -1,4 +1,5 @@
 import { getEmptyGridWithAllPossibles } from './generate';
+import { countSolutions } from './solver';
 import type { Grid } from './types';
 import { gridHasError, gridIsFilled, gridIsValid } from './validate';
 
@@ -12,7 +13,7 @@ import { gridHasError, gridIsFilled, gridIsValid } from './validate';
 // 3. Check if the puzzle is still unique,
 // 4. Repeat until solver is unable to find a solution, or solution is not unique.
 // => Need to have a solver which also check if solutions are unique
-export const generateNewGame = (mustRemain: number): Grid => {
+export const generateNewGame = (): Grid => {
     const grid = generateNewGridWFC();
 
     const cells = [];
@@ -22,18 +23,44 @@ export const generateNewGame = (mustRemain: number): Grid => {
         }
     }
 
-    for (let i = 81; i > mustRemain; i--) {
+    while (cells.length) {
         const posRandIndex = Math.floor(Math.random() * cells.length);
         const { row, col } = cells[posRandIndex];
+        cells.splice(posRandIndex, 1);
+        const savedValue = grid[row][col].value;
         grid[row][col].value = undefined;
         grid[row][col].notes = [];
         grid[row][col].fixed = false;
-        cells.splice(posRandIndex, 1);
+
+        const solutionsCount = countSolutions(grid);
+        if (solutionsCount === 'unique') {
+            continue;
+        }
+
+        grid[row][col].value = savedValue;
     }
 
-    for (const { row, col } of cells) {
-        grid[row][col].fixed = true;
+    for (let row = 0; row < 9; row++) {
+        for (let col = 0; col < 9; col++) {
+            if (grid[row][col].value) {
+                grid[row][col].fixed = true;
+            }
+        }
     }
+
+    // // Old dumb algorithm remove 81-mustRemain cells randomly
+    // const mustRemain = 20;
+    // for (let i = 81; i > mustRemain; i--) {
+    //     const posRandIndex = Math.floor(Math.random() * cells.length);
+    //     const { row, col } = cells[posRandIndex];
+    //     grid[row][col].value = undefined;
+    //     grid[row][col].notes = [];
+    //     grid[row][col].fixed = false;
+    //     cells.splice(posRandIndex, 1);
+    // }
+    // for (const { row, col } of cells) {
+    //     grid[row][col].fixed = true;
+    // }
 
     return grid;
 };

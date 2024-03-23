@@ -18,6 +18,14 @@ const removeNoteValue = (grid: Grid, row: number, col: number, value: number | u
     return true;
 };
 
+export const removeAllNotes = (grid: Grid) => {
+    for (let row = 0; row < 9; row++) {
+        for (let col = 0; col < 9; col++) {
+            grid[row][col].notes = [];
+        }
+    }
+};
+
 export const recomputeAllNotes = (grid: Grid) => {
     for (let row = 0; row < 9; row++) {
         for (let col = 0; col < 9; col++) {

@@ -5,6 +5,7 @@
         gridIsFilled,
         gridIsValid,
         recomputeAllNotes,
+        removeAllNotes,
         updateCell,
         type Cell,
         type CellUpdate,
@@ -72,8 +73,9 @@
 
 <button on:click={() => {grid = history.pop(); refreshGrid({noHistory: true})}}>Prev</button>
 <button on:click={() => {grid = getEmptyGridWithAllPossibles(); refreshGrid()}}>Empty grid</button>
-<button on:click={() => {grid = generateNewGame(20); refreshGrid()}}>New Grid</button>
+<button on:click={() => {grid = generateNewGame(); refreshGrid()}}>New Grid</button>
 <button on:click={() => {recomputeAllNotes(grid); refreshGrid()}}>Compute notes</button>
+<button on:click={() => {removeAllNotes(grid); refreshGrid()}}>Remove notes</button>
 <button on:click={() => {solve(); refreshGrid()}}>Solve grid</button>
 <button on:click={() => {countSolutions(grid);}}>Count solutions</button>
 <button on:click={() => {resetGrid(grid); refreshGrid()}}>Reset grid</button>
