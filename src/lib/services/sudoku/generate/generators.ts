@@ -1,4 +1,4 @@
-import type { Cell, Grid } from './types';
+import type { Cell, Grid } from '../types';
 
 export const getRandomGrid = () => {
     const grid: Grid = [];

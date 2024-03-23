@@ -1,7 +1,7 @@
-import { getEmptyGridWithAllPossibles } from './generate';
-import { countSolutions } from './solver';
-import type { Grid } from './types';
-import { gridHasError, gridIsFilled, gridIsValid } from './validate';
+import { getEmptyGridWithAllPossibles } from './generators';
+import type { Grid } from '../types';
+import { gridHasError, gridIsFilled, gridIsValid } from '../validate';
+import { countSolutions } from '../solve';
 
 // Use generateNewGridWFC() and remove enough values to
 // turn the grid into a grid game;
@@ -47,20 +47,6 @@ export const generateNewGame = (): Grid => {
             }
         }
     }
-
-    // // Old dumb algorithm remove 81-mustRemain cells randomly
-    // const mustRemain = 20;
-    // for (let i = 81; i > mustRemain; i--) {
-    //     const posRandIndex = Math.floor(Math.random() * cells.length);
-    //     const { row, col } = cells[posRandIndex];
-    //     grid[row][col].value = undefined;
-    //     grid[row][col].notes = [];
-    //     grid[row][col].fixed = false;
-    //     cells.splice(posRandIndex, 1);
-    // }
-    // for (const { row, col } of cells) {
-    //     grid[row][col].fixed = true;
-    // }
 
     return grid;
 };

@@ -1,23 +1,19 @@
 <script lang="ts">
     import {
+        countSolutions,
         generateNewGame,
         gridHasError,
         gridIsFilled,
         gridIsValid,
         recomputeAllNotes,
         removeAllNotes,
+        solveGridRec,
         updateCell,
         type Cell,
         type CellUpdate,
-
         type Grid,
-
-        getEmptyGridWithAllPossibles
-
-
     } from '$lib/services/sudoku';
     import Sudoku from "$lib/components/Sudoku.svelte";
-    import { solveGridRec, countSolutions } from '$lib/services/sudoku/solver';
 
     let grid = generateNewGame();
     const history = [JSON.parse(JSON.stringify(grid))]
@@ -26,6 +22,7 @@
     let isFilled = gridIsFilled(grid);
     let isValid  = gridIsValid(grid);
     let solutionCount = countSolutions(grid);
+
     const onCellUpdate = (event: CustomEvent<{cell: Cell, update: CellUpdate}>) => {
         updateCell(event.detail.cell, event.detail.update);
         refreshGrid();
@@ -72,12 +69,10 @@
 </script>
 
 <button on:click={() => {grid = history.pop(); refreshGrid({noHistory: true})}}>Prev</button>
-<button on:click={() => {grid = getEmptyGridWithAllPossibles(); refreshGrid()}}>Empty grid</button>
 <button on:click={() => {grid = generateNewGame(); refreshGrid()}}>New Grid</button>
 <button on:click={() => {recomputeAllNotes(grid); refreshGrid()}}>Compute notes</button>
 <button on:click={() => {removeAllNotes(grid); refreshGrid()}}>Remove notes</button>
 <button on:click={() => {solve(); refreshGrid()}}>Solve grid</button>
-<button on:click={() => {countSolutions(grid);}}>Count solutions</button>
 <button on:click={() => {resetGrid(grid); refreshGrid()}}>Reset grid</button>
 <button on:click={() => {removeFixed(); refreshGrid()}}>Remove fixed</button>
 

@@ -2,5 +2,5 @@
     import { base } from '$app/paths';
 </script>
 
-<p>Play with <a href="{base}/generator">the generator</a>.</p>
-<p>Explore <a href="{base}/tests">the tests page</a>.</p>
+<p>Explore the <a href="{base}/generator">Wave Function Collapse generator</a>.</p>
+<p>Play <a href="{base}/game">the game</a>.</p>
