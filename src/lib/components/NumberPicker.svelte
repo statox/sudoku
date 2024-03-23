@@ -94,7 +94,7 @@
         <div class="contents">
             <h3 class="title-bar">
             {notesMode ? 'Change notes' : 'Set value'}
-                <button on:click={closeModal}>Close</button>
+                <button on:click={closeModal}>✖</button>
             </h3>
 
             <div class="grid">
