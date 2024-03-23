@@ -5,7 +5,6 @@
         gridIsFilled,
         gridIsValid,
         recomputeAllNotes,
-        solveGrid,
         updateCell,
         type Cell,
         type CellUpdate,
@@ -14,6 +13,7 @@
 
     } from '$lib/services/sudoku';
     import Sudoku from "$lib/components/Sudoku.svelte";
+    import { solveGridRec } from '$lib/services/sudoku/solver';
 
     let grid = generateNewGame();
     const history = [JSON.parse(JSON.stringify(grid))]
@@ -48,12 +48,18 @@
             }
         }
     }
+
+    const solve = () => {
+        const r = solveGridRec(grid)
+        grid = r;
+        refreshGrid();
+    }
 </script>
 
 <button on:click={() => {grid = history.pop(); refreshGrid({noHistory: true})}}>Prev</button>
-<button on:click={() => {grid = generateNewGame(); refreshGrid()}}>Random Grid</button>
+<button on:click={() => {grid = generateNewGame(20); refreshGrid()}}>New Grid</button>
 <button on:click={() => {recomputeAllNotes(grid); refreshGrid()}}>Compute notes</button>
-<button on:click={() => {grid = solveGrid(grid); refreshGrid()}}>Solve grid</button>
+<button on:click={() => {solve(); refreshGrid()}}>Solve grid</button>
 <button on:click={() => {resetGrid(grid); refreshGrid()}}>Reset grid</button>
 
 {#key grid}

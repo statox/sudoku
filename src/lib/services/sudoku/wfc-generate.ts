@@ -12,7 +12,7 @@ import { gridHasError, gridIsFilled, gridIsValid } from './validate';
 // 3. Check if the puzzle is still unique,
 // 4. Repeat until solver is unable to find a solution, or solution is not unique.
 // => Need to have a solver which also check if solutions are unique
-export const generateNewGame = (): Grid => {
+export const generateNewGame = (mustRemain: number): Grid => {
     const grid = generateNewGridWFC();
 
     const cells = [];
@@ -22,7 +22,6 @@ export const generateNewGame = (): Grid => {
         }
     }
 
-    const mustRemain = 30;
     for (let i = 81; i > mustRemain; i--) {
         const posRandIndex = Math.floor(Math.random() * cells.length);
         const { row, col } = cells[posRandIndex];
