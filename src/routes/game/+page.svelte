@@ -1,10 +1,6 @@
 <script lang="ts">
     import {
-        countSolutions,
         generateNewGame,
-        gridHasError,
-        gridIsFilled,
-        gridIsValid,
         recomputeAllNotes,
         removeAllNotes,
         solveGridRec,
@@ -14,14 +10,10 @@
         type Grid,
     } from '$lib/services/sudoku';
     import Sudoku from "$lib/components/Sudoku.svelte";
+    import GridStatus from '$lib/components/GridStatus.svelte';
 
     let grid = generateNewGame();
     const history = [JSON.parse(JSON.stringify(grid))]
-
-    let hasErrors = gridHasError(grid);
-    let isFilled = gridIsFilled(grid);
-    let isValid  = gridIsValid(grid);
-    let solutionCount = countSolutions(grid);
 
     const onCellUpdate = (event: CustomEvent<{cell: Cell, update: CellUpdate}>) => {
         updateCell(event.detail.cell, event.detail.update);
@@ -29,11 +21,6 @@
     }
 
     const refreshGrid = (params?: {noHistory: true}) => {
-        hasErrors = gridHasError(grid);
-        isFilled = gridIsFilled(grid);
-        isValid  = gridIsValid(grid);
-        solutionCount = countSolutions(grid);
-
         grid = grid;
 
         if (params?.noHistory) {
@@ -78,31 +65,5 @@
 
 {#key grid}
     <Sudoku on:cellUpdate={onCellUpdate} {grid}/>
-
-    <div class="grid-status">
-        <div>grid has errors</div>
-        <div>grid is filled</div>
-        <div>grid is valid</div>
-        <div>grid has solutions</div>
-
-        <div class='status' class:red={hasErrors}>{hasErrors ? 'Has errors' : 'No errors'}</div>
-        <div class='status' class:red={!isFilled}>{isFilled ? 'Is filled' : 'Not filled'}</div>
-        <div class='status' class:red={!isValid}>{isValid ? 'Is valid' : 'Not valid' }</div>
-        <div class='status' class:red={solutionCount !== 'unique'}>{solutionCount}</div>
-    </div>
+    <GridStatus {grid} />
 {/key}
-
-<style>
-    .grid-status {
-        display: grid;
-        grid-template-columns: 25% 25% 25% 25%;
-    }
-
-    .status {
-        color: green;
-    }
-
-    .red {
-        color: red;
-    }
-</style>
