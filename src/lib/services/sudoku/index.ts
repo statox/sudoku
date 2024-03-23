@@ -4,3 +4,4 @@ export * from './grid';
 export * from './types';
 export * from './validate';
 export * from './wfc-generate';
+export * from './wfc-solve';

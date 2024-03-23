@@ -5,13 +5,18 @@
         gridIsFilled,
         gridIsValid,
         recomputeAllNotes,
+        solveGrid,
         updateCell,
         type Cell,
-        type CellUpdate
+        type CellUpdate,
+
+        type Grid
+
     } from '$lib/services/sudoku';
     import Sudoku from "$lib/components/Sudoku.svelte";
 
     let grid = generateNewGame();
+    const history = [JSON.parse(JSON.stringify(grid))]
 
     let hasErrors = gridHasError(grid);
     let isFilled = gridIsFilled(grid);
@@ -21,16 +26,35 @@
         refreshGrid();
     }
 
-    const refreshGrid = () => {
+    const refreshGrid = (params?: {noHistory: true}) => {
         hasErrors = gridHasError(grid);
         isFilled = gridIsFilled(grid);
         isValid  = gridIsValid(grid);
         grid = grid;
+
+        if (params?.noHistory) {
+            return;
+        }
+        history.push(JSON.parse(JSON.stringify(grid)));
+    }
+
+    const resetGrid = (grid: Grid) => {
+        for (let row = 0; row < 9; row++) {
+            for (let col = 0; col < 9; col++) {
+                if (!grid[row][col].fixed) {
+                    grid[row][col].value = undefined;
+                    grid[row][col].notes = [];
+                }
+            }
+        }
     }
 </script>
 
+<button on:click={() => {grid = history.pop(); refreshGrid({noHistory: true})}}>Prev</button>
 <button on:click={() => {grid = generateNewGame(); refreshGrid()}}>Random Grid</button>
 <button on:click={() => {recomputeAllNotes(grid); refreshGrid()}}>Compute notes</button>
+<button on:click={() => {grid = solveGrid(grid); refreshGrid()}}>Solve grid</button>
+<button on:click={() => {resetGrid(grid); refreshGrid()}}>Reset grid</button>
 
 {#key grid}
     <Sudoku on:cellUpdate={onCellUpdate} {grid}/>
