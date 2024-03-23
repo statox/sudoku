@@ -9,7 +9,6 @@ export const gridHasError = (grid: Grid) => {
             const rowValue = grid[i][j].value;
             if (rowValue) {
                 if (rowValues.has(rowValue)) {
-                    console.log('duplicate in row', i);
                     return true;
                 }
                 rowValues.add(rowValue);
@@ -18,7 +17,6 @@ export const gridHasError = (grid: Grid) => {
             const colValue = grid[j][i].value;
             if (colValue) {
                 if (colValues.has(colValue)) {
-                    console.log('duplicate in col', i);
                     return true;
                 }
                 colValues.add(colValue);
@@ -53,21 +51,18 @@ export const gridHasError = (grid: Grid) => {
 
             if (square0Value) {
                 if (square0Values.has(square0Value)) {
-                    console.log('duplicate in square', 0);
                     return true;
                 }
                 square0Values.add(square0Value);
             }
             if (square1Value) {
                 if (square1Values.has(square1Value)) {
-                    console.log('duplicate in square', 1);
                     return true;
                 }
                 square1Values.add(square1Value);
             }
             if (square2Value) {
                 if (square2Values.has(square2Value)) {
-                    console.log('duplicate in square', 2);
                     return true;
                 }
                 square2Values.add(square2Value);
@@ -75,21 +70,18 @@ export const gridHasError = (grid: Grid) => {
 
             if (square3Value) {
                 if (square3Values.has(square3Value)) {
-                    console.log('duplicate in square', 3);
                     return true;
                 }
                 square3Values.add(square3Value);
             }
             if (square4Value) {
                 if (square4Values.has(square4Value)) {
-                    console.log('duplicate in square', 4);
                     return true;
                 }
                 square4Values.add(square4Value);
             }
             if (square5Value) {
                 if (square5Values.has(square5Value)) {
-                    console.log('duplicate in square', 5);
                     return true;
                 }
                 square5Values.add(square5Value);
@@ -97,21 +89,18 @@ export const gridHasError = (grid: Grid) => {
 
             if (square6Value) {
                 if (square6Values.has(square6Value)) {
-                    console.log('duplicate in square', 6);
                     return true;
                 }
                 square6Values.add(square6Value);
             }
             if (square7Value) {
                 if (square7Values.has(square7Value)) {
-                    console.log('duplicate in square', 7);
                     return true;
                 }
                 square7Values.add(square7Value);
             }
             if (square8Value) {
                 if (square8Values.has(square8Value)) {
-                    console.log('duplicate in square', 8);
                     return true;
                 }
                 square8Values.add(square8Value);

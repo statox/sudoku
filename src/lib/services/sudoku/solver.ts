@@ -1,9 +1,10 @@
 import type { Grid } from './types';
 import { gridIsFilled, gridIsValid } from './validate';
 
-const printGrid = (g: Grid) => {
-    console.log(g.map((l) => l.map((c) => c.value ?? '.').join(' ')).join('\n'));
-};
+// const printGrid = (g: Grid) => {
+//     console.log(g.map((l) => l.map((c) => c.value ?? '.').join(' ')).join('\n'));
+// };
+
 export const solveGridRec = (grid: Grid) => {
     const gridToSolve = JSON.parse(JSON.stringify(grid));
     _solveGridRec(gridToSolve);
@@ -28,9 +29,6 @@ export const countSolutions = (grid: Grid): 'none' | 'unique' | 'notUnique' => {
     }
     const solutions: Grid[] = [];
     _countSolutions(gridToSolve, solutions, nonEmptyCells);
-
-    console.log('found', solutions.length, 'solutions');
-    solutions.forEach(printGrid);
 
     if (solutions.length === 0) {
         return 'none';

@@ -73,7 +73,6 @@ export const generateNewGridWFC = (): Grid => {
         wfcStep(grid);
     }
     if (gridIsValid(grid)) {
-        console.log('Got valid grid');
         return grid;
     }
     return generateNewGridWFC();
@@ -108,7 +107,6 @@ export const wfcStep = (grid: Grid) => {
             throw new Error('Step created error');
         }
     } catch (error) {
-        console.log('restoring previous version');
         const restore = JSON.parse(save);
         for (let row = 0; row < 9; row++) {
             for (let col = 0; col < 9; col++) {
