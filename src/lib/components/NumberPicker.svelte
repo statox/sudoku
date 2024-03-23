@@ -42,6 +42,11 @@
         let  key: number | string;
         key = event.key;
 
+        if (key === 'Backspace') {
+            onSelectionUpdated({clear: true});
+            return;
+        }
+
         if (key === 'Shift') {
             notesMode = true;
         }
