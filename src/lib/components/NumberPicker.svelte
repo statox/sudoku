@@ -84,9 +84,10 @@
 
 {#if isOpen}
     {#key top}
-    <div role="dialog" class="modal" style="top: {top}px; left: {left}px;">
+    <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+    <div role="dialog" class="modal" style="top: {top}px; left: {left}px;" on:mousedown={onMouseDown}>
         <div class="contents">
-            <h3 class="title-bar" on:mousedown={onMouseDown}>
+            <h3 class="title-bar">
             {notesMode ? 'Change notes' : 'Set value'}
                 <button on:click={closeModal}>Close</button>
             </h3>
