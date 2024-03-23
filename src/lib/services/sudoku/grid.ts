@@ -26,40 +26,36 @@ export const removeAllNotes = (grid: Grid) => {
     }
 };
 
+export const recomputeNotesForCell = (grid: Grid, pos: { row: number; col: number }) => {
+    const { row, col } = pos;
+    if (grid[row][col].value) {
+        grid[row][col].notes = [];
+        return;
+    }
+    grid[row][col].notes = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+    const squareCol = Math.floor(col / 3);
+    const squareRow = Math.floor(row / 3);
+
+    for (let delta = 0; delta < 9; delta++) {
+        const inColValue = grid[delta][col].value;
+        removeNoteValue(grid, row, col, inColValue);
+        const inRowValue = grid[row][delta].value;
+        removeNoteValue(grid, row, col, inRowValue);
+
+        const drow = Math.floor(delta / 3);
+        const dcol = delta % 3;
+        const inSquareValue = grid[3 * squareRow + drow][3 * squareCol + dcol].value;
+        removeNoteValue(grid, row, col, inSquareValue);
+    }
+
+    return grid[row][col].notes;
+};
+
 export const recomputeAllNotes = (grid: Grid) => {
     for (let row = 0; row < 9; row++) {
         for (let col = 0; col < 9; col++) {
-            if (grid[row][col].value) {
-                grid[row][col].notes = [];
-            } else {
-                grid[row][col].notes = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-            }
-        }
-    }
-
-    for (let row = 0; row < 9; row++) {
-        for (let col = 0; col < 9; col++) {
-            const { value } = grid[row][col];
-            if (value) {
-                continue;
-            }
-
-            for (let delta = 0; delta < 9; delta++) {
-                const inColValue = grid[delta][col].value;
-                removeNoteValue(grid, row, col, inColValue);
-                const inRowValue = grid[row][delta].value;
-                removeNoteValue(grid, row, col, inRowValue);
-            }
-
-            const squareCol = Math.floor(col / 3);
-            const squareRow = Math.floor(row / 3);
-
-            for (let drow = 0; drow < 3; drow++) {
-                for (let dcol = 0; dcol < 3; dcol++) {
-                    const inSquareValue = grid[3 * squareRow + drow][3 * squareCol + dcol].value;
-                    removeNoteValue(grid, row, col, inSquareValue);
-                }
-            }
+            recomputeNotesForCell(grid, { row, col });
         }
     }
 };
