@@ -55,15 +55,40 @@
     }
 </script>
 
-<button on:click={() => {grid = history.pop(); refreshGrid({noHistory: true})}}>Prev</button>
-<button on:click={() => {grid = generateNewGame(); refreshGrid()}}>New Grid</button>
-<button on:click={() => {recomputeAllNotes(grid); refreshGrid()}}>Compute notes</button>
-<button on:click={() => {removeAllNotes(grid); refreshGrid()}}>Remove notes</button>
-<button on:click={() => {solve(); refreshGrid()}}>Solve grid</button>
-<button on:click={() => {resetGrid(grid); refreshGrid()}}>Reset grid</button>
-<button on:click={() => {removeFixed(); refreshGrid()}}>Remove fixed</button>
+<div>
+    <h4>Grid controls</h4>
+    <div class="grid-controls">
+        <button on:click={() => {grid = history.pop(); refreshGrid({noHistory: true})}}>Prev</button>
+        <button on:click={() => {grid = generateNewGame(); refreshGrid()}}>New Grid</button>
+        <button on:click={() => {solve(); refreshGrid()}}>Solve grid</button>
+        <button on:click={() => {resetGrid(grid); refreshGrid()}}>Reset grid</button>
+        <button on:click={() => {removeFixed(); refreshGrid()}}>Remove fixed</button>
+    </div>
+</div>
+
+<div>
+    <h4>Notes controls</h4>
+    <div class="notes-controls">
+        <button on:click={() => {recomputeAllNotes(grid); refreshGrid()}}>Compute notes</button>
+        <button on:click={() => {removeAllNotes(grid); refreshGrid()}}>Remove notes</button>
+    </div>
+</div>
 
 {#key grid}
-    <Sudoku on:cellUpdate={onCellUpdate} {grid}/>
-    <GridStatus {grid} />
+<Sudoku on:cellUpdate={onCellUpdate} {grid}/>
+<GridStatus {grid} />
 {/key}
+
+<style>
+    .grid-controls {
+        display: grid;
+        column-gap: 1em;
+        grid-template-columns: repeat(5, 20%)
+    }
+
+    .notes-controls {
+        display: grid;
+        column-gap: 1em;
+        grid-template-columns: repeat(2, 50%)
+    }
+</style>
