@@ -3,7 +3,7 @@
     import type { Cell, CellUpdate } from '$lib/services/sudoku';
     import { createEventDispatcher, getContext } from 'svelte';
     import NumberPicker from './NumberPicker.svelte';
-    import { strategiesResults } from '$lib/services/sudoku/strategies';
+    import { isStrategyWithEffect, strategiesResults } from '$lib/services/sudoku/strategies';
     export let cell: Cell;
     export let position: { row: number, col: number};
 
@@ -27,6 +27,7 @@
 
     let hintClass = '';
     const hintedNotes: number[] = [];
+    const hintedToRemoveNotes: number[] = [];
     for (const result of $strategiesResults) {
         for (const cause of result.cause) {
             if (cause.row === position.row && cause.col === position.col) {
@@ -37,6 +38,14 @@
                 }
 
                 hintedNotes.push(...cause.notes);
+            }
+        }
+
+        if (isStrategyWithEffect(result)) {
+            for (const effect of result.effect) {
+                if (effect.row === position.row && effect.col === position.col) {
+                    hintedToRemoveNotes.push(...effect.notes);
+                }
             }
         }
     }
@@ -54,7 +63,7 @@
 {:else}
     <button class={"cell notes " + hintClass} on:click={handleOpenModal}>
         {#each [1, 2, 3, 4, 5, 6, 7, 8, 9] as note}
-            <div class="note" class:hinted-note={hintedNotes.includes(note)}>
+            <div class="note" class:hinted-note={hintedNotes.includes(note)} class:hinted-remove-note={hintedToRemoveNotes.includes(note)}>
                 {#if cell.notes.includes(note)}
                     {note}
                 {/if}
@@ -86,6 +95,9 @@
     }
     .hinted-note {
         background: green;
+    }
+    .hinted-remove-note {
+        background: red;
     }
 
     .notes {
