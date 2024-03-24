@@ -6,16 +6,21 @@
     export let cell: Cell;
     export let position: { row: number, col: number};
 
-    const dispatch = createEventDispatcher<{cellUpdate: {cell: Cell, update: CellUpdate}}>();
+    const dispatchCellUpdate = createEventDispatcher<{cellUpdate: {cell: Cell, update: CellUpdate}}>();
+    const dispatchComputeCellNotes = createEventDispatcher<{computeCellNotes: {position: {row: number, col: number}}}>();
 
     const handleOpenModal = () => {
         const onSelectionUpdated = (update: CellUpdate) => {
-            dispatch('cellUpdate', { cell, update });
+            dispatchCellUpdate('cellUpdate', { cell, update });
+        }
+
+        const onComputeCellNotes = () => {
+            dispatchComputeCellNotes('computeCellNotes', { position });
         }
 
         openModal(
             NumberPicker,
-            {initialState: cell, onSelectionUpdated}
+            {initialState: cell, onSelectionUpdated, onComputeCellNotes}
         )
     }
 </script>

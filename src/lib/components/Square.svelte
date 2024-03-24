@@ -15,17 +15,17 @@
 </script>
 
 <div class="cell-grid" class:borderLeftRight class:borderTopBottom>
-    <Cell on:cellUpdate position={{row:squareRow, col: squareCol}} cell={cells[0]}/>
-    <Cell on:cellUpdate position={{row:squareRow, col: squareCol + 1}} cell={cells[1]}/>
-    <Cell on:cellUpdate position={{row:squareRow, col: squareCol + 2}} cell={cells[2]}/>
+    <Cell on:cellUpdate on:computeCellNotes position={{row:squareRow, col: squareCol}} cell={cells[0]}/>
+    <Cell on:cellUpdate on:computeCellNotes position={{row:squareRow, col: squareCol + 1}} cell={cells[1]}/>
+    <Cell on:cellUpdate on:computeCellNotes position={{row:squareRow, col: squareCol + 2}} cell={cells[2]}/>
 
-    <Cell on:cellUpdate position={{row:squareRow + 1, col: squareCol}} cell={cells[3]}/>
-    <Cell on:cellUpdate position={{row:squareRow + 1, col: squareCol + 1}} cell={cells[4]}/>
-    <Cell on:cellUpdate position={{row:squareRow + 1, col: squareCol + 2}} cell={cells[5]}/>
+    <Cell on:cellUpdate on:computeCellNotes position={{row:squareRow + 1, col: squareCol}} cell={cells[3]}/>
+    <Cell on:cellUpdate on:computeCellNotes position={{row:squareRow + 1, col: squareCol + 1}} cell={cells[4]}/>
+    <Cell on:cellUpdate on:computeCellNotes position={{row:squareRow + 1, col: squareCol + 2}} cell={cells[5]}/>
 
-    <Cell on:cellUpdate position={{row:squareRow + 2, col: squareCol}} cell={cells[6]}/>
-    <Cell on:cellUpdate position={{row:squareRow + 2, col: squareCol + 1}} cell={cells[7]}/>
-    <Cell on:cellUpdate position={{row:squareRow + 2, col: squareCol + 2}} cell={cells[8]}/>
+    <Cell on:cellUpdate on:computeCellNotes position={{row:squareRow + 2, col: squareCol}} cell={cells[6]}/>
+    <Cell on:cellUpdate on:computeCellNotes position={{row:squareRow + 2, col: squareCol + 1}} cell={cells[7]}/>
+    <Cell on:cellUpdate on:computeCellNotes position={{row:squareRow + 2, col: squareCol + 2}} cell={cells[8]}/>
 </div>
 
 <style>

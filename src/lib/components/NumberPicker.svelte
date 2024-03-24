@@ -3,6 +3,7 @@
     import type { CellUpdate } from '$lib/services/sudoku';
     export let isOpen: boolean;
     export let onSelectionUpdated: ((update: CellUpdate) => void);
+    export let onComputeCellNotes: (() => void);
     export let initialState: { notes: number[], value: number | undefined};
 
     let notesMode = initialState.notes.length > 0;
@@ -93,7 +94,7 @@
     <div role="dialog" class="modal" style="top: {top}px; left: {left}px;" on:mousedown={onMouseDown}>
         <div class="contents">
             <h3 class="title-bar">
-            {notesMode ? 'Change notes' : 'Set value'}
+            {notesMode ? 'Notes' : 'Value'}
                 <button on:click={closeModal}>✖</button>
             </h3>
 
@@ -111,6 +112,9 @@
 
             <div>
                 <button on:click={toggleNotesMode}>Change mode</button>
+                {#if notesMode}
+                    <button on:click={onComputeCellNotes}>Auto notes</button>
+                {/if}
             </div>
         </div>
     </div>

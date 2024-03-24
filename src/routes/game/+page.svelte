@@ -8,6 +8,7 @@
         type Cell,
         type CellUpdate,
         type Grid,
+        recomputeNotesForCell,
     } from '$lib/services/sudoku';
     import Sudoku from "$lib/components/Sudoku.svelte";
     import GridStatus from '$lib/components/GridStatus.svelte';
@@ -19,6 +20,10 @@
         updateCell(event.detail.cell, event.detail.update);
         refreshGrid();
     }
+    const onComputeCellNotes = (event: CustomEvent<{computeCellNotes: {row: number, col: number}}>) => {
+        recomputeNotesForCell(grid, event.detail.position);
+        refreshGrid();
+    };
 
     const refreshGrid = (params?: {noHistory: true}) => {
         grid = grid;
@@ -75,7 +80,7 @@
 </div>
 
 {#key grid}
-<Sudoku on:cellUpdate={onCellUpdate} {grid}/>
+<Sudoku on:cellUpdate={onCellUpdate} on:computeCellNotes={onComputeCellNotes} {grid}/>
 <GridStatus {grid} />
 {/key}
 
