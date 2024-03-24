@@ -5,4 +5,4 @@ TODO: Then find out a way to display them conveniently on the grid
 
 ## Resources
 
-- https://www.learn-sudoku.com/basic-techniques.html
+-   https://www.learn-sudoku.com/basic-techniques.html

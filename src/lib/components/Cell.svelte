@@ -1,7 +1,7 @@
 <script lang="ts">
     import { openModal } from '$lib/components/Modal';
     import type { Cell, CellUpdate } from '$lib/services/sudoku';
-    import { createEventDispatcher, getContext } from 'svelte';
+    import { createEventDispatcher } from 'svelte';
     import NumberPicker from './NumberPicker.svelte';
     import { isStrategyWithEffect, strategiesResults } from '$lib/services/sudoku/strategies';
     export let cell: Cell;
