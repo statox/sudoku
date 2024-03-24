@@ -12,6 +12,7 @@
     } from '$lib/services/sudoku';
     import Sudoku from "$lib/components/Sudoku.svelte";
     import GridStatus from '$lib/components/GridStatus.svelte';
+    import { getLoneSingles, strategiesResults } from '$lib/services/sudoku/strategies';
 
     let grid = generateNewGame();
     const history = [JSON.parse(JSON.stringify(grid))]
@@ -58,6 +59,11 @@
             }
         }
     }
+
+    const applyStrategies = (grid: Grid) => {
+        const lonesingles = getLoneSingles(grid);
+        strategiesResults.set(lonesingles);
+    }
 </script>
 
 <div>
@@ -76,6 +82,8 @@
     <div class="notes-controls">
         <button on:click={() => {recomputeAllNotes(grid); refreshGrid()}}>Compute notes</button>
         <button on:click={() => {removeAllNotes(grid); refreshGrid()}}>Remove notes</button>
+        <button on:click={() => {applyStrategies(grid); refreshGrid()}}>Display hints</button>
+        <button on:click={() => {strategiesResults.set([]); refreshGrid()}}>Hide hints</button>
     </div>
 </div>
 
@@ -94,6 +102,6 @@
     .notes-controls {
         display: grid;
         column-gap: 1em;
-        grid-template-columns: repeat(2, 50%)
+        grid-template-columns: repeat(4, 20%)
     }
 </style>

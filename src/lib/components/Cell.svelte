@@ -1,8 +1,10 @@
 <script lang="ts">
     import { openModal } from '$lib/components/Modal';
     import type { Cell, CellUpdate } from '$lib/services/sudoku';
-    import { createEventDispatcher } from 'svelte';
+    import { createEventDispatcher, getContext } from 'svelte';
     import NumberPicker from './NumberPicker.svelte';
+    import type { StrategyResult } from '$lib/services/sudoku/strategies/types';
+    import { strategiesResults } from '$lib/services/sudoku/strategies';
     export let cell: Cell;
     export let position: { row: number, col: number};
 
@@ -23,6 +25,15 @@
             {initialState: cell, onSelectionUpdated, onComputeCellNotes}
         )
     }
+
+    let hasHint = false;
+    for (const result of $strategiesResults) {
+        for (const cause of result.cause) {
+            if (cause.row === position.row && cause.col === position.col) {
+                hasHint = true;
+            }
+        }
+    }
 </script>
 
 {#if cell.value}
@@ -35,7 +46,7 @@
         {cell.value}
     </button>
 {:else}
-    <button class="cell notes" on:click={handleOpenModal}>
+    <button class="cell notes" class:hint={hasHint} on:click={handleOpenModal}>
         {#each [1, 2, 3, 4, 5, 6, 7, 8, 9] as note}
             <div class="note">
                 {#if cell.notes.includes(note)}
@@ -59,6 +70,10 @@
     }
     .fixed {
         font-weight: bolder;
+    }
+
+    .hint {
+        background: #ffbe5263;
     }
 
     .notes {
