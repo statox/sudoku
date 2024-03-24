@@ -25,12 +25,17 @@
         )
     }
 
-    let hasHint = false;
+    let hintClass = '';
     const hintedNotes: number[] = [];
     for (const result of $strategiesResults) {
         for (const cause of result.cause) {
             if (cause.row === position.row && cause.col === position.col) {
-                hasHint = true;
+                if (result.type === 'naked_pair') {
+                    hintClass = 'naked-pair-hint'
+                } else {
+                    hintClass = 'lone-hint';
+                }
+
                 hintedNotes.push(...cause.notes);
             }
         }
@@ -47,7 +52,7 @@
         {cell.value}
     </button>
 {:else}
-    <button class="cell notes" class:hint={hasHint} on:click={handleOpenModal}>
+    <button class={"cell notes " + hintClass} on:click={handleOpenModal}>
         {#each [1, 2, 3, 4, 5, 6, 7, 8, 9] as note}
             <div class="note" class:hinted-note={hintedNotes.includes(note)}>
                 {#if cell.notes.includes(note)}
@@ -73,8 +78,11 @@
         font-weight: bolder;
     }
 
-    .hint {
+    .lone-hint {
         background: #ffbe5263;
+    }
+    .naked-pair-hint {
+        background: #b3420e63;
     }
     .hinted-note {
         background: green;
