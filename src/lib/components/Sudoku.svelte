@@ -25,6 +25,20 @@
         grid-template-columns: 33% 33% 33%;
         grid-template-rows: 33% 33% 33%;
 
-        height: 900px;
+        min-width: 550px;
+        min-height: 500px;
+    }
+
+    @media screen and (min-width: 900px) {
+        .main-grid {
+            height: 900px;
+            width: 900px;
+        }
+    }
+    @media screen and (max-width: 900px) {
+        .main-grid {
+            height: 90vw;
+            width: 90vw;
+        }
     }
 </style>
