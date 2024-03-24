@@ -94,9 +94,13 @@
         background: #b3420e63;
     }
     .hinted-note {
+        width: 2ex;
+        border-radius: 50%;
         background: green;
     }
     .hinted-remove-note {
+        width: 2ex;
+        border-radius: 50%;
         background: red;
     }
 
