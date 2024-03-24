@@ -1,6 +1,8 @@
 import type { Grid } from '../types';
 import type { StrategyResult } from './types';
 
+// https://www.learn-sudoku.com/lone-singles.html
+// A Lone Single is when a cell has only one note left
 export const getLoneSingles = (grid: Grid): StrategyResult[] => {
     const result: StrategyResult[] = [];
 
@@ -14,7 +16,7 @@ export const getLoneSingles = (grid: Grid): StrategyResult[] => {
                 continue;
             }
             result.push({
-                type: 'lone_singles',
+                type: 'lone_single',
                 cause: [{ row, col, notes: [grid[row][col].notes[0]] }]
             });
         }

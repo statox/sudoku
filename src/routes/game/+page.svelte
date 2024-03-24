@@ -12,7 +12,7 @@
     } from '$lib/services/sudoku';
     import Sudoku from "$lib/components/Sudoku.svelte";
     import GridStatus from '$lib/components/GridStatus.svelte';
-    import { getLoneSingles, strategiesResults } from '$lib/services/sudoku/strategies';
+    import { getHiddenSingles, getLoneSingles, strategiesResults } from '$lib/services/sudoku/strategies';
 
     let grid = generateNewGame();
     const history = [JSON.parse(JSON.stringify(grid))]
@@ -61,8 +61,9 @@
     }
 
     const applyStrategies = (grid: Grid) => {
-        const lonesingles = getLoneSingles(grid);
-        strategiesResults.set(lonesingles);
+        const loneSingles = getLoneSingles(grid);
+        const hiddenSingles = getHiddenSingles(grid);
+        strategiesResults.set([...loneSingles, ...hiddenSingles]);
     }
 </script>
 
