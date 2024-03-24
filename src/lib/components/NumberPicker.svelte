@@ -6,6 +6,26 @@
     export let onComputeCellNotes: (() => void);
     export let initialState: { notes: number[], value: number | undefined};
 
+    export let parentBoundingRect: DOMRect;
+
+    // This function is not accurate as I'd want to be result is okayish on my computer screen
+    // TODO check it works on other screens
+    const computeInitialPosition = (parentBoundingRect: DOMRect) => {
+        const bodyRect = document.body.getBoundingClientRect();
+        // TODO use these constants in CSS
+        const WIDTH_PX = 300;
+        const HEIGHT_PX = 300;
+        let top = parentBoundingRect.top - HEIGHT_PX / 2;
+
+        let left = parentBoundingRect.right;
+        if (left > bodyRect.width / 2) {
+            left = parentBoundingRect.left - WIDTH_PX - parentBoundingRect.width;
+        }
+        return { top, left}
+    }
+    let {top, left} = computeInitialPosition(parentBoundingRect);
+
+
     let notesMode = initialState.notes.length > 0;
 
     let selection = new Array(9).fill(false).map((_, i) => initialState.notes.includes(i+1));
@@ -70,8 +90,6 @@
         }
     }
 
-    let top = 0;
-    let left = 0;
     let moving = false;
     function onMouseDown() {
         moving = true;
@@ -127,8 +145,7 @@
 <style>
     .modal {
         position: fixed;
-        /* top: 0; */
-        /* left: 0; */
+
         bottom: 0;
         right: 0;
         margin: 3em;

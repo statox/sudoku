@@ -9,6 +9,7 @@
 
     const dispatchCellUpdate = createEventDispatcher<{cellUpdate: {cell: Cell, update: CellUpdate}}>();
     const dispatchComputeCellNotes = createEventDispatcher<{computeCellNotes: {position: {row: number, col: number}}}>();
+    let el: HTMLButtonElement;
 
     const handleOpenModal = () => {
         const onSelectionUpdated = (update: CellUpdate) => {
@@ -21,7 +22,7 @@
 
         openModal(
             NumberPicker,
-            {initialState: cell, onSelectionUpdated, onComputeCellNotes}
+            {initialState: cell, onSelectionUpdated, onComputeCellNotes, parentBoundingRect: el.getBoundingClientRect()}
         )
     }
 
@@ -53,6 +54,7 @@
 
 {#if cell.value}
     <button
+        bind:this={el}
         class="cell value"
         class:fixed={cell.fixed}
         disabled={cell.fixed}
@@ -61,7 +63,7 @@
         {cell.value}
     </button>
 {:else}
-    <button class={"cell notes " + hintClass} on:click={handleOpenModal}>
+    <button bind:this={el} class={"cell notes " + hintClass} on:click={handleOpenModal}>
         {#each [1, 2, 3, 4, 5, 6, 7, 8, 9] as note}
             <div class="note" class:hinted-note={hintedNotes.includes(note)} class:hinted-remove-note={hintedToRemoveNotes.includes(note)}>
                 {#if cell.notes.includes(note)}
