@@ -31,6 +31,7 @@
         value = choice;
         selection = [];
         onSelectionUpdated({value});
+        closeModal();
     }
 
     const toggleNotesMode = () => {
