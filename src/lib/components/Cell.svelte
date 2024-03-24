@@ -3,7 +3,6 @@
     import type { Cell, CellUpdate } from '$lib/services/sudoku';
     import { createEventDispatcher, getContext } from 'svelte';
     import NumberPicker from './NumberPicker.svelte';
-    import type { StrategyResult } from '$lib/services/sudoku/strategies/types';
     import { strategiesResults } from '$lib/services/sudoku/strategies';
     export let cell: Cell;
     export let position: { row: number, col: number};
@@ -27,10 +26,12 @@
     }
 
     let hasHint = false;
+    const hintedNotes: number[] = [];
     for (const result of $strategiesResults) {
         for (const cause of result.cause) {
             if (cause.row === position.row && cause.col === position.col) {
                 hasHint = true;
+                hintedNotes.push(...cause.notes);
             }
         }
     }
@@ -48,7 +49,7 @@
 {:else}
     <button class="cell notes" class:hint={hasHint} on:click={handleOpenModal}>
         {#each [1, 2, 3, 4, 5, 6, 7, 8, 9] as note}
-            <div class="note">
+            <div class="note" class:hinted-note={hintedNotes.includes(note)}>
                 {#if cell.notes.includes(note)}
                     {note}
                 {/if}
@@ -74,6 +75,9 @@
 
     .hint {
         background: #ffbe5263;
+    }
+    .hinted-note {
+        background: green;
     }
 
     .notes {
