@@ -21,7 +21,7 @@
         if (left > bodyRect.width / 2) {
             left = parentBoundingRect.left - WIDTH_PX - parentBoundingRect.width;
         }
-        return { top, left}
+        return { top, left: Math.max(0, left)}
     }
     let {top, left} = computeInitialPosition(parentBoundingRect);
 
