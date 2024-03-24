@@ -20,58 +20,100 @@ export const getNakedPairs = (grid: Grid): StrategyResult[] => {
                 const pair = grid[i][j].notes.join(',');
                 if (!rowPairs[pair]) {
                     rowPairs[pair] = { row: i, col: j };
-                    continue;
-                }
+                } else {
+                    const cause1 = { row: i, col: j, notes: [...grid[i][j].notes] };
+                    const cause2 = {
+                        row: rowPairs[pair].row,
+                        col: rowPairs[pair].col,
+                        notes: [...grid[i][j].notes]
+                    };
 
-                const cause1 = { row: i, col: j, notes: [...grid[i][j].notes] };
-                const cause2 = {
-                    row: rowPairs[pair].row,
-                    col: rowPairs[pair].col,
-                    notes: [...grid[i][j].notes]
-                };
-
-                const effect = [];
-                for (let k = 0; k < 9; k++) {
-                    if (grid[i][k].value !== undefined || grid[i][k].notes.join(',') === pair) {
-                        continue;
+                    const effect = [];
+                    for (let k = 0; k < 9; k++) {
+                        if (grid[i][k].value !== undefined || grid[i][k].notes.join(',') === pair) {
+                            continue;
+                        }
+                        effect.push({ row: i, col: k, notes: [...grid[i][j].notes] });
                     }
-                    effect.push({ row: i, col: k, notes: [...grid[i][j].notes] });
-                }
 
-                result.push({
-                    type: 'naked_pair',
-                    cause: [cause1, cause2],
-                    effect
-                });
+                    result.push({
+                        type: 'naked_pair',
+                        cause: [cause1, cause2],
+                        effect
+                    });
+                }
             }
 
             if (grid[j][i].value === undefined && grid[j][i].notes.length === 2) {
                 const pair = grid[j][i].notes.join(',');
                 if (!colPairs[pair]) {
                     colPairs[pair] = { row: j, col: i };
-                    continue;
-                }
+                } else {
+                    const cause1 = { row: j, col: i, notes: [...grid[j][i].notes] };
+                    const cause2 = {
+                        row: colPairs[pair].row,
+                        col: colPairs[pair].col,
+                        notes: [...grid[j][i].notes]
+                    };
 
-                const cause1 = { row: j, col: i, notes: [...grid[j][i].notes] };
-                const cause2 = {
-                    row: colPairs[pair].row,
-                    col: colPairs[pair].col,
-                    notes: [...grid[j][i].notes]
-                };
-
-                const effect = [];
-                for (let k = 0; k < 9; k++) {
-                    if (grid[k][i].value !== undefined || grid[k][i].notes.join(',') === pair) {
-                        continue;
+                    const effect = [];
+                    for (let k = 0; k < 9; k++) {
+                        if (grid[k][i].value !== undefined || grid[k][i].notes.join(',') === pair) {
+                            continue;
+                        }
+                        effect.push({ row: k, col: i, notes: [...grid[j][i].notes] });
                     }
-                    effect.push({ row: k, col: i, notes: [...grid[j][i].notes] });
-                }
 
-                result.push({
-                    type: 'naked_pair',
-                    cause: [cause1, cause2],
-                    effect
-                });
+                    result.push({
+                        type: 'naked_pair',
+                        cause: [cause1, cause2],
+                        effect
+                    });
+                }
+            }
+
+            const deltaRow = Math.floor(j / 3);
+            const deltaCol = j % 3;
+            const _row = squareRow + deltaRow;
+            const _col = squareCol + deltaCol;
+            if (grid[_row][_col].value === undefined && grid[_row][_col].notes.length === 2) {
+                const pair = grid[_row][_col].notes.join(',');
+
+                if (!squarePairs[pair]) {
+                    squarePairs[pair] = { row: _row, col: _col };
+                } else {
+                    const cause1 = { row: _row, col: _col, notes: [...grid[_row][_col].notes] };
+                    const cause2 = {
+                        row: squarePairs[pair].row,
+                        col: squarePairs[pair].col,
+                        notes: [...grid[_row][_col].notes]
+                    };
+
+                    const effect = [] as any;
+                    for (let k = 0; k < 9; k++) {
+                        const deltaRowEffect = Math.floor(k / 3);
+                        const deltaColEffect = k % 3;
+                        const _rowEffect = squareRow + deltaRowEffect;
+                        const _colEffect = squareCol + deltaColEffect;
+                        if (
+                            grid[_rowEffect][_colEffect].value !== undefined ||
+                            grid[_rowEffect][_colEffect].notes.join(',') === pair
+                        ) {
+                            continue;
+                        }
+                        effect.push({
+                            row: _rowEffect,
+                            col: _colEffect,
+                            notes: [...grid[_row][_col].notes]
+                        });
+                    }
+
+                    result.push({
+                        type: 'naked_pair',
+                        cause: [cause1, cause2],
+                        effect
+                    });
+                }
             }
         }
     }
