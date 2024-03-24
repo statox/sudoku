@@ -4,6 +4,7 @@
     import { createEventDispatcher } from 'svelte';
     import NumberPicker from './NumberPicker.svelte';
     export let cell: Cell;
+    export let position: { row: number, col: number};
 
     const dispatch = createEventDispatcher<{cellUpdate: {cell: Cell, update: CellUpdate}}>();
 

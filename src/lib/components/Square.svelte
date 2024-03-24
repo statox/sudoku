@@ -8,22 +8,24 @@
     const borderLeftRight = [1, 4, 7].includes(position);
     const borderTopBottom = [3, 4, 5].includes(position);
 
+    const squareRow = 3 * Math.floor(position/3);
+    const squareCol = 3 * (position%3);
 
     const cells = getCellsForSquare(position, grid);
 </script>
 
 <div class="cell-grid" class:borderLeftRight class:borderTopBottom>
-    <Cell on:cellUpdate cell={cells[0]}/>
-    <Cell on:cellUpdate cell={cells[1]}/>
-    <Cell on:cellUpdate cell={cells[2]}/>
+    <Cell on:cellUpdate position={{row:squareRow, col: squareCol}} cell={cells[0]}/>
+    <Cell on:cellUpdate position={{row:squareRow, col: squareCol + 1}} cell={cells[1]}/>
+    <Cell on:cellUpdate position={{row:squareRow, col: squareCol + 2}} cell={cells[2]}/>
 
-    <Cell on:cellUpdate cell={cells[3]}/>
-    <Cell on:cellUpdate cell={cells[4]}/>
-    <Cell on:cellUpdate cell={cells[5]}/>
+    <Cell on:cellUpdate position={{row:squareRow + 1, col: squareCol}} cell={cells[3]}/>
+    <Cell on:cellUpdate position={{row:squareRow + 1, col: squareCol + 1}} cell={cells[4]}/>
+    <Cell on:cellUpdate position={{row:squareRow + 1, col: squareCol + 2}} cell={cells[5]}/>
 
-    <Cell on:cellUpdate cell={cells[6]}/>
-    <Cell on:cellUpdate cell={cells[7]}/>
-    <Cell on:cellUpdate cell={cells[8]}/>
+    <Cell on:cellUpdate position={{row:squareRow + 2, col: squareCol}} cell={cells[6]}/>
+    <Cell on:cellUpdate position={{row:squareRow + 2, col: squareCol + 1}} cell={cells[7]}/>
+    <Cell on:cellUpdate position={{row:squareRow + 2, col: squareCol + 2}} cell={cells[8]}/>
 </div>
 
 <style>
