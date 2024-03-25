@@ -4,6 +4,7 @@
     import { createEventDispatcher } from 'svelte';
     import NumberPicker from './NumberPicker.svelte';
     import { isStrategyWithEffect, strategiesResults } from '$lib/services/sudoku/strategies';
+    import { selectedHighlight } from './ui-store';
     export let cell: Cell;
     export let position: { row: number, col: number};
 
@@ -57,15 +58,21 @@
         bind:this={el}
         class="cell value"
         class:fixed={cell.fixed}
+        class:highlight={$selectedHighlight !== undefined && $selectedHighlight === cell.value}
         disabled={cell.fixed}
         on:click={handleOpenModal}
     >
         {cell.value}
     </button>
 {:else}
-    <button bind:this={el} class={"cell notes " + hintClass} on:click={handleOpenModal}>
+    <button bind:this={el} class={"cell notes " + hintClass} on:click={handleOpenModal} >
         {#each [1, 2, 3, 4, 5, 6, 7, 8, 9] as note}
-            <div class="note" class:hinted-note={hintedNotes.includes(note)} class:hinted-remove-note={hintedToRemoveNotes.includes(note)}>
+            <div
+                class="note"
+                class:hinted-note={hintedNotes.includes(note)}
+                class:hinted-remove-note={hintedToRemoveNotes.includes(note)}
+                class:highlight={$selectedHighlight !== undefined && $selectedHighlight === note}
+            >
                 {#if cell.notes.includes(note)}
                     {note}
                 {/if}
@@ -96,6 +103,9 @@
     .fixed {
         font-weight: bolder;
         color: var(--nc-tx-3);
+    }
+    .highlight {
+        background: #00d9f180;
     }
 
     .lone-hint {

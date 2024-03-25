@@ -13,6 +13,7 @@
     import Sudoku from "$lib/components/Sudoku.svelte";
     import GridStatus from '$lib/components/GridStatus.svelte';
     import { getHiddenSingles, getLoneSingles, getNakedPairs, strategiesResults } from '$lib/services/sudoku/strategies';
+    import { selectedHighlight } from '$lib/components/ui-store';
 
     let grid = generateNewGame();
     const history = [JSON.parse(JSON.stringify(grid))]
@@ -85,6 +86,15 @@
         <button on:click={() => {strategiesResults.set([]); refreshGrid()}}>Hide hints</button>
     </div>
 </div>
+
+<div>
+    <h4>Highlights controls</h4>
+    <div class="highlights-controls">
+        {#each [1, 2, 3, 4, 5, 6, 7, 8, 9] as value}
+            <button class:selected={$selectedHighlight === value} on:click={() => {$selectedHighlight = ($selectedHighlight === value) ? undefined : value}}>{value}</button>
+        {/each}
+    </div>
+</div>
 <br/>
 
 {#key grid}
@@ -93,6 +103,10 @@
 {/key}
 
 <style>
+    button.selected {
+        background: var(--nc-lk-3);
+    }
+
     .grid-controls {
         display: grid;
         column-gap: 1em;
