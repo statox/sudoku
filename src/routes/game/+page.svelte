@@ -85,6 +85,7 @@
         <button on:click={() => {strategiesResults.set([]); refreshGrid()}}>Hide hints</button>
     </div>
 </div>
+<br/>
 
 {#key grid}
 <Sudoku on:cellUpdate={onCellUpdate} on:computeCellNotes={onComputeCellNotes} {grid}/>

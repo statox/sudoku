@@ -75,6 +75,9 @@
 {/if}
 
 <style>
+    button {
+        border-radius: 0;
+    }
     button:disabled {
         opacity: inherit;
         cursor: not-allowed;
