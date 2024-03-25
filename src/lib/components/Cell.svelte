@@ -75,6 +75,10 @@
 {/if}
 
 <style>
+    button:disabled {
+        opacity: inherit;
+        cursor: not-allowed;
+    }
     .cell {
         border: 1px solid var(--nc-tx-2);
         background: inherit;
@@ -84,9 +88,11 @@
         align-items: center;
         justify-content: center;
         font-size: 1.5em;
+        color: var(--nc-tx-1);
     }
     .fixed {
         font-weight: bolder;
+        color: var(--nc-tx-3);
     }
 
     .lone-hint {
