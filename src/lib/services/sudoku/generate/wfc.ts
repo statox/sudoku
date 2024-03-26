@@ -113,13 +113,6 @@ const applyChoice = (grid: Grid, choice: { row: number; col: number; value: numb
 };
 
 const wfcPickOne = (grid: Grid) => {
-    if (gridIsFilled(grid)) {
-        return;
-    }
-    if (gridHasError(grid)) {
-        throw new Error('Cant pick position in a grid with errors');
-    }
-
     let openPositions = [];
     let minNbNotes = 9;
     for (let row = 0; row < 9; row++) {
