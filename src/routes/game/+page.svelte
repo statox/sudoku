@@ -22,7 +22,7 @@
         updateCell(event.detail.cell, event.detail.update);
         refreshGrid();
     }
-    const onComputeCellNotes = (event: CustomEvent<{computeCellNotes: {row: number, col: number}}>) => {
+    const onComputeCellNotes = (event: CustomEvent<{position: {row: number, col: number}}>) => {
         recomputeNotesForCell(grid, event.detail.position);
         refreshGrid();
     };
