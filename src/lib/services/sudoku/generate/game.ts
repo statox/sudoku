@@ -1,19 +1,18 @@
 import type { Grid } from '../types';
 import { countSolutions } from '../solve';
-import { generateNewGridWFC } from './wfc';
+import { generateNewGridWFC2 } from './wfc2';
+import { getEmptyGridWithAllPossibles } from './generators';
 
 // Use generateNewGridWFC() and remove enough values to
-// turn the grid into a grid game;
-// The code is not complete. Some references
+// turn the grid into an actual puzzle game;
 // Answer from a dev with a puzzle app https://gamedev.stackexchange.com/a/76170/64458
 // Simple approach https://puzzling.stackexchange.com/a/146
 // 1. Remove a number,
 // 2. Run a solver,
 // 3. Check if the puzzle is still unique,
 // 4. Repeat until solver is unable to find a solution, or solution is not unique.
-// => Need to have a solver which also check if solutions are unique
 export const generateNewGame = (): Grid => {
-    const grid = generateNewGridWFC();
+    const grid = generateNewGridWFC2(getEmptyGridWithAllPossibles());
 
     const cells = [];
     for (let row = 0; row < 9; row++) {
