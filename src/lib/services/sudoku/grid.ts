@@ -1,5 +1,7 @@
 import type { Grid } from './types';
 
+export const deepCopyGrid = (g: Grid) => JSON.parse(JSON.stringify(g));
+
 // TODO Put in common with removePossibleValue() from wfc-generate.ts
 const removeNoteValue = (grid: Grid, row: number, col: number, value: number | undefined) => {
     if (!value) {

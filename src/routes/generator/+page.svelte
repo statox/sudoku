@@ -2,64 +2,61 @@
     import {
         getEmptyGridWithAllPossibles,
         generateNewGridWFC,
-        gridHasError,
-        gridIsFilled,
-        gridIsValid,
+        generateNewGridWFC2,
         updateCell,
         wfcStep,
         type Cell,
-        type CellUpdate
+        type CellUpdate,
+        type Grid
     } from '$lib/services/sudoku';
     import Sudoku from "$lib/components/Sudoku.svelte";
+    import GridStatus from '$lib/components/GridStatus.svelte';
 
     let grid = getEmptyGridWithAllPossibles();
+    let buildHistory: Grid[] = [];
+    let buildHistoryIndex = 0;
 
-    let hasErrors = gridHasError(grid);
-    let isFilled = gridIsFilled(grid);
-    let isValid  = gridIsValid(grid);
     const onCellUpdate = (event: CustomEvent<{cell: Cell, update: CellUpdate}>) => {
         updateCell(event.detail.cell, event.detail.update);
         refreshGrid();
     }
 
     const refreshGrid = () => {
-        hasErrors = gridHasError(grid);
-        isFilled = gridIsFilled(grid);
-        isValid  = gridIsValid(grid);
         grid = grid;
+    }
+
+    const wfc2 = () => {
+        buildHistory = [];
+        buildHistoryIndex = 0;
+        generateNewGridWFC2(buildHistory);
+        buildHistoryIndex = buildHistory.length-1;
+        grid = buildHistory[buildHistoryIndex];
+    }
+    const zeroHistory = () => {
+        buildHistoryIndex = 0;
+        grid = buildHistory[buildHistoryIndex];
+    }
+    const nextHistory = () => {
+        buildHistoryIndex = Math.min(buildHistoryIndex+1, buildHistory.length-1);
+        grid = buildHistory[buildHistoryIndex];
+    }
+    const prevHistory = () => {
+        buildHistoryIndex = Math.max(buildHistoryIndex-1, 0);
+        grid = buildHistory[buildHistoryIndex];
     }
 </script>
 
 <button on:click={() => {grid = getEmptyGridWithAllPossibles(); refreshGrid()}}>Reset grid</button>
 <button on:click={() => {wfcStep(grid); refreshGrid()}}>Run one step</button>
 <button on:click={() => {grid = generateNewGridWFC(); refreshGrid()}}>Generate complete grid</button>
+<br/>
+<button on:click={() => {wfc2()}}>Generate complete grid (new algo)</button>
+<button on:click={zeroHistory}>Zero history</button>
+<button on:click={prevHistory}>Prev in history</button>
+<button on:click={nextHistory}>Next in history</button>
+<span>{buildHistoryIndex} / {buildHistory.length}</span>
 
 {#key grid}
     <Sudoku on:cellUpdate={onCellUpdate} {grid}/>
-
-    <div class="grid-status">
-        <div>grid has errors</div>
-        <div>grid is filled</div>
-        <div>grid is valid</div>
-
-        <div class='status' class:red={hasErrors}>{hasErrors ? 'Has errors' : 'No errors'}</div>
-        <div class='status' class:red={!isFilled}>{isFilled ? 'Is filled' : 'Not filled'}</div>
-        <div class='status' class:red={!isValid}>{isValid ? 'Is valid' : 'Not valid' }</div>
-    </div>
+    <GridStatus {grid} />
 {/key}
-
-<style>
-    .grid-status {
-        display: grid;
-        grid-template-columns: 33% 33% 33%;
-    }
-
-    .status {
-        color: green;
-    }
-
-    .red {
-        color: red;
-    }
-</style>
-

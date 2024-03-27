@@ -1,3 +1,4 @@
+import { deepCopyGrid } from '../grid';
 import type { Grid } from '../types';
 import { gridIsFilled, gridIsValid } from '../validate';
 import { moveIsPossible } from './helpers';
@@ -45,7 +46,7 @@ const _countSolutions = (grid: Grid, solutions: Grid[], depth: number) => {
                 grid[row][col].value = value;
                 if (_countSolutions(grid, solutions, depth + 1)) {
                     if (depth === 80) {
-                        solutions.push(JSON.parse(JSON.stringify(grid)));
+                        solutions.push(deepCopyGrid(grid));
                     }
                     // Stop counting solution when more than one was found
                     if (solutions.length >= 2) {
