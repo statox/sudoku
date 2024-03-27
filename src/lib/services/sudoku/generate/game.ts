@@ -1,6 +1,6 @@
 import type { Grid } from '../types';
 import { countSolutions } from '../solve';
-import { generateNewGridWFC2 } from './wfc2';
+import { generateNewGridWFC } from './wfc';
 import { getEmptyGridWithAllPossibles } from './generators';
 
 // Use generateNewGridWFC() and remove enough values to
@@ -12,7 +12,7 @@ import { getEmptyGridWithAllPossibles } from './generators';
 // 3. Check if the puzzle is still unique,
 // 4. Repeat until solver is unable to find a solution, or solution is not unique.
 export const generateNewGame = (): Grid => {
-    const grid = generateNewGridWFC2(getEmptyGridWithAllPossibles());
+    const grid = generateNewGridWFC(getEmptyGridWithAllPossibles());
 
     const cells = [];
     for (let row = 0; row < 9; row++) {

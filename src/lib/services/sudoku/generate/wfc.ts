@@ -8,7 +8,7 @@ import { deepCopyGrid, recomputeAllNotes } from '../grid';
  *                              A partially filled grid can also be passed
  * @params {Grid[]} (buildHistory) An array filled with the different generation steps
  */
-export const generateNewGridWFC2 = (initialGrid: Grid, buildHistory?: Grid[]): Grid => {
+export const generateNewGridWFC = (initialGrid: Grid, buildHistory?: Grid[]): Grid => {
     if (gridHasError(initialGrid) || gridIsFilled(initialGrid)) {
         return initialGrid;
     }

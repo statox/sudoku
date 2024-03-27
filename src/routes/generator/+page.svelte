@@ -1,7 +1,7 @@
 <script lang="ts">
     import {
         getEmptyGridWithAllPossibles,
-        generateNewGridWFC2,
+        generateNewGridWFC,
         updateCell,
         type Cell,
         type CellUpdate,
@@ -26,7 +26,7 @@
     const fillGrid = () => {
         buildHistory = [];
         buildHistoryIndex = 0;
-        generateNewGridWFC2(grid, buildHistory);
+        generateNewGridWFC(grid, buildHistory);
         buildHistoryIndex = buildHistory.length-1;
         grid = buildHistory[buildHistoryIndex];
     }
