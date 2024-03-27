@@ -1,10 +1,8 @@
 <script lang="ts">
     import {
         getEmptyGridWithAllPossibles,
-        generateNewGridWFC,
         generateNewGridWFC2,
         updateCell,
-        wfcStep,
         type Cell,
         type CellUpdate,
         type Grid
@@ -18,14 +16,14 @@
 
     const onCellUpdate = (event: CustomEvent<{cell: Cell, update: CellUpdate}>) => {
         updateCell(event.detail.cell, event.detail.update);
-        refreshGrid();
-    }
-
-    const refreshGrid = () => {
         grid = grid;
     }
 
-    const wfc2 = () => {
+    const resetGrid = () => {
+        grid = getEmptyGridWithAllPossibles();
+    }
+
+    const fillGrid = () => {
         buildHistory = [];
         buildHistoryIndex = 0;
         generateNewGridWFC2(grid, buildHistory);
@@ -34,6 +32,10 @@
     }
     const zeroHistory = () => {
         buildHistoryIndex = 0;
+        grid = buildHistory[buildHistoryIndex];
+    }
+    const LastHistory = () => {
+        buildHistoryIndex = buildHistory.length-1;
         grid = buildHistory[buildHistoryIndex];
     }
     const nextHistory = () => {
@@ -46,17 +48,34 @@
     }
 </script>
 
-<button on:click={() => {grid = getEmptyGridWithAllPossibles(); refreshGrid()}}>Reset grid</button>
-<button on:click={() => {wfcStep(grid); refreshGrid()}}>Run one step</button>
-<button on:click={() => {grid = generateNewGridWFC(); refreshGrid()}}>Generate complete grid</button>
-<br/>
-<button on:click={() => {wfc2()}}>Generate complete grid (new algo)</button>
-<button on:click={zeroHistory}>Zero history</button>
-<button on:click={prevHistory}>Prev in history</button>
-<button on:click={nextHistory}>Next in history</button>
-<span>{buildHistoryIndex} / {buildHistory.length}</span>
+<div class="grid-controls">
+    <button on:click={resetGrid}>Reset grid</button>
+    <button on:click={fillGrid}>Fill grid</button>
+</div>
+<br />
+<div class="history-controls">
+    <button on:click={zeroHistory}>First step</button>
+    <button on:click={prevHistory}>Prev step</button>
+    <button on:click={nextHistory}>Next step</button>
+    <button on:click={LastHistory}>Last step</button>
+    <span>{buildHistoryIndex} / {Math.max(buildHistory.length-1, 0)}</span>
+</div>
 
 {#key grid}
     <Sudoku on:cellUpdate={onCellUpdate} {grid}/>
     <GridStatus {grid} />
 {/key}
+
+<style>
+    .grid-controls {
+        display: grid;
+        column-gap: 1em;
+        grid-template-columns: repeat(2, 40%)
+    }
+
+    .history-controls {
+        display: grid;
+        column-gap: 1em;
+        grid-template-columns: repeat(5, 20%)
+    }
+</style>
