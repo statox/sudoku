@@ -61,3 +61,17 @@ export const recomputeAllNotes = (grid: Grid) => {
         }
     }
 };
+
+/*
+ * Remove all changes made to the grid to keep only the fixed cells
+ */
+export const resetGridToInitialFixedState = (grid: Grid) => {
+    for (let row = 0; row < 9; row++) {
+        for (let col = 0; col < 9; col++) {
+            if (!grid[row][col].fixed) {
+                grid[row][col].value = undefined;
+                grid[row][col].notes = [];
+            }
+        }
+    }
+};

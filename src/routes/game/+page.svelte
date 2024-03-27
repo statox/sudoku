@@ -3,6 +3,7 @@
         generateNewGame,
         recomputeAllNotes,
         removeAllNotes,
+        resetGridToInitialFixedState,
         solveGridRec,
         updateCell,
         type Cell,
@@ -37,20 +38,8 @@
         history.push(deepCopyGrid(grid));
     }
 
-    const resetGrid = (grid: Grid) => {
-        for (let row = 0; row < 9; row++) {
-            for (let col = 0; col < 9; col++) {
-                if (!grid[row][col].fixed) {
-                    grid[row][col].value = undefined;
-                    grid[row][col].notes = [];
-                }
-            }
-        }
-    }
-
     const solve = () => {
-        const r = solveGridRec(grid)
-        grid = r;
+        grid = solveGridRec(grid);
         refreshGrid();
     }
 
@@ -73,7 +62,7 @@
         <button on:click={() => {grid = history.pop(); refreshGrid({noHistory: true})}}>Prev</button>
         <button on:click={() => {grid = generateNewGame(); refreshGrid()}}>New Grid</button>
         <button on:click={() => {solve(); refreshGrid()}}>Solve grid</button>
-        <button on:click={() => {resetGrid(grid); refreshGrid()}}>Reset grid</button>
+        <button on:click={() => {resetGridToInitialFixedState(grid); refreshGrid()}}>Reset grid</button>
         <button on:click={() => {removeFixed(); refreshGrid()}}>Remove fixed</button>
     </div>
 </div>
