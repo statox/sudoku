@@ -28,7 +28,7 @@
     const wfc2 = () => {
         buildHistory = [];
         buildHistoryIndex = 0;
-        generateNewGridWFC2(buildHistory);
+        generateNewGridWFC2(grid, buildHistory);
         buildHistoryIndex = buildHistory.length-1;
         grid = buildHistory[buildHistoryIndex];
     }

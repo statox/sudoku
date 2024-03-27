@@ -1,14 +1,24 @@
-import { getEmptyGridWithAllPossibles } from './generators';
 import type { Grid } from '../types';
 import { gridHasError, gridIsFilled, gridIsValid } from '../validate';
-import { deepCopyGrid } from '../grid';
+import { deepCopyGrid, recomputeAllNotes } from '../grid';
 
-export const generateNewGridWFC2 = (buildHistory: Grid[]): Grid => {
-    const grid = getEmptyGridWithAllPossibles();
+/*
+ * @params {Grid} [initialGrid] To generate a new random grid initialGrid
+ *                              should be generated with getEmptyGridWithAllPossibles();
+ *                              A partially filled grid can also be passed
+ * @params {Grid[]} [buildHistory] An array filled with the different generation steps
+ *                                 This params should become optional soon
+ */
+export const generateNewGridWFC2 = (initialGrid: Grid, buildHistory: Grid[]): Grid => {
+    if (gridHasError(initialGrid) || gridIsFilled(initialGrid)) {
+        return initialGrid;
+    }
+
+    const grid = deepCopyGrid(initialGrid);
+    recomputeAllNotes(grid);
     const stack = [grid];
-    let guard = 0;
 
-    while (stack.length && guard++ < 200) {
+    while (stack.length) {
         const grid = stack.pop()!;
         buildHistory.push(deepCopyGrid(grid));
 
