@@ -10,7 +10,7 @@ export const countSolutions = (grid: Grid): 'none' | 'unique' | 'notUnique' => {
         }
         return 'none';
     }
-    const gridToSolve = JSON.parse(JSON.stringify(grid));
+    const gridToSolve = deepCopyGrid(grid);
     let nonEmptyCells = 0;
     for (let row = 0; row < 9; row++) {
         for (let col = 0; col < 9; col++) {

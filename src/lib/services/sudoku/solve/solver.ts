@@ -1,8 +1,9 @@
+import { deepCopyGrid } from '../grid';
 import type { Grid } from '../types';
 import { moveIsPossible } from './helpers';
 
 export const solveGridRec = (grid: Grid) => {
-    const gridToSolve = JSON.parse(JSON.stringify(grid));
+    const gridToSolve = deepCopyGrid(grid);
     _solveGridRec(gridToSolve);
     return gridToSolve;
 };

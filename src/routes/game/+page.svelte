@@ -9,6 +9,7 @@
         type CellUpdate,
         type Grid,
         recomputeNotesForCell,
+        deepCopyGrid,
     } from '$lib/services/sudoku';
     import Sudoku from "$lib/components/Sudoku.svelte";
     import GridStatus from '$lib/components/GridStatus.svelte';
@@ -16,7 +17,7 @@
     import { selectedHighlight } from '$lib/components/ui-store';
 
     let grid = generateNewGame();
-    const history = [JSON.parse(JSON.stringify(grid))]
+    const history = [deepCopyGrid(grid)]
 
     const onCellUpdate = (event: CustomEvent<{cell: Cell, update: CellUpdate}>) => {
         updateCell(event.detail.cell, event.detail.update);
@@ -33,7 +34,7 @@
         if (params?.noHistory) {
             return;
         }
-        history.push(JSON.parse(JSON.stringify(grid)));
+        history.push(deepCopyGrid(grid));
     }
 
     const resetGrid = (grid: Grid) => {
