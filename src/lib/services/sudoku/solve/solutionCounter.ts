@@ -3,7 +3,9 @@ import type { Grid } from '../types';
 import { gridIsFilled, gridIsValid } from '../validate';
 import { moveIsPossible } from './helpers';
 
-export const countSolutions = (grid: Grid): 'none' | 'unique' | 'notUnique' => {
+let callGuard = 0;
+const MAX_CALLS = 10000;
+export const countSolutions = (grid: Grid): 'none' | 'unique' | 'notUnique' | 'unreachable' => {
     if (gridIsFilled(grid)) {
         if (gridIsValid(grid)) {
             return 'unique';
@@ -20,8 +22,13 @@ export const countSolutions = (grid: Grid): 'none' | 'unique' | 'notUnique' => {
         }
     }
     const solutions: Grid[] = [];
+    // Resetting callGuard is super important to avoid infinite loop in _countSolutions
+    callGuard = 0;
     _countSolutions(gridToSolve, solutions, nonEmptyCells);
 
+    if (callGuard >= MAX_CALLS) {
+        return 'unreachable';
+    }
     if (solutions.length === 0) {
         return 'none';
     }
@@ -32,6 +39,15 @@ export const countSolutions = (grid: Grid): 'none' | 'unique' | 'notUnique' => {
 };
 
 const _countSolutions = (grid: Grid, solutions: Grid[], depth: number) => {
+    if (callGuard++ >= MAX_CALLS) {
+        // In some context (which I need to define) we call this function in an infinite
+        // or at least very very long loop.
+        // The callGuard is here to prevent that
+        // This should be fixable by using a proper WFC as the solve algorithm
+        // instead of the DFS currently used
+        return;
+    }
+
     for (let row = 0; row < 9; row++) {
         for (let col = 0; col < 9; col++) {
             if (grid[row][col].value !== undefined) {
