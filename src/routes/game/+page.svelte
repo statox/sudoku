@@ -20,6 +20,8 @@
 
     let grid = generateNewGame();
     const history = [deepCopyGrid(grid)]
+    let autoRefreshNotes = false;
+    let displayHints = false;
 
     const onCellUpdate = (event: CustomEvent<{cell: Cell, update: CellUpdate}>) => {
         updateCell(event.detail.cell, event.detail.update);
@@ -31,6 +33,15 @@
     };
 
     const refreshGrid = (params?: {noHistory: true}) => {
+        if (autoRefreshNotes) {
+            recomputeAllNotes(grid);
+        }
+        if (displayHints) {
+            applyStrategies(grid)
+        } else {
+            strategiesResults.set([])
+        }
+
         grid = grid;
 
         if (params?.noHistory) {
@@ -71,10 +82,13 @@
 <div>
     <h4>Notes controls</h4>
     <div class="notes-controls">
-        <button on:click={() => {recomputeAllNotes(grid); refreshGrid()}}>Compute notes</button>
-        <button on:click={() => {removeAllNotes(grid); refreshGrid()}}>Remove notes</button>
-        <button on:click={() => {applyStrategies(grid); refreshGrid()}}>Display hints</button>
-        <button on:click={() => {strategiesResults.set([]); refreshGrid()}}>Hide hints</button>
+        <button on:click={() => {autoRefreshNotes = !autoRefreshNotes; refreshGrid()}}>
+            {autoRefreshNotes ? 'Disable' : 'Enable'} notes auto-refresh
+        </button>
+        {#if !autoRefreshNotes}
+            <button on:click={() => {removeAllNotes(grid); refreshGrid()}}>Remove notes</button>
+        {/if}
+        <button on:click={() => {displayHints = !displayHints; refreshGrid()}}>{displayHints ? 'Hide' : 'Display'} hints</button>
     </div>
 </div>
 
@@ -107,6 +121,6 @@
     .notes-controls {
         display: grid;
         column-gap: 1em;
-        grid-template-columns: repeat(4, 20%)
+        grid-template-columns: 30% repeat(2, 20%)
     }
 </style>
