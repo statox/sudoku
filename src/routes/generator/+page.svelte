@@ -1,11 +1,12 @@
 <script lang="ts">
     import {
-        getEmptyGridWithAllPossibles,
         generateNewGridWFC,
+        getAllGridErrors,
+        getEmptyGridWithAllPossibles,
         updateCell,
         type Cell,
         type CellUpdate,
-        type Grid
+        type Grid,
     } from '$lib/services/sudoku';
     import Sudoku from "$lib/components/Sudoku.svelte";
     import GridStatus from '$lib/components/GridStatus.svelte';
@@ -62,7 +63,7 @@
 </div>
 
 {#key grid}
-    <Sudoku on:cellUpdate={onCellUpdate} {grid}/>
+    <Sudoku on:cellUpdate={onCellUpdate} gridErrors={getAllGridErrors(grid)} {grid}/>
     <GridStatus {grid} />
 {/key}
 

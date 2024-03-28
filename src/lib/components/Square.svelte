@@ -1,9 +1,10 @@
 <script lang="ts">
-    import type { Grid } from "$lib/services/sudoku";
+    import type { Grid, GridError } from "$lib/services/sudoku";
     import { getCellsForSquare } from "$lib/services/sudoku";
     import Cell from "./Cell.svelte";
     export let position: number;
     export let grid: Grid;
+    export let gridErrors: GridError[];
 
     const borderLeftRight = [1, 4, 7].includes(position);
     const borderTopBottom = [3, 4, 5].includes(position);
@@ -15,17 +16,17 @@
 </script>
 
 <div class="cell-grid" class:borderLeftRight class:borderTopBottom>
-    <Cell on:cellUpdate on:computeCellNotes position={{row:squareRow, col: squareCol}} cell={cells[0]}/>
-    <Cell on:cellUpdate on:computeCellNotes position={{row:squareRow, col: squareCol + 1}} cell={cells[1]}/>
-    <Cell on:cellUpdate on:computeCellNotes position={{row:squareRow, col: squareCol + 2}} cell={cells[2]}/>
+    <Cell on:cellUpdate on:computeCellNotes cell={cells[0]} {gridErrors} position={{row:squareRow, col: squareCol}} />
+    <Cell on:cellUpdate on:computeCellNotes cell={cells[1]} {gridErrors} position={{row:squareRow, col: squareCol + 1}} />
+    <Cell on:cellUpdate on:computeCellNotes cell={cells[2]} {gridErrors} position={{row:squareRow, col: squareCol + 2}} />
 
-    <Cell on:cellUpdate on:computeCellNotes position={{row:squareRow + 1, col: squareCol}} cell={cells[3]}/>
-    <Cell on:cellUpdate on:computeCellNotes position={{row:squareRow + 1, col: squareCol + 1}} cell={cells[4]}/>
-    <Cell on:cellUpdate on:computeCellNotes position={{row:squareRow + 1, col: squareCol + 2}} cell={cells[5]}/>
+    <Cell on:cellUpdate on:computeCellNotes cell={cells[3]} {gridErrors} position={{row:squareRow + 1, col: squareCol}} />
+    <Cell on:cellUpdate on:computeCellNotes cell={cells[4]} {gridErrors} position={{row:squareRow + 1, col: squareCol + 1}}/>
+    <Cell on:cellUpdate on:computeCellNotes cell={cells[5]} {gridErrors} position={{row:squareRow + 1, col: squareCol + 2}}/>
 
-    <Cell on:cellUpdate on:computeCellNotes position={{row:squareRow + 2, col: squareCol}} cell={cells[6]}/>
-    <Cell on:cellUpdate on:computeCellNotes position={{row:squareRow + 2, col: squareCol + 1}} cell={cells[7]}/>
-    <Cell on:cellUpdate on:computeCellNotes position={{row:squareRow + 2, col: squareCol + 2}} cell={cells[8]}/>
+    <Cell on:cellUpdate on:computeCellNotes cell={cells[6]} {gridErrors} position={{row:squareRow + 2, col: squareCol}} />
+    <Cell on:cellUpdate on:computeCellNotes cell={cells[7]} {gridErrors} position={{row:squareRow + 2, col: squareCol + 1}}/>
+    <Cell on:cellUpdate on:computeCellNotes cell={cells[8]} {gridErrors} position={{row:squareRow + 2, col: squareCol + 2}}/>
 </div>
 
 <style>

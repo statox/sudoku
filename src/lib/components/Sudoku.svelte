@@ -1,22 +1,24 @@
 <script lang="ts">
-    import type { Grid } from "$lib/services/sudoku";
+    import type { Grid, GridError } from "$lib/services/sudoku";
     import Square from "./Square.svelte";
 
     export let grid: Grid;
+    export let gridErrors: GridError[];
+
 </script>
 
 <div class="main-grid">
-    <Square on:cellUpdate on:computeCellNotes position={0} {grid}/>
-    <Square on:cellUpdate on:computeCellNotes position={1} {grid}/>
-    <Square on:cellUpdate on:computeCellNotes position={2} {grid}/>
+    <Square on:cellUpdate on:computeCellNotes position={0} {gridErrors} {grid}/>
+    <Square on:cellUpdate on:computeCellNotes position={1} {gridErrors} {grid}/>
+    <Square on:cellUpdate on:computeCellNotes position={2} {gridErrors} {grid}/>
 
-    <Square on:cellUpdate on:computeCellNotes position={3} {grid}/>
-    <Square on:cellUpdate on:computeCellNotes position={4} {grid}/>
-    <Square on:cellUpdate on:computeCellNotes position={5} {grid}/>
+    <Square on:cellUpdate on:computeCellNotes position={3} {gridErrors} {grid}/>
+    <Square on:cellUpdate on:computeCellNotes position={4} {gridErrors} {grid}/>
+    <Square on:cellUpdate on:computeCellNotes position={5} {gridErrors} {grid}/>
 
-    <Square on:cellUpdate on:computeCellNotes position={6} {grid}/>
-    <Square on:cellUpdate on:computeCellNotes position={7} {grid}/>
-    <Square on:cellUpdate on:computeCellNotes position={8} {grid}/>
+    <Square on:cellUpdate on:computeCellNotes position={6} {gridErrors} {grid}/>
+    <Square on:cellUpdate on:computeCellNotes position={7} {gridErrors} {grid}/>
+    <Square on:cellUpdate on:computeCellNotes position={8} {gridErrors} {grid}/>
 </div>
 
 <style>

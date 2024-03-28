@@ -11,6 +11,7 @@
         type Grid,
         recomputeNotesForCell,
         deepCopyGrid,
+        getAllGridErrors,
     } from '$lib/services/sudoku';
     import Sudoku from "$lib/components/Sudoku.svelte";
     import GridStatus from '$lib/components/GridStatus.svelte';
@@ -88,7 +89,7 @@
 <br/>
 
 {#key grid}
-<Sudoku on:cellUpdate={onCellUpdate} on:computeCellNotes={onComputeCellNotes} {grid}/>
+<Sudoku on:cellUpdate={onCellUpdate} on:computeCellNotes={onComputeCellNotes} gridErrors={getAllGridErrors(grid)} {grid}/>
 <GridStatus {grid} />
 {/key}
 

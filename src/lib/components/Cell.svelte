@@ -1,12 +1,13 @@
 <script lang="ts">
     import { openModal } from '$lib/components/Modal';
-    import type { Cell, CellUpdate } from '$lib/services/sudoku';
+    import type { Cell, CellUpdate, GridError } from '$lib/services/sudoku';
     import { createEventDispatcher } from 'svelte';
     import NumberPicker from './NumberPicker.svelte';
     import { isStrategyWithEffect, strategiesResults } from '$lib/services/sudoku/strategies';
     import { selectedHighlight } from './ui-store';
     export let cell: Cell;
     export let position: { row: number, col: number};
+    export let gridErrors: GridError[];
 
     const dispatchCellUpdate = createEventDispatcher<{cellUpdate: {cell: Cell, update: CellUpdate}}>();
     const dispatchComputeCellNotes = createEventDispatcher<{computeCellNotes: {position: {row: number, col: number}}}>();
@@ -51,12 +52,38 @@
             }
         }
     }
+
+    const errorClasses: string[] = [];
+    for (const error of gridErrors) {
+        const cellSquare = 3 * Math.floor(position.row/3) + Math.floor(position.col / 3);
+        const errorSquare = 3 * Math.floor(error.row/3) + Math.floor(error.col / 3);
+        if (
+            (error.col === position.col && error.row === position.row) ||
+            (error.type === 'column' && error.col === position.col && error.value === cell.value) ||
+            (error.type === 'row' && error.row === position.row && error.value === cell.value) ||
+            (error.type === 'square' && cellSquare === errorSquare && error.value === cell.value)
+        ){
+            errorClasses.push('is-error-cell');
+            continue;
+        }
+        if (error.type === 'column' && error.col === position.col) {
+            errorClasses.push('is-error-col');
+        }
+        if (error.type === 'row' && error.row === position.row) {
+            errorClasses.push('is-error-row');
+        }
+        if (error.type === 'square' && cellSquare === errorSquare) {
+            errorClasses.push('is-error-square');
+        }
+    }
+
+    let errorClass = errorClasses.join(' ');
 </script>
 
 {#if cell.value}
     <button
         bind:this={el}
-        class="cell value"
+        class={"cell value " + errorClass}
         class:fixed={cell.fixed}
         class:highlight={$selectedHighlight !== undefined && $selectedHighlight === cell.value}
         disabled={cell.fixed}
@@ -65,7 +92,7 @@
         {cell.value}
     </button>
 {:else}
-    <button bind:this={el} class={"cell notes " + hintClass} on:click={handleOpenModal} >
+    <button bind:this={el} class={"cell notes " + hintClass + " " + errorClass} on:click={handleOpenModal} >
         {#each [1, 2, 3, 4, 5, 6, 7, 8, 9] as note}
             <div
                 class="note"
@@ -134,5 +161,22 @@
     .note {
         justify-self: center;
         color: var(--nc-lk-2);
+    }
+
+    .is-error-cell {
+        background: #ff0000;
+    }
+    .is-error-row {
+        background: #ff000030;
+        border-top: 2px solid #ff0000;
+        border-bottom: 2px solid #ff0000;
+    }
+    .is-error-col {
+        background: #ff000030;
+        border-left: 2px solid #ff0000;
+        border-right: 2px solid #ff0000;
+    }
+    .is-error-square {
+        background: #ff000030;
     }
 </style>
