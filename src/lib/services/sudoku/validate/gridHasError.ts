@@ -1,4 +1,4 @@
-import type { Grid } from './types';
+import type { Grid } from '../types';
 
 export const gridHasError = (grid: Grid) => {
     for (let i = 0; i < 9; i++) {
@@ -108,20 +108,4 @@ export const gridHasError = (grid: Grid) => {
         }
     }
     return false;
-};
-
-export const gridIsFilled = (grid: Grid) => {
-    for (let row = 0; row < 9; row++) {
-        for (let col = 0; col < 9; col++) {
-            if (!grid[row][col].value) {
-                return false;
-            }
-        }
-    }
-
-    return true;
-};
-
-export const gridIsValid = (grid: Grid) => {
-    return gridIsFilled(grid) && !gridHasError(grid);
 };
