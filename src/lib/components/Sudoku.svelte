@@ -1,24 +1,25 @@
 <script lang="ts">
     import type { Grid, GridError } from "$lib/services/sudoku";
+    import type { StrategyResult } from "$lib/services/sudoku/strategies";
     import Square from "./Square.svelte";
 
     export let grid: Grid;
     export let gridErrors: GridError[];
-
+    export let strategiesResults: StrategyResult[] = [];
 </script>
 
 <div class="main-grid">
-    <Square on:cellUpdate on:computeCellNotes position={0} {gridErrors} {grid}/>
-    <Square on:cellUpdate on:computeCellNotes position={1} {gridErrors} {grid}/>
-    <Square on:cellUpdate on:computeCellNotes position={2} {gridErrors} {grid}/>
+    <Square on:cellUpdate on:computeCellNotes position={0} {strategiesResults} {gridErrors} {grid}/>
+    <Square on:cellUpdate on:computeCellNotes position={1} {strategiesResults} {gridErrors} {grid}/>
+    <Square on:cellUpdate on:computeCellNotes position={2} {strategiesResults} {gridErrors} {grid}/>
 
-    <Square on:cellUpdate on:computeCellNotes position={3} {gridErrors} {grid}/>
-    <Square on:cellUpdate on:computeCellNotes position={4} {gridErrors} {grid}/>
-    <Square on:cellUpdate on:computeCellNotes position={5} {gridErrors} {grid}/>
+    <Square on:cellUpdate on:computeCellNotes position={3} {strategiesResults} {gridErrors} {grid}/>
+    <Square on:cellUpdate on:computeCellNotes position={4} {strategiesResults} {gridErrors} {grid}/>
+    <Square on:cellUpdate on:computeCellNotes position={5} {strategiesResults} {gridErrors} {grid}/>
 
-    <Square on:cellUpdate on:computeCellNotes position={6} {gridErrors} {grid}/>
-    <Square on:cellUpdate on:computeCellNotes position={7} {gridErrors} {grid}/>
-    <Square on:cellUpdate on:computeCellNotes position={8} {gridErrors} {grid}/>
+    <Square on:cellUpdate on:computeCellNotes position={6} {strategiesResults} {gridErrors} {grid}/>
+    <Square on:cellUpdate on:computeCellNotes position={7} {strategiesResults} {gridErrors} {grid}/>
+    <Square on:cellUpdate on:computeCellNotes position={8} {strategiesResults} {gridErrors} {grid}/>
 </div>
 
 <style>

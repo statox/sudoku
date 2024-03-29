@@ -3,11 +3,12 @@
     import type { Cell, CellUpdate, GridError } from '$lib/services/sudoku';
     import { createEventDispatcher } from 'svelte';
     import NumberPicker from './NumberPicker.svelte';
-    import { isStrategyWithEffect, strategiesResults } from '$lib/services/sudoku/strategies';
+    import { isStrategyWithEffect, type StrategyResult } from '$lib/services/sudoku/strategies';
     import { selectedHighlight } from './ui-store';
     export let cell: Cell;
     export let position: { row: number, col: number};
     export let gridErrors: GridError[];
+    export let strategiesResults: StrategyResult[] = [];
 
     const dispatchCellUpdate = createEventDispatcher<{cellUpdate: {cell: Cell, update: CellUpdate}}>();
     const dispatchComputeCellNotes = createEventDispatcher<{computeCellNotes: {position: {row: number, col: number}}}>();
@@ -31,7 +32,7 @@
     let hintClass = '';
     const hintedNotes: number[] = [];
     const hintedToRemoveNotes: number[] = [];
-    for (const result of $strategiesResults) {
+    for (const result of strategiesResults) {
         for (const cause of result.cause) {
             if (cause.row === position.row && cause.col === position.col) {
                 if (result.type === 'naked_pair') {
