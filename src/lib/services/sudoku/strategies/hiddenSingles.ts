@@ -50,7 +50,8 @@ export const getHiddenSingles = (grid: Grid): StrategyResult[] => {
                 const { row, col } = rowCounts[note][0];
                 result.push({
                     type: 'hidden_single_row',
-                    cause: [{ row, col, notes: [note] }]
+                    cause: [{ row, col, notes: [note] }],
+                    effect: [{ row, col, notes: grid[row][col].notes.filter((n) => n !== note) }]
                 });
             }
         }
@@ -61,7 +62,8 @@ export const getHiddenSingles = (grid: Grid): StrategyResult[] => {
                 const { row, col } = colCounts[note][0];
                 result.push({
                     type: 'hidden_single_col',
-                    cause: [{ row, col, notes: [note] }]
+                    cause: [{ row, col, notes: [note] }],
+                    effect: [{ row, col, notes: grid[row][col].notes.filter((n) => n !== note) }]
                 });
             }
         }
@@ -72,7 +74,8 @@ export const getHiddenSingles = (grid: Grid): StrategyResult[] => {
                 const { row, col } = squareCounts[note][0];
                 result.push({
                     type: 'hidden_single_square',
-                    cause: [{ row, col, notes: [note] }]
+                    cause: [{ row, col, notes: [note] }],
+                    effect: [{ row, col, notes: grid[row][col].notes.filter((n) => n !== note) }]
                 });
             }
         }

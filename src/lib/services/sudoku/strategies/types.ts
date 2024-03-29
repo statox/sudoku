@@ -5,12 +5,12 @@ type ListOfHintedNotes = {
 }[];
 
 type BaseStrategyResult = {
-    type: 'lone_single' | 'hidden_single_col' | 'hidden_single_row' | 'hidden_single_square';
+    type: 'lone_single';
     cause: ListOfHintedNotes;
 };
 
 type StrategyResultWithEffect = {
-    type: 'naked_pair';
+    type: 'naked_pair' | 'hidden_single_col' | 'hidden_single_row' | 'hidden_single_square';
     cause: ListOfHintedNotes;
     effect: ListOfHintedNotes;
 };
