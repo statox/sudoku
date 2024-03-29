@@ -15,7 +15,7 @@
     } from '$lib/services/sudoku';
     import Sudoku from "$lib/components/Sudoku.svelte";
     import GridStatus from '$lib/components/GridStatus.svelte';
-    import { getHiddenSingles, getLoneSingles, getNakedPairs, type Hint } from '$lib/services/sudoku/hints';
+    import { getAllHints, type Hint } from '$lib/services/sudoku/hints';
     import { selectedHighlight } from '$lib/components/ui-store';
 
     let grid = generateNewGame();
@@ -65,7 +65,7 @@
     }
 
     const refreshHints = (grid: Grid) => {
-        hints = [...getLoneSingles(grid), ...getHiddenSingles(grid), ...getNakedPairs(grid)];
+        hints = getAllHints(grid);
     }
 </script>
 
