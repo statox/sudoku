@@ -5,4 +5,5 @@ import { getNakedPairs } from './strategies/nakedPairs';
 
 export const getAllHints = (grid: Grid) => {
     return [...getLoneSingles(grid), ...getHiddenSingles(grid), ...getNakedPairs(grid)];
+    // return [...getLoneSingles(grid), ...getHiddenSingles(grid)];
 };

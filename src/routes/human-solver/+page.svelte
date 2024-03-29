@@ -7,9 +7,12 @@
         type Grid,
         generateNewGame,
         resetGridToInitialFixedState,
+        deepCopyGrid,
     } from '$lib/services/sudoku';
     import Sudoku from "$lib/components/Sudoku.svelte";
     import GridStatus from '$lib/components/GridStatus.svelte';
+    import { solveGridHuman } from '$lib/services/sudoku/solve/solvers/human';
+    import { getAllHints } from '$lib/services/sudoku/hints/helpers';
 
     let grid = generateNewGame();
     let buildHistory: Grid[] = [];
@@ -22,21 +25,21 @@
 
     const newGrid = () => {
         grid = generateNewGame();
+        buildHistory = [deepCopyGrid(grid)];
+        buildHistoryIndex = 0;
     }
 
     const resetGrid = () => {
         resetGridToInitialFixedState(grid);
+        buildHistory = [deepCopyGrid(grid)];
+        buildHistoryIndex = 0;
         grid = grid;
     };
 
     const solveGrid = () => {
-        alert('not implemented yet');
-        return;
-        // buildHistory = [];
-        // buildHistoryIndex = 0;
-        // generateNewGridWFC(grid, buildHistory);
-        // buildHistoryIndex = buildHistory.length-1;
-        // grid = buildHistory[buildHistoryIndex];
+        grid = solveGridHuman(grid, buildHistory);
+        buildHistory = buildHistory;
+        buildHistoryIndex = buildHistory.length -1 ;
     }
     const zeroHistory = () => {
         buildHistoryIndex = 0;
@@ -74,6 +77,10 @@
     <Sudoku on:cellUpdate={onCellUpdate} gridErrors={getAllGridErrors(grid)} {grid}/>
     <GridStatus {grid} />
 {/key}
+
+{#each buildHistory as stepGrid}
+    <Sudoku gridErrors={getAllGridErrors(stepGrid)} hints={getAllHints(stepGrid)} grid={stepGrid}/>
+{/each}
 
 <style>
     .grid-controls {
