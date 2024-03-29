@@ -17,7 +17,8 @@ export const getLoneSingles = (grid: Grid): StrategyResult[] => {
             }
             result.push({
                 type: 'lone_single',
-                cause: [{ row, col, notes: [grid[row][col].notes[0]] }]
+                cause: [{ row, col, notes: [grid[row][col].notes[0]] }],
+                effect: []
             });
         }
     }

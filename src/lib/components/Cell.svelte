@@ -3,7 +3,7 @@
     import type { Cell, CellUpdate, GridError } from '$lib/services/sudoku';
     import { createEventDispatcher } from 'svelte';
     import NumberPicker from './NumberPicker.svelte';
-    import { isStrategyWithEffect, type StrategyResult } from '$lib/services/sudoku/strategies';
+    import type { StrategyResult } from '$lib/services/sudoku/strategies';
     import { selectedHighlight } from './ui-store';
     export let cell: Cell;
     export let position: { row: number, col: number};
@@ -45,11 +45,9 @@
             }
         }
 
-        if (isStrategyWithEffect(result)) {
-            for (const effect of result.effect) {
-                if (effect.row === position.row && effect.col === position.col) {
-                    hintedToRemoveNotes.push(...effect.notes);
-                }
+        for (const effect of result.effect) {
+            if (effect.row === position.row && effect.col === position.col) {
+                hintedToRemoveNotes.push(...effect.notes);
             }
         }
     }

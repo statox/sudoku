@@ -4,19 +4,16 @@ type ListOfHintedNotes = {
     notes: number[];
 }[];
 
-type BaseStrategyResult = {
-    type: 'lone_single';
+export type StrategyResult = {
+    type:
+        | 'lone_single'
+        | 'naked_pair'
+        | 'hidden_single_col'
+        | 'hidden_single_row'
+        | 'hidden_single_square';
+    // cause is the notes causing the hint (a single note for 'lone_single'or 'hidden_single'
+    // more of them for the other types
     cause: ListOfHintedNotes;
-};
-
-type StrategyResultWithEffect = {
-    type: 'naked_pair' | 'hidden_single_col' | 'hidden_single_row' | 'hidden_single_square';
-    cause: ListOfHintedNotes;
+    // effect is list of notes which can be removed because of the hint (empty for lone_single)
     effect: ListOfHintedNotes;
-};
-
-export type StrategyResult = BaseStrategyResult | StrategyResultWithEffect;
-
-export const isStrategyWithEffect = (s: StrategyResult): s is StrategyResultWithEffect => {
-    return (s as StrategyResultWithEffect).effect !== undefined;
 };
