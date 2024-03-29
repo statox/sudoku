@@ -1,14 +1,14 @@
-import { deepCopyGrid } from '../grid';
-import type { Grid } from '../types';
-import { moveIsPossible } from './helpers';
+import { deepCopyGrid } from '../../grid';
+import type { Grid } from '../../types';
+import { moveIsPossible } from '../helpers';
 
-export const solveGridRec = (grid: Grid) => {
+export const solveGridDFS = (grid: Grid) => {
     const gridToSolve = deepCopyGrid(grid);
-    _solveGridRec(gridToSolve);
+    _solveGridDFS(gridToSolve);
     return gridToSolve;
 };
 
-const _solveGridRec = (grid: Grid) => {
+const _solveGridDFS = (grid: Grid) => {
     for (let row = 0; row < 9; row++) {
         for (let col = 0; col < 9; col++) {
             if (grid[row][col].value !== undefined) {
@@ -21,7 +21,7 @@ const _solveGridRec = (grid: Grid) => {
                 }
 
                 grid[row][col].value = value;
-                if (_solveGridRec(grid)) {
+                if (_solveGridDFS(grid)) {
                     return true;
                 }
                 grid[row][col].value = undefined;

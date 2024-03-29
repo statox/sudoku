@@ -4,7 +4,7 @@
         recomputeAllNotes,
         removeAllNotes,
         resetGridToInitialFixedState,
-        solveGridRec,
+        solveGridDFS,
         updateCell,
         type Cell,
         type CellUpdate,
@@ -52,7 +52,7 @@
     }
 
     const solve = () => {
-        grid = solveGridRec(grid);
+        grid = solveGridDFS(grid);
         refreshGrid();
     }
 

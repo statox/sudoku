@@ -1,2 +1,2 @@
-export { solveGridRec } from './solver';
+export { solveGridDFS } from './solvers/dfs';
 export { countSolutions } from './solutionCounter';
