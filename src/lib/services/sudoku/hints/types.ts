@@ -4,7 +4,7 @@ type ListOfHintedNotes = {
     notes: number[];
 }[];
 
-export type StrategyResult = {
+export type Hint = {
     type:
         | 'lone_single'
         | 'naked_pair'

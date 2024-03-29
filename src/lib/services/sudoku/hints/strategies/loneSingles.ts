@@ -1,10 +1,10 @@
-import type { Grid } from '../types';
-import type { StrategyResult } from './types';
+import type { Grid } from '../../types';
+import type { Hint } from '../types';
 
 // https://www.learn-sudoku.com/lone-singles.html
 // A Lone Single is when a cell has only one note left
-export const getLoneSingles = (grid: Grid): StrategyResult[] => {
-    const result: StrategyResult[] = [];
+export const getLoneSingles = (grid: Grid): Hint[] => {
+    const result: Hint[] = [];
 
     for (let row = 0; row < 9; row++) {
         for (let col = 0; col < 9; col++) {

@@ -1,11 +1,11 @@
-import type { Grid } from '../types';
-import type { StrategyResult } from './types';
+import type { Grid } from '../../types';
+import type { Hint } from '../types';
 
 // https://www.learn-sudoku.com/naked-pairs.html
 // A Naked Pair is when two cells in the same house have the exact same
 // two notes as their only notes
-export const getNakedPairs = (grid: Grid): StrategyResult[] => {
-    const result: StrategyResult[] = [];
+export const getNakedPairs = (grid: Grid): Hint[] => {
+    const result: Hint[] = [];
 
     for (let i = 0; i < 9; i++) {
         const rowPairs: { [pair: string]: { row: number; col: number } } = {};

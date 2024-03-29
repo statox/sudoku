@@ -1,10 +1,10 @@
-import type { Grid } from '../types';
-import type { StrategyResult } from './types';
+import type { Grid } from '../../types';
+import type { Hint } from '../types';
 
 // https://www.learn-sudoku.com/hidden-singles.html
 // A hidden single is when a note is the only one of its kind in an entire house
-export const getHiddenSingles = (grid: Grid): StrategyResult[] => {
-    const result: StrategyResult[] = [];
+export const getHiddenSingles = (grid: Grid): Hint[] => {
+    const result: Hint[] = [];
 
     for (let i = 0; i < 9; i++) {
         const rowCounts: { [note: number]: { row: number; col: number }[] } = {};

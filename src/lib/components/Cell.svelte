@@ -3,12 +3,12 @@
     import type { Cell, CellUpdate, GridError } from '$lib/services/sudoku';
     import { createEventDispatcher } from 'svelte';
     import NumberPicker from './NumberPicker.svelte';
-    import type { StrategyResult } from '$lib/services/sudoku/strategies';
+    import type { Hint } from '$lib/services/sudoku/hints';
     import { selectedHighlight } from './ui-store';
     export let cell: Cell;
     export let position: { row: number, col: number};
     export let gridErrors: GridError[];
-    export let strategiesResults: StrategyResult[] = [];
+    export let hints: Hint[] = [];
 
     const dispatchCellUpdate = createEventDispatcher<{cellUpdate: {cell: Cell, update: CellUpdate}}>();
     const dispatchComputeCellNotes = createEventDispatcher<{computeCellNotes: {position: {row: number, col: number}}}>();
@@ -32,10 +32,10 @@
     let hintClass = '';
     const hintedNotes: number[] = [];
     const hintedToRemoveNotes: number[] = [];
-    for (const result of strategiesResults) {
-        for (const cause of result.cause) {
+    for (const hint of hints) {
+        for (const cause of hint.cause) {
             if (cause.row === position.row && cause.col === position.col) {
-                if (result.type === 'naked_pair') {
+                if (hint.type === 'naked_pair') {
                     hintClass = 'naked-pair-hint'
                 } else {
                     hintClass = 'lone-hint';
@@ -45,7 +45,7 @@
             }
         }
 
-        for (const effect of result.effect) {
+        for (const effect of hint.effect) {
             if (effect.row === position.row && effect.col === position.col) {
                 hintedToRemoveNotes.push(...effect.notes);
             }

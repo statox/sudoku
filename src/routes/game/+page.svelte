@@ -15,11 +15,11 @@
     } from '$lib/services/sudoku';
     import Sudoku from "$lib/components/Sudoku.svelte";
     import GridStatus from '$lib/components/GridStatus.svelte';
-    import { getHiddenSingles, getLoneSingles, getNakedPairs, type StrategyResult } from '$lib/services/sudoku/strategies';
+    import { getHiddenSingles, getLoneSingles, getNakedPairs, type Hint } from '$lib/services/sudoku/hints';
     import { selectedHighlight } from '$lib/components/ui-store';
 
     let grid = generateNewGame();
-    let strategiesResults: StrategyResult[] = [];
+    let hints: Hint[] = [];
     const history = [deepCopyGrid(grid)]
     let autoRefreshNotes = false;
     let displayHints = false;
@@ -38,9 +38,9 @@
             recomputeAllNotes(grid);
         }
         if (displayHints) {
-            applyStrategies(grid)
+            refreshHints(grid)
         } else {
-            strategiesResults = [];
+            hints = [];
         }
 
         grid = grid;
@@ -64,8 +64,8 @@
         }
     }
 
-    const applyStrategies = (grid: Grid) => {
-        strategiesResults = [...getLoneSingles(grid), ...getHiddenSingles(grid), ...getNakedPairs(grid)];
+    const refreshHints = (grid: Grid) => {
+        hints = [...getLoneSingles(grid), ...getHiddenSingles(grid), ...getNakedPairs(grid)];
     }
 </script>
 
@@ -108,7 +108,7 @@
     on:cellUpdate={onCellUpdate}
     on:computeCellNotes={onComputeCellNotes}
     gridErrors={getAllGridErrors(grid)}
-    {strategiesResults}
+    {hints}
     {grid}
 />
 <GridStatus {grid} />

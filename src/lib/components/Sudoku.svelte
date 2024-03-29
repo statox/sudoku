@@ -1,25 +1,25 @@
 <script lang="ts">
     import type { Grid, GridError } from "$lib/services/sudoku";
-    import type { StrategyResult } from "$lib/services/sudoku/strategies";
+    import type { Hint } from "$lib/services/sudoku/hints";
     import Square from "./Square.svelte";
 
     export let grid: Grid;
     export let gridErrors: GridError[];
-    export let strategiesResults: StrategyResult[] = [];
+    export let hints: Hint[] = [];
 </script>
 
 <div class="main-grid">
-    <Square on:cellUpdate on:computeCellNotes position={0} {strategiesResults} {gridErrors} {grid}/>
-    <Square on:cellUpdate on:computeCellNotes position={1} {strategiesResults} {gridErrors} {grid}/>
-    <Square on:cellUpdate on:computeCellNotes position={2} {strategiesResults} {gridErrors} {grid}/>
+    <Square on:cellUpdate on:computeCellNotes position={0} {hints} {gridErrors} {grid}/>
+    <Square on:cellUpdate on:computeCellNotes position={1} {hints} {gridErrors} {grid}/>
+    <Square on:cellUpdate on:computeCellNotes position={2} {hints} {gridErrors} {grid}/>
 
-    <Square on:cellUpdate on:computeCellNotes position={3} {strategiesResults} {gridErrors} {grid}/>
-    <Square on:cellUpdate on:computeCellNotes position={4} {strategiesResults} {gridErrors} {grid}/>
-    <Square on:cellUpdate on:computeCellNotes position={5} {strategiesResults} {gridErrors} {grid}/>
+    <Square on:cellUpdate on:computeCellNotes position={3} {hints} {gridErrors} {grid}/>
+    <Square on:cellUpdate on:computeCellNotes position={4} {hints} {gridErrors} {grid}/>
+    <Square on:cellUpdate on:computeCellNotes position={5} {hints} {gridErrors} {grid}/>
 
-    <Square on:cellUpdate on:computeCellNotes position={6} {strategiesResults} {gridErrors} {grid}/>
-    <Square on:cellUpdate on:computeCellNotes position={7} {strategiesResults} {gridErrors} {grid}/>
-    <Square on:cellUpdate on:computeCellNotes position={8} {strategiesResults} {gridErrors} {grid}/>
+    <Square on:cellUpdate on:computeCellNotes position={6} {hints} {gridErrors} {grid}/>
+    <Square on:cellUpdate on:computeCellNotes position={7} {hints} {gridErrors} {grid}/>
+    <Square on:cellUpdate on:computeCellNotes position={8} {hints} {gridErrors} {grid}/>
 </div>
 
 <style>
