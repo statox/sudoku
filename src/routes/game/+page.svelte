@@ -15,6 +15,7 @@
     } from '$lib/services/sudoku';
     import Sudoku from "$lib/components/Sudoku.svelte";
     import GridStatus from '$lib/components/GridStatus.svelte';
+    import { HeadIOS } from '$lib/components/HeadIOS';
     import { getAllHints, type Hint } from '$lib/services/sudoku/hints';
     import { selectedHighlight } from '$lib/components/ui-store';
 
@@ -60,6 +61,8 @@
         hints = getAllHints(grid);
     }
 </script>
+
+<HeadIOS title="Sudoku" description="Play Sudoku" />
 
 <div>
     <h4>Grid controls</h4>
