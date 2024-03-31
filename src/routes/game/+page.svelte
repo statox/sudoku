@@ -130,4 +130,12 @@
         column-gap: 1em;
         grid-template-columns: 30% repeat(2, 20%)
     }
+
+    .highlights-controls {
+        display: grid;
+        max-width: 400px;
+        grid-template-columns: repeat(9, 1fr);
+        grid-column-gap: 10px;
+        grid-row-gap: 10px;
+    }
 </style>
