@@ -56,14 +56,6 @@
         refreshGrid();
     }
 
-    const removeFixed = () => {
-        for (let row = 0; row < 9; row++) {
-            for (let col = 0; col < 9; col++) {
-                grid[row][col].fixed = false;
-            }
-        }
-    }
-
     const refreshHints = (grid: Grid) => {
         hints = getAllHints(grid);
     }
@@ -76,7 +68,6 @@
         <button on:click={() => {grid = generateNewGame(); refreshGrid()}}>New Grid</button>
         <button on:click={() => {solve(); refreshGrid()}}>Solve grid</button>
         <button on:click={() => {resetGridToInitialFixedState(grid); refreshGrid()}}>Reset grid</button>
-        <button on:click={() => {removeFixed(); refreshGrid()}}>Remove fixed</button>
     </div>
 </div>
 
