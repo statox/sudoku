@@ -18,6 +18,8 @@
     import { HeadIOS } from '$lib/components/HeadIOS';
     import { getAllHints, type Hint } from '$lib/services/sudoku/hints';
     import { selectedHighlight } from '$lib/components/ui-store';
+    import { getGridFromStorage, saveGridToStorage } from './state';
+    import { onMount } from 'svelte';
 
     let grid = generateNewGame();
     let hints: Hint[] = [];
@@ -44,6 +46,7 @@
             hints = [];
         }
 
+        saveGridToStorage(grid);
         grid = grid;
 
         if (params?.noHistory) {
@@ -60,6 +63,13 @@
     const refreshHints = (grid: Grid) => {
         hints = getAllHints(grid);
     }
+
+    onMount(() => {
+        const storedGrid = getGridFromStorage();
+        if (storedGrid) {
+            grid = {...storedGrid};
+        }
+    });
 </script>
 
 <HeadIOS title="Sudoku" description="Play Sudoku" />
