@@ -1,6 +1,8 @@
 <script lang="ts">
+    import { page } from '$app/stores';
     import { closeModal } from '$lib/components/Modal';
     import type { CellUpdate } from '$lib/services/sudoku';
+    import { onMount } from 'svelte';
     export let isOpen: boolean;
     export let onSelectionUpdated: ((update: CellUpdate) => void);
     export let onComputeCellNotes: (() => void);
@@ -14,8 +16,12 @@
         const bodyRect = document.body.getBoundingClientRect();
         // TODO use these constants in CSS
         const WIDTH_PX = 300;
-        const HEIGHT_PX = 300;
-        let top = cellBoundingRect.top - HEIGHT_PX / 2;
+        const HEIGHT_PX = 600;
+        let top = cellBoundingRect.top;
+
+        if (top + HEIGHT_PX > bodyRect.height) {
+            top = bodyRect.height - HEIGHT_PX;
+        }
 
         let left = cellBoundingRect.right;
         if (left > bodyRect.width / 2) {
@@ -54,10 +60,6 @@
         closeModal();
     }
 
-    const toggleNotesMode = () => {
-        notesMode = !notesMode;
-    }
-
     const onKeypress = (event: KeyboardEvent) => {
         const shiftedKeys = '!@#$%^&*(';
         const modPressed = event.getModifierState('Shift');
@@ -66,6 +68,8 @@
 
         if (key === 'Backspace') {
             onSelectionUpdated({clear: true});
+            selection = new Array(9).fill(false).map((_, i) => false);
+            value = undefined;
             return;
         }
 
@@ -105,6 +109,11 @@
     function onMouseUp() {
         moving = false;
     }
+
+    let isFr = false;
+    onMount(() => {
+        isFr = $page.url.searchParams.has('fr');
+    });
 </script>
 
 {#if isOpen}
@@ -113,27 +122,27 @@
     <div role="dialog" class="modal" style="top: {top}px; left: {left}px;" on:mousedown={onMouseDown}>
         <div class="contents">
             <h3 class="title-bar">
-            {notesMode ? 'Notes' : 'Value'}
+            {isFr ? 'Valeur' : 'Value'}
                 <button on:click={closeModal}>✖</button>
             </h3>
 
             <div class="grid">
                 {#each [1, 2, 3, 4, 5, 6, 7, 8, 9] as choice}
-                    {#if notesMode}
-                        {#key selection}
-                        <button class="choice-btn" class:selected={selection[choice-1]} on:click={() => toggleValue(choice, "notes")}>{choice}</button>
-                        {/key}
-                    {:else}
-                        <button class="choice-btn" class:selected={value === choice} on:click={() => toggleValue(choice, "value")}>{choice}</button>
-                    {/if}
+                    <button class="choice-btn" class:selected={value === choice} on:click={() => toggleValue(choice, "value")}>{choice}</button>
+                {/each}
+            </div>
+
+            <h3>Notes</h3>
+            <div class="grid">
+                {#each [1, 2, 3, 4, 5, 6, 7, 8, 9] as choice}
+                    {#key selection}
+                    <button class="choice-btn" class:selected={selection[choice-1]} on:click={() => toggleValue(choice, "notes")}>{choice}</button>
+                    {/key}
                 {/each}
             </div>
 
             <div>
-                <button on:click={toggleNotesMode}>Change mode</button>
-                {#if notesMode}
-                    <button on:click={onComputeCellNotes}>Auto notes</button>
-                {/if}
+                <button on:click={onComputeCellNotes}>Auto notes</button>
             </div>
         </div>
     </div>
@@ -152,7 +161,7 @@
         z-index: 9999;
 
         width: 300px;
-        height: 300px;
+        height: 600px;
 
         /* allow click-through to backdrop */
         pointer-events: none;
