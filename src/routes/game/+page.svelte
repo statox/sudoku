@@ -126,13 +126,13 @@
     .grid-controls {
         display: grid;
         column-gap: 1em;
-        grid-template-columns: repeat(5, 20%)
+        grid-template-columns: repeat(4, 1fr);
     }
 
     .notes-controls {
         display: grid;
         column-gap: 1em;
-        grid-template-columns: 30% repeat(2, 20%)
+        grid-template-columns: repeat(3, 1fr);
     }
 
     .highlights-controls {
