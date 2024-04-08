@@ -6,6 +6,7 @@ type ListOfHintedNotes = {
 
 export type Hint = {
     type:
+        | 'last_auto_hint'
         | 'lone_single'
         | 'naked_pair'
         | 'hidden_single_col'

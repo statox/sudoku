@@ -32,11 +32,14 @@
     let hintClass = '';
     const hintedNotes: number[] = [];
     const hintedToRemoveNotes: number[] = [];
+
     for (const hint of hints) {
         for (const cause of hint.cause) {
             if (cause.row === position.row && cause.col === position.col) {
                 if (hint.type === 'naked_pair') {
                     hintClass = 'naked-pair-hint'
+                } else if (hint.type === 'last_auto_hint') {
+                    hintClass = 'auto-hint';
                 } else {
                     hintClass = 'lone-hint';
                 }
@@ -82,7 +85,7 @@
 {#if cell.value}
     <button
         bind:this={el}
-        class={"cell value " + errorClass}
+        class={"cell value " + (hintClass === 'auto-hint' ? hintClass : '') + ' ' + errorClass}
         class:fixed={cell.fixed}
         class:highlight={$selectedHighlight !== undefined && $selectedHighlight === cell.value}
         disabled={cell.fixed}
@@ -134,7 +137,7 @@
         background: #00d9f180;
     }
 
-    .lone-hint {
+    .lone-hint,.auto-hint {
         background: #ffbe5263;
     }
     .naked-pair-hint {

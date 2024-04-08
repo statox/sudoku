@@ -1,4 +1,7 @@
+import type { Hint } from './hints';
+import { solveGridDFS } from './solve';
 import type { Grid } from './types';
+import { gridHasError, gridIsFilled, gridIsValid } from './validate';
 
 export const deepCopyGrid = (g: Grid) => JSON.parse(JSON.stringify(g));
 
@@ -74,4 +77,39 @@ export const resetGridToInitialFixedState = (grid: Grid) => {
             }
         }
     }
+};
+
+export const playOneHint = (grid: Grid) => {
+    if (gridIsFilled(grid) || gridHasError(grid)) {
+        return { grid, hint: null };
+    }
+
+    const solvedGrid = solveGridDFS(grid);
+    const notSolvedCells = [];
+
+    for (let y = 0; y < 9; y++) {
+        for (let x = 0; x < 9; x++) {
+            if (grid[y][x].value === undefined) {
+                notSolvedCells.push({ x, y });
+            }
+        }
+    }
+
+    if (!notSolvedCells.length) {
+        return { grid, hint: null };
+    }
+
+    const randomIndex = Math.floor(Math.random() * notSolvedCells.length);
+    const pos = notSolvedCells[randomIndex];
+    const value = solvedGrid[pos.y][pos.x].value;
+
+    grid[pos.y][pos.x].value = value;
+    return {
+        grid,
+        hint: {
+            type: 'last_auto_hint',
+            effect: [],
+            cause: [{ row: pos.y, col: pos.x, notes: [value] }]
+        } as Hint
+    };
 };

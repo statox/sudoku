@@ -13,6 +13,7 @@
         recomputeNotesForCell,
         deepCopyGrid,
         getAllGridErrors,
+        playOneHint,
     } from '$lib/services/sudoku';
     import Sudoku from "$lib/components/Sudoku.svelte";
     import GridStatus from '$lib/components/GridStatus.svelte';
@@ -62,6 +63,15 @@
         refreshGrid();
     }
 
+    const playHint = () => {
+        const {grid: newGrid, hint} = playOneHint(grid);
+        grid = newGrid;
+        refreshGrid();
+        if (hint) {
+            hints = [hint];
+        }
+    }
+
     const refreshHints = (grid: Grid) => {
         hints = getAllHints(grid);
     }
@@ -88,19 +98,27 @@
     </div>
 </div>
 
-{#if !isFr}
-<div>
-    <h4>Notes controls</h4>
-    <div class="notes-controls">
-        <button on:click={() => {autoRefreshNotes = !autoRefreshNotes; refreshGrid()}}>
-            {autoRefreshNotes ? 'Disable' : 'Enable'} notes auto-refresh
-        </button>
-        {#if !autoRefreshNotes}
-            <button on:click={() => {removeAllNotes(grid); refreshGrid()}}>Remove notes</button>
-        {/if}
-        <button on:click={() => {displayHints = !displayHints; refreshGrid()}}>{displayHints ? 'Hide' : 'Display'} hints</button>
+{#if isFr}
+    <div>
+        <h4>Indices</h4>
+        <div class="indices-controls">
+            <button on:click={() => {playHint()}}>Jouer un indice</button>
+        </div>
     </div>
-</div>
+{:else}
+    <div>
+        <h4>Notes controls</h4>
+        <div class="notes-controls">
+            <button on:click={() => {autoRefreshNotes = !autoRefreshNotes; refreshGrid()}}>
+                {autoRefreshNotes ? 'Disable' : 'Enable'} notes auto-refresh
+            </button>
+            {#if !autoRefreshNotes}
+                <button on:click={() => {removeAllNotes(grid); refreshGrid()}}>Remove notes</button>
+            {/if}
+            <button on:click={() => {displayHints = !displayHints; refreshGrid()}}>{displayHints ? 'Hide' : 'Display'} hints</button>
+            <button on:click={() => {playHint()}}>Get hint</button>
+        </div>
+    </div>
 {/if}
 
 <div>
@@ -140,7 +158,7 @@
     .notes-controls {
         display: grid;
         column-gap: 1em;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(4, 1fr);
     }
 
     .highlights-controls {
