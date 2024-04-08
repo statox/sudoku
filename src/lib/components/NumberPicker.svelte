@@ -6,24 +6,24 @@
     export let onComputeCellNotes: (() => void);
     export let initialState: { notes: number[], value: number | undefined};
 
-    export let parentBoundingRect: DOMRect;
+    export let cellBoundingRect: DOMRect;
 
     // This function is not accurate as I'd want to be result is okayish on my computer screen
     // TODO check it works on other screens
-    const computeInitialPosition = (parentBoundingRect: DOMRect) => {
+    const computeInitialPosition = (cellBoundingRect: DOMRect) => {
         const bodyRect = document.body.getBoundingClientRect();
         // TODO use these constants in CSS
         const WIDTH_PX = 300;
         const HEIGHT_PX = 300;
-        let top = parentBoundingRect.top - HEIGHT_PX / 2;
+        let top = cellBoundingRect.top - HEIGHT_PX / 2;
 
-        let left = parentBoundingRect.right;
+        let left = cellBoundingRect.right;
         if (left > bodyRect.width / 2) {
-            left = parentBoundingRect.left - WIDTH_PX - parentBoundingRect.width;
+            left = cellBoundingRect.left - WIDTH_PX - cellBoundingRect.width;
         }
         return { top, left: Math.max(0, left)}
     }
-    let {top, left} = computeInitialPosition(parentBoundingRect);
+    let {top, left} = computeInitialPosition(cellBoundingRect);
 
 
     let notesMode = initialState.notes.length > 0;

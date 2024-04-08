@@ -25,7 +25,7 @@
 
         openModal(
             NumberPicker,
-            {initialState: cell, onSelectionUpdated, onComputeCellNotes, parentBoundingRect: el.getBoundingClientRect()}
+            {initialState: cell, onSelectionUpdated, onComputeCellNotes, cellBoundingRect: el.getBoundingClientRect()}
         )
     }
 
