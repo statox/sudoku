@@ -171,7 +171,7 @@
         min-width: 240px;
         border-radius: 26px;
         padding: 16px;
-        background: #FFFFFF88;
+        background: #FFFFFFDD;
         pointer-events: auto;
 
         max-height: 90%;
@@ -198,6 +198,6 @@
     }
 
     .selected {
-        background: var(--nc-bg-3);
+        background: #2f81bd;
     }
 </style>

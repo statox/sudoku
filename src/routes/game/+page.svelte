@@ -128,7 +128,7 @@
 
 <style>
     button.selected {
-        background: var(--nc-lk-3);
+        background: #2f81bd;
     }
 
     .grid-controls {

@@ -128,7 +128,7 @@
     }
     .fixed {
         font-weight: bolder;
-        color: var(--nc-tx-3);
+        background: #211e47ad;
     }
     .highlight {
         background: #00d9f180;
