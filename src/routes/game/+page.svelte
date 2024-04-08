@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { page } from '$app/stores';
     import {
         generateNewGame,
         recomputeAllNotes,
@@ -26,6 +27,7 @@
     const history = [deepCopyGrid(grid)]
     let autoRefreshNotes = false;
     let displayHints = false;
+    let isFr = false;
 
     const onCellUpdate = (event: CustomEvent<{cell: Cell, update: CellUpdate}>) => {
         updateCell(event.detail.cell, event.detail.update);
@@ -69,21 +71,24 @@
         if (storedGrid) {
             grid = {...storedGrid};
         }
+
+        isFr = $page.url.searchParams.has('fr');
     });
 </script>
 
 <HeadIOS title="Sudoku" description="Play Sudoku" />
 
 <div>
-    <h4>Grid controls</h4>
+    <h4>{isFr ? 'Contrôles de la grille' : 'Grid controls'}</h4>
     <div class="grid-controls">
-        <button on:click={() => {grid = history.pop(); refreshGrid({noHistory: true})}}>Prev</button>
-        <button on:click={() => {grid = generateNewGame(); refreshGrid()}}>New Grid</button>
-        <button on:click={() => {solve(); refreshGrid()}}>Solve grid</button>
-        <button on:click={() => {resetGridToInitialFixedState(grid); refreshGrid()}}>Reset grid</button>
+        <button on:click={() => {grid = history.pop(); refreshGrid({noHistory: true})}}>{isFr ? 'Annuler' : 'Prev'}</button>
+        <button on:click={() => {grid = generateNewGame(); refreshGrid()}}>{isFr ? 'Nouvelle grille' : 'New Grid'}</button>
+        <button on:click={() => {solve(); refreshGrid()}}>{isFr ? 'Résoudre' : 'Solve grid'}</button>
+        <button on:click={() => {resetGridToInitialFixedState(grid); refreshGrid()}}>{isFr ? 'Recommencer' : 'Reset grid'}</button>
     </div>
 </div>
 
+{#if !isFr}
 <div>
     <h4>Notes controls</h4>
     <div class="notes-controls">
@@ -96,9 +101,10 @@
         <button on:click={() => {displayHints = !displayHints; refreshGrid()}}>{displayHints ? 'Hide' : 'Display'} hints</button>
     </div>
 </div>
+{/if}
 
 <div>
-    <h4>Highlights controls</h4>
+    <h4>{isFr ? 'Surligner' : 'Highlight controls'}</h4>
     <div class="highlights-controls">
         {#each [1, 2, 3, 4, 5, 6, 7, 8, 9] as value}
             <button class:selected={$selectedHighlight === value} on:click={() => {$selectedHighlight = ($selectedHighlight === value) ? undefined : value}}>{value}</button>
@@ -115,7 +121,9 @@
     {hints}
     {grid}
 />
+{#if !isFr}
 <GridStatus {grid} />
+{/if}
 {/key}
 
 <style>
