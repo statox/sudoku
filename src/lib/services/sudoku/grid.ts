@@ -1,4 +1,4 @@
-import type { Hint } from './hints';
+import { getAllHints, type Hint } from './hints';
 import { solveGridDFS } from './solve';
 import type { Grid } from './types';
 import { gridHasError, gridIsFilled, gridIsValid } from './validate';
@@ -84,9 +84,61 @@ export const playOneHint = (grid: Grid) => {
         return { grid, hint: null };
     }
 
-    const solvedGrid = solveGridDFS(grid);
-    const notSolvedCells = [];
+    /*
+     * First fix the cells played with an incorrect value
+     */
+    const originalGrid = deepCopyGrid(grid);
+    resetGridToInitialFixedState(originalGrid);
+    const solvedGrid = solveGridDFS(originalGrid);
 
+    for (let y = 0; y < 9; y++) {
+        for (let x = 0; x < 9; x++) {
+            if (grid[y][x].value !== undefined && grid[y][x].value !== solvedGrid[y][x].value) {
+                grid[y][x].value = solvedGrid[y][x].value;
+                return {
+                    grid,
+                    hint: {
+                        type: 'last_auto_hint',
+                        effect: [],
+                        cause: [{ row: y, col: x, notes: [solvedGrid[y][x].value] }]
+                    } as Hint
+                };
+            }
+        }
+    }
+
+    /*
+     * Then search for lone single of hidden single hints and play one of them
+     */
+    const copyGrid = deepCopyGrid(grid);
+    recomputeAllNotes(copyGrid);
+
+    const hints = getAllHints(copyGrid);
+    const hintToPlay = hints.find((h) =>
+        ['lone_single', 'hidden_single_col', 'hidden_single_row', 'hidden_single_square'].includes(
+            h.type
+        )
+    );
+
+    if (hintToPlay && hintToPlay.cause.length) {
+        const cause = hintToPlay.cause.pop();
+        const { row, col } = cause!;
+        grid[row][col].value = solvedGrid[row][col].value;
+
+        return {
+            grid,
+            hint: {
+                type: 'last_auto_hint',
+                effect: [],
+                cause: [{ row, col, notes: [grid[row][col].value] }]
+            } as Hint
+        };
+    }
+
+    /*
+     * If no hint was found randomly get a cell from the solved grid and play it
+     */
+    const notSolvedCells = [];
     for (let y = 0; y < 9; y++) {
         for (let x = 0; x < 9; x++) {
             if (grid[y][x].value === undefined) {
