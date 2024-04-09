@@ -7,6 +7,7 @@
     export let grid: Grid;
     export let gridErrors: GridError[];
     export let hints: Hint[] = [];
+    export let gridIsValid = false;
 
     const borderLeftRight = [1, 4, 7].includes(position);
     const borderTopBottom = [3, 4, 5].includes(position);
@@ -17,7 +18,7 @@
     const cells = getCellsForSquare(position, grid);
 </script>
 
-<div class="cell-grid" class:borderLeftRight class:borderTopBottom>
+<div class="cell-grid" class:showValid={gridIsValid} class:borderLeftRight class:borderTopBottom>
     <Cell on:cellUpdate on:computeCellNotes cell={cells[0]} {hints} {gridErrors} position={{row:squareRow, col: squareCol}} />
     <Cell on:cellUpdate on:computeCellNotes cell={cells[1]} {hints} {gridErrors} position={{row:squareRow, col: squareCol + 1}} />
     <Cell on:cellUpdate on:computeCellNotes cell={cells[2]} {hints} {gridErrors} position={{row:squareRow, col: squareCol + 2}} />
@@ -46,5 +47,12 @@
     .borderLeftRight {
         border-left: 5px solid var(--nc-tx-2);
         border-right: 5px solid var(--nc-tx-2);
+    }
+
+    .showValid {
+        border-top: 5px solid green;
+        border-bottom: 5px solid green;
+        border-left: 5px solid green;
+        border-right: 5px solid green;
     }
 </style>

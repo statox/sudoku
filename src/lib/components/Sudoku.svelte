@@ -6,20 +6,21 @@
     export let grid: Grid;
     export let gridErrors: GridError[];
     export let hints: Hint[] = [];
+    export let gridIsValid = false;
 </script>
 
 <div class="main-grid">
-    <Square on:cellUpdate on:computeCellNotes position={0} {hints} {gridErrors} {grid}/>
-    <Square on:cellUpdate on:computeCellNotes position={1} {hints} {gridErrors} {grid}/>
-    <Square on:cellUpdate on:computeCellNotes position={2} {hints} {gridErrors} {grid}/>
+    <Square on:cellUpdate on:computeCellNotes position={0} {gridIsValid} {hints} {gridErrors} {grid}/>
+    <Square on:cellUpdate on:computeCellNotes position={1} {gridIsValid} {hints} {gridErrors} {grid}/>
+    <Square on:cellUpdate on:computeCellNotes position={2} {gridIsValid} {hints} {gridErrors} {grid}/>
 
-    <Square on:cellUpdate on:computeCellNotes position={3} {hints} {gridErrors} {grid}/>
-    <Square on:cellUpdate on:computeCellNotes position={4} {hints} {gridErrors} {grid}/>
-    <Square on:cellUpdate on:computeCellNotes position={5} {hints} {gridErrors} {grid}/>
+    <Square on:cellUpdate on:computeCellNotes position={3} {gridIsValid} {hints} {gridErrors} {grid}/>
+    <Square on:cellUpdate on:computeCellNotes position={4} {gridIsValid} {hints} {gridErrors} {grid}/>
+    <Square on:cellUpdate on:computeCellNotes position={5} {gridIsValid} {hints} {gridErrors} {grid}/>
 
-    <Square on:cellUpdate on:computeCellNotes position={6} {hints} {gridErrors} {grid}/>
-    <Square on:cellUpdate on:computeCellNotes position={7} {hints} {gridErrors} {grid}/>
-    <Square on:cellUpdate on:computeCellNotes position={8} {hints} {gridErrors} {grid}/>
+    <Square on:cellUpdate on:computeCellNotes position={6} {gridIsValid} {hints} {gridErrors} {grid}/>
+    <Square on:cellUpdate on:computeCellNotes position={7} {gridIsValid} {hints} {gridErrors} {grid}/>
+    <Square on:cellUpdate on:computeCellNotes position={8} {gridIsValid} {hints} {gridErrors} {grid}/>
 </div>
 
 <style>

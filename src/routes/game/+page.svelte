@@ -14,6 +14,7 @@
         deepCopyGrid,
         getAllGridErrors,
         playOneHint,
+        gridIsValid,
     } from '$lib/services/sudoku';
     import Sudoku from "$lib/components/Sudoku.svelte";
     import GridStatus from '$lib/components/GridStatus.svelte';
@@ -136,6 +137,7 @@
     on:cellUpdate={onCellUpdate}
     on:computeCellNotes={onComputeCellNotes}
     gridErrors={getAllGridErrors(grid)}
+    gridIsValid={gridIsValid(grid)}
     {hints}
     {grid}
 />
