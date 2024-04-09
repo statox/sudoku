@@ -67,9 +67,7 @@
         key = event.key;
 
         if (key === 'Backspace') {
-            onSelectionUpdated({clear: true});
-            selection = new Array(9).fill(false).map((_, i) => false);
-            value = undefined;
+            clearCell();
             return;
         }
 
@@ -85,6 +83,12 @@
             return;
         }
         toggleValue(Number(key), modPressed ? 'notes' : 'value');
+    }
+
+    const clearCell = () => {
+        onSelectionUpdated({clear: true});
+        selection = new Array(9).fill(false).map((_, i) => false);
+        value = undefined;
     }
 
     const onKeyrelease = (event: KeyboardEvent) => {
@@ -141,8 +145,9 @@
                 {/each}
             </div>
 
-            <div>
-                <button on:click={onComputeCellNotes}>Auto notes</button>
+            <div class="cell-buttons">
+                <button on:click={onComputeCellNotes}>{isFr ? 'Notes auto' : 'Auto notes'}</button>
+                <button on:click={clearCell}>{isFr ? 'Tout supprimer' : 'Clear'}</button>
             </div>
         </div>
     </div>
@@ -152,6 +157,9 @@
 <svelte:window on:keydown={onKeypress} on:keyup={onKeyrelease} on:mouseup={onMouseUp} on:mousemove={onMouseMove} />
 
 <style>
+    h3 {
+        -webkit-text-stroke: 0.01em black;
+    }
     .modal {
         position: fixed;
 
@@ -199,5 +207,10 @@
 
     .selected {
         background: #2f81bd;
+    }
+
+    .cell-buttons {
+        display: flex;
+        justify-content: space-between;
     }
 </style>
