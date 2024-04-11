@@ -45,6 +45,9 @@ const _countSolutions = (grid: Grid, solutions: Grid[], depth: number) => {
         // The callGuard is here to prevent that
         // This should be fixable by using a proper WFC as the solve algorithm
         // instead of the DFS currently used
+        //
+        // Another possible approach is to try to fix some random values and see if
+        // several of them give an answer, or if some of them give a 'not unique' answer
         return;
     }
 

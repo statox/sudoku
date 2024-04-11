@@ -1,6 +1,7 @@
 import { deepCopyGrid, recomputeAllNotes } from '../../grid';
 import { getAllHints, type Hint } from '../../hints';
 import type { Grid } from '../../types';
+import { gridHasError, gridIsValid } from '../../validate';
 
 export type SolveHumanHistory = {
     grid: Grid;
@@ -11,36 +12,67 @@ export type SolveHumanHistory = {
 export const solveGridHuman = (initialGrid: Grid, steps: Grid[]): Grid => {
     const grid = deepCopyGrid(initialGrid);
     recomputeAllNotes(grid);
-    let hints = getAllHints(grid);
 
-    for (const hint of hints) {
-        applyHint(grid, hint, steps);
-        const didChange = playSingleValues(grid, steps);
-        if (didChange) {
-            recomputeAllNotes(grid);
+    if (gridHasError(grid)) {
+        throw new Error('cant solve a grid with errors');
+    }
+
+    let guard = 100;
+    while (!gridIsValid(grid) && guard--) {
+        const hints = getAllHints(grid);
+        const hint = hints[0];
+        if (!hint) {
+            throw new Error('no hint found and grid is not valid');
         }
-    }
-    hints = getAllHints(grid);
 
-    if (hints.length) {
-        return solveGridHuman(grid, steps);
+        applyHint(grid, hint, steps);
     }
+    // let hints = getAllHints(grid);
+
+    // for (const hint of hints) {
+    //     applyHint(grid, hint, steps);
+    //     const didChange = playSingleValues(grid, steps);
+    //     if (didChange) {
+    //         recomputeAllNotes(grid);
+    //     }
+    // }
+    // hints = getAllHints(grid);
+
+    // if (hints.length) {
+    //     return solveGridHuman(grid, steps);
+    // }
 
     return grid;
 };
 
 const applyHint = (grid: Grid, hint: Hint, steps: Grid[]) => {
-    if (!hint.effect.length) {
+    if (hint.type === 'lone_single') {
+        const cause = hint.cause.pop()!;
+        grid[cause.row][cause.col].value = cause.notes[0];
+        steps.push(deepCopyGrid(grid));
+        playSingleValues(grid, steps);
+        recomputeAllNotes(grid);
+        steps.push(deepCopyGrid(grid));
         return;
     }
 
-    for (const effect of hint.effect) {
-        const { row, col, notes } = effect;
-        for (const note of notes) {
-            removePossibleValue(grid, row, col, note);
-        }
+    if (['hidden_single_row', 'hidden_single_col', 'hidden_single_square'].includes(hint.type)) {
+        const cause = hint.cause.pop()!;
+        grid[cause.row][cause.col].notes = cause.notes;
         steps.push(deepCopyGrid(grid));
+        playSingleValues(grid, steps);
+        recomputeAllNotes(grid);
+        steps.push(deepCopyGrid(grid));
+        return;
     }
+
+    // for (const effect of hint.effect) {
+    //     const { row, col, notes } = effect;
+    //     for (const note of notes) {
+    //         removePossibleValue(grid, row, col, note);
+    //     }
+    //     steps.push(deepCopyGrid(grid));
+    // }
 };
 
 // TODO: Resued from src/lib/services/sudoku/generate/wfc.ts should extract to service/grid
