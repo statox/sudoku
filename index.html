@@ -12,24 +12,24 @@
         
 		<link href="./_app/immutable/assets/0.0b7d974a.css" rel="stylesheet">
 		<link href="./_app/immutable/assets/2.48f60d0a.css" rel="stylesheet">
-		<link rel="modulepreload" href="./_app/immutable/entry/start.3b512c0f.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/start.f9791bcf.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/scheduler.b0d89b52.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/singletons.bdc8e2bf.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/paths.2e639312.js">
-		<link rel="modulepreload" href="./_app/immutable/entry/app.f8c318ac.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/singletons.8ecd258f.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/app.17b2f40b.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/index.a111de18.js">
-		<link rel="modulepreload" href="./_app/immutable/nodes/0.151c4fc5.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/0.980253a9.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/stores.110c3405.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/each.dfd0d326.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/store.e4af0485.js">
-		<link rel="modulepreload" href="./_app/immutable/nodes/2.1ee28c68.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/store.f62c61f2.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/2.ffe28499.js">
     </head>
 
     <body data-sveltekit-preload-data="hover">
-        <div style="display: contents">  <header data-svelte-h="svelte-q6vfx5"><h1>Sudoku</h1> <nav><a href="/sudoku/">Home</a> |</nav></header>      <h2>Game</h2> <div class="container svelte-itnz50"><button class="app svelte-itnz50"><h3>Game</h3> <div class="description svelte-itnz50">Play sudoku</div> </button> </div><h2>Utils</h2> <div class="container svelte-itnz50"><button class="app svelte-itnz50"><h3>Wave Function Collapse generator</h3> <div class="description svelte-itnz50">Generate new grid and see the WFC algorithm in action</div> </button><button class="app svelte-itnz50"><h3>Human solver</h3> <div class="description svelte-itnz50">Autogenerate grids and see how a human would solve it, listing possible values in each cell and identifying possible moves.</div> </button><button class="app svelte-itnz50"><h3>Computer solver</h3> <div class="description svelte-itnz50">Input any grid and let the machine solve it with a DFS algorithm</div> </button> </div> 
+        <div style="display: contents">  <header><h1 data-svelte-h="svelte-1l5tzql">Sudoku</h1> <nav data-svelte-h="svelte-toa3p0"><a href="/sudoku/">Home</a></nav></header>      <h2></h2> <div class="container svelte-itnz50"><button class="app svelte-itnz50"><h3>Game</h3> <div class="description svelte-itnz50">Play sudoku</div> </button> </div><h2></h2> <div class="container svelte-itnz50"><button class="app svelte-itnz50"><h3>Wave Function Collapse generator</h3> <div class="description svelte-itnz50">Generate new grid and see the WFC algorithm in action</div> </button><button class="app svelte-itnz50"><h3>Human solver</h3> <div class="description svelte-itnz50">Autogenerate grids and see how a human would solve it, listing possible values in each cell and identifying possible moves.</div> </button><button class="app svelte-itnz50"><h3>Computer solver</h3> <div class="description svelte-itnz50">Input any grid and let the machine solve it with a DFS algorithm</div> </button> </div> 
 			
 			<script>
 				{
-					__sveltekit_l9d786 = {
+					__sveltekit_1ufonml = {
 						assets: "/sudoku",
 						base: new URL(".", location).pathname.slice(0, -1),
 						env: {}
@@ -40,8 +40,8 @@
 					const data = [null,null];
 
 					Promise.all([
-						import("./_app/immutable/entry/start.3b512c0f.js"),
-						import("./_app/immutable/entry/app.f8c318ac.js")
+						import("./_app/immutable/entry/start.f9791bcf.js"),
+						import("./_app/immutable/entry/app.17b2f40b.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element, {
 							node_ids: [0, 2],
