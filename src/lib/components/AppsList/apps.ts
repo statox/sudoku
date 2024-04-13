@@ -1,5 +1,5 @@
 export const gameSection = {
-    name: 'Game',
+    name: '',
     apps: [
         {
             name: 'Game',
@@ -10,7 +10,7 @@ export const gameSection = {
 };
 
 export const utilsSection = {
-    name: 'Utils',
+    name: '',
     apps: [
         {
             name: 'Wave Function Collapse generator',

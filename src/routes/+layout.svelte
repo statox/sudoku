@@ -1,14 +1,17 @@
 <script lang="ts">
     import { base } from '$app/paths';
+    import { page } from '$app/stores';
     import { Modals, closeModal } from '$lib/components/Modal';
 </script>
 
 <header>
     <h1>Sudoku</h1>
 
-    <nav>
-        <a href="{base}/">Home</a> |
-    </nav>
+    {#if $page.url.pathname !== '/'}
+        <nav>
+            <a href="{base}/">Home</a>
+        </nav>
+    {/if}
 </header>
 
 <Modals>
