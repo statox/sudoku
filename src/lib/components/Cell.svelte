@@ -121,6 +121,7 @@
     .cell {
         border: 1px solid var(--nc-tx-2);
         background: inherit;
+        min-height: 62px;
     }
     .value {
         display: flex;
@@ -158,6 +159,7 @@
         display: grid;
         grid-template-columns: 33% 33% 33%;
         grid-template-rows: 33% 33% 33%;
+        font-size: 0.8em;
     }
 
     .note {

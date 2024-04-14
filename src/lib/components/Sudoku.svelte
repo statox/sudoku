@@ -26,11 +26,11 @@
 <style>
     .main-grid {
         display: grid;
-        grid-template-columns: 33% 33% 33%;
-        grid-template-rows: 33% 33% 33%;
+        grid-template-columns: repeat(3, calc(100% / 3));
+        grid-template-rows: repeat(3, calc(100% / 3));
 
         min-width: 550px;
-        min-height: 500px;
+        min-height: 600px;
     }
 
     @media screen and (min-width: 900px) {
