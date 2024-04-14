@@ -7,25 +7,25 @@
         
 		<link href="./_app/immutable/assets/0.7a449230.css" rel="stylesheet">
 		<link href="./_app/immutable/assets/2.48f60d0a.css" rel="stylesheet">
-		<link rel="modulepreload" href="./_app/immutable/entry/start.673c4933.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/start.99504c5f.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/scheduler.1dd25009.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/singletons.7e1095a4.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/paths.c646f715.js">
-		<link rel="modulepreload" href="./_app/immutable/entry/app.723241f7.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/singletons.2032e625.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/paths.7c6d6cb6.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/app.982732b1.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/index.18cc0ecb.js">
-		<link rel="modulepreload" href="./_app/immutable/nodes/0.5a2c6a3d.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/stores.b07f92e1.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/0.cd971ba8.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/stores.ba684910.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/each.e58537ba.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/store.d0bc4f2a.js">
-		<link rel="modulepreload" href="./_app/immutable/nodes/2.a036b329.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/store.f8fbd229.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/2.c12ea2ac.js">
     </head>
 
     <body data-sveltekit-preload-data="hover">
-        <div style="display: contents">  <header><h1 data-svelte-h="svelte-1l5tzql">Sudoku</h1> <nav data-svelte-h="svelte-toa3p0"><a href="/sudoku/">Home</a></nav></header>      <h2></h2> <div class="container svelte-itnz50"><button class="app svelte-itnz50"><h3>Game</h3> <div class="description svelte-itnz50">Play sudoku</div> </button> </div><h2>Utils</h2> <div class="container svelte-itnz50"><button class="app svelte-itnz50"><h3>Wave Function Collapse generator</h3> <div class="description svelte-itnz50">Generate new grid and see the WFC algorithm in action</div> </button><button class="app svelte-itnz50"><h3>Human solver</h3> <div class="description svelte-itnz50">Autogenerate grids and see how a human would solve it, listing possible values in each cell and identifying possible moves.</div> </button><button class="app svelte-itnz50"><h3>Computer solver</h3> <div class="description svelte-itnz50">Input any grid and let the machine solve it with a DFS algorithm</div> </button> </div><h2>Tests &amp; Experiments</h2> <div class="container svelte-itnz50"><button class="app svelte-itnz50"><h3>Tesseract test</h3> <div class="description svelte-itnz50">Experiment with OCR library teseract.js to parse images of grids</div> </button> </div> 
+        <div style="display: contents">  <header><h1 data-svelte-h="svelte-1l5tzql">Sudoku</h1> <nav data-svelte-h="svelte-toa3p0"><a href="/sudoku/">Home</a></nav></header>      <h2></h2> <div class="container svelte-itnz50"><button class="app svelte-itnz50"><h3>Game</h3> <div class="description svelte-itnz50">Play sudoku</div> </button> </div><h2>Utils</h2> <div class="container svelte-itnz50"><button class="app svelte-itnz50"><h3>Wave Function Collapse generator</h3> <div class="description svelte-itnz50">Generate new grid and see the WFC algorithm in action</div> </button><button class="app svelte-itnz50"><h3>Human solver</h3> <div class="description svelte-itnz50">Autogenerate grids and see how a human would solve it, listing possible values in each cell and identifying possible moves.</div> </button><button class="app svelte-itnz50"><h3>Computer solver</h3> <div class="description svelte-itnz50">Input any grid and let the machine solve it with a DFS algorithm</div> </button> </div><h2>Tests &amp; Experiments</h2> <div class="container svelte-itnz50"><button class="app svelte-itnz50"><h3>Tesseract test</h3> <div class="description svelte-itnz50">Experiment with OCR library teseract.js to parse images of grids</div> </button><button class="app svelte-itnz50"><h3>OpenCV test</h3> <div class="description svelte-itnz50">Experiment with openCV to detect rectangles in an image</div> </button> </div> 
 			
 			<script>
 				{
-					__sveltekit_hhghr3 = {
+					__sveltekit_tuqot = {
 						assets: "/sudoku",
 						base: new URL(".", location).pathname.slice(0, -1),
 						env: {}
@@ -36,8 +36,8 @@
 					const data = [null,null];
 
 					Promise.all([
-						import("./_app/immutable/entry/start.673c4933.js"),
-						import("./_app/immutable/entry/app.723241f7.js")
+						import("./_app/immutable/entry/start.99504c5f.js"),
+						import("./_app/immutable/entry/app.982732b1.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element, {
 							node_ids: [0, 2],
