@@ -1,9 +1,10 @@
 <script lang="ts">
     import { onMount } from "svelte";
+    import P5, { type Sketch } from 'p5-svelte';
     import { base } from '$app/paths';
     import cv from "@techstark/opencv-js";
 
-    const imgSrcs = ['sudoku-blankgrid_small.png', 'sudoku-blankgrid1.png', 'sudoku-blankgrid2.png', '/sudoku.png', '/sudoku_colors.png']
+    const imgSrcs = ['sudoku-blankgrid_small.png', 'sudoku-blankgrid1.png', 'sudoku-blankgrid3.png', 'sudoku-blankgrid-4combi.png', 'sudoku-blankgrid2.png', '/sudoku.png', '/sudoku_colors.png', 'pic1.JPEG', 'pic2.JPEG', 'pic3.JPEG', 'pic4.JPEG', 'pic5.JPEG', 'pic6.JPEG']
     let imgSrc = imgSrcs[0];
 
     let buildInfo: string = "";
@@ -15,6 +16,7 @@
     const checkForSquares = async () => {
         largestRect = undefined;
         rects = [];
+        squares = [];
 
         const imgEl = document.getElementById('imgToAnalyze');
         if (!imgEl) {
@@ -69,23 +71,72 @@
             return areaB - areaA || a.y - b.y || a.x - b.x;
         });
 
+        const { width, height } = src.size();
+
         // Clean up
         src.delete();
         gray.delete();
         edges.delete();
         contours.delete();
         hierarchy.delete();
+
+
+        // Show results with P5
+        sketch = (p5) => {
+            p5.setup = () => {
+                p5.createCanvas(width, height);
+                p5.textStyle(p5.BOLD);
+            };
+            p5.draw = () => {
+                p5.background(0);
+                p5.noLoop();
+
+
+                p5.noFill();
+                p5.stroke(255);
+                p5.strokeWeight(2);
+                for (const square of squares) {
+                    p5.rect(square.x, square.y, square.width, square.height);
+                }
+
+                p5.stroke(255, 0, 0, 120);
+                p5.strokeWeight(1);
+                for (const square of rects) {
+                    p5.rect(square.x, square.y, square.width, square.height);
+                }
+            };
+        };
     };
 
-    onMount(() => setTimeout(() => buildInfo = cv.getBuildInformation(), 1000))
+    let sketch: Sketch = (p5) => {
+        p5.setup = () => {
+            p5.createCanvas(0, 0);
+            p5.textStyle(p5.BOLD);
+        };
+        p5.draw = () => {
+            p5.background(0);
+            p5.noLoop();
+        };
+    };
+
+    onMount(() => setTimeout(() => {
+        buildInfo = cv.getBuildInformation()
+        checkForSquares();
+    }, 1000))
 </script>
 
 <h1>opencv.js build information</h1>
 
-<img id="imgToAnalyze" alt='data to analyze' src={base + '/test-images/' + imgSrc} />
+<div class="images-container">
+    <img id="imgToAnalyze" alt='data to analyze' src={base + '/test-images/' + imgSrc} />
+
+    {#key sketch}
+    <P5 {sketch} />
+    {/key}
+</div>
 
 <label for="imageInput">Select an image to analyze</label>
-<select id="imageInput" bind:value={imgSrc} on:change={checkForSquares}>
+<select id="imageInput" bind:value={imgSrc} on:change={() => setTimeout(checkForSquares, 500)}>
     {#each imgSrcs as option}
         <option value={option}>
             {option}
@@ -155,3 +206,12 @@
 <textarea style="width: 100%; height: 600px;">
     {buildInfo}
 </textarea>
+
+
+<style>
+    .images-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+</style>
