@@ -10,7 +10,7 @@ export const gameSection = {
 };
 
 export const utilsSection = {
-    name: '',
+    name: 'Utils',
     apps: [
         {
             name: 'Wave Function Collapse generator',
@@ -31,4 +31,15 @@ export const utilsSection = {
     ]
 };
 
-export const allApps = [gameSection, utilsSection];
+export const testsSection = {
+    name: 'Tests & Experiments',
+    apps: [
+        {
+            name: 'Tesseract test',
+            description: 'Experiment with OCR library teseract.js to parse images of grids',
+            link: '/test-tesseract'
+        }
+    ]
+};
+
+export const allApps = [gameSection, utilsSection, testsSection];
