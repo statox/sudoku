@@ -13,6 +13,9 @@
     let squares: cv.Rect[] = [];
     let rects: cv.Rect[] = [];
 
+
+    let edgesCanvas: HTMLCanvasElement;
+
     const checkForSquares = async () => {
         largestRect = undefined;
         rects = [];
@@ -37,6 +40,7 @@
 
         // Use Canny edge detection
         cv.Canny(gray, edges, 50, 150);
+        cv.imshow(edgesCanvas, edges);
 
         // Find contours
         cv.findContours(edges, contours, hierarchy, cv.RETR_LIST, cv.CHAIN_APPROX_SIMPLE);
@@ -130,6 +134,8 @@
 <div class="images-container">
     <img id="imgToAnalyze" alt='data to analyze' src={base + '/test-images/' + imgSrc} />
 
+    <canvas bind:this={edgesCanvas}></canvas>
+
     {#key sketch}
     <P5 {sketch} />
     {/key}
@@ -213,5 +219,9 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+    }
+
+    #imgToAnalyze {
+        max-height: calc(100vh / 3);
     }
 </style>
