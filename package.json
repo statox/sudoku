@@ -41,6 +41,7 @@
     },
     "type": "module",
     "dependencies": {
+        "@techstark/opencv-js": "^4.9.0-release.3",
         "tesseract.js": "^5.0.5"
     }
 }

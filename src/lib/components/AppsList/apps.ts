@@ -38,6 +38,11 @@ export const testsSection = {
             name: 'Tesseract test',
             description: 'Experiment with OCR library teseract.js to parse images of grids',
             link: '/test-tesseract'
+        },
+        {
+            name: 'OpenCV test',
+            description: 'Experiment with openCV to detect rectangles in an image',
+            link: '/test-opencv'
         }
     ]
 };
