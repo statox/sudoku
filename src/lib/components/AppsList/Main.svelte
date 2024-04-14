@@ -1,5 +1,6 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
+    import { base } from '$app/paths';
 
     type App = {
         link: string;
@@ -19,7 +20,7 @@
 
     <div class="container">
         {#each section.apps as app}
-            <button class="app" on:click={() => goto(app.link)}>
+            <button class="app" on:click={() => goto(base + app.link)}>
                 <h3>{app.name}</h3>
                 <div class="description">{app.description}</div>
             </button>
