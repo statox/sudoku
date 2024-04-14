@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" href="./favicon.png" />
+        <meta name="viewport" content="width=device-width" />
+        
+		<link href="./_app/immutable/assets/0.7a449230.css" rel="stylesheet">
+		<link rel="modulepreload" href="./_app/immutable/entry/start.dd6dd2be.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/scheduler.1dd25009.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/singletons.5851d370.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/paths.b7fbe111.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/app.da7fd8df.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/index.18cc0ecb.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/0.d3d2327b.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/stores.543e9ac7.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/each.e58537ba.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/store.8063b83e.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/7.c3984c24.js">
+    </head>
+
+    <body data-sveltekit-preload-data="hover">
+        <div style="display: contents">  <header><h1 data-svelte-h="svelte-1l5tzql">Sudoku</h1> <nav data-svelte-h="svelte-toa3p0"><a href="/sudoku/">Home</a></nav></header>      <div data-svelte-h="svelte-1gt2nrt"><p>This page uses <a target="_blank" rel="noopener noreferrer" href="https://github.com/naptha/tesseract.js">tesseract.js</a> to do some OCR
+        on images to detect digits from 1 to 9.</p> <p>It works well on the image <code>2342.png</code> because the digits are all next to each other and form a word but tesseract is not the right
+        tool to recognize a complete sudoku grid. Instead I&#39;ll experiment with another tool like openCV to first detect the rectangles in the image
+        and once each rectable is identified see if I can use tesseract or a simpler pattern matching method to identify the content of the cells.</p></div> <img alt="data to analyze" src="/sudoku/test-images/2342.png"> <label for="imageInput" data-svelte-h="svelte-1qttjym">Select an image to analyze</label> <select id="imageInput"><option value="2342.png">2342.png </option><option value="sudoku.png">sudoku.png </option><option value="opencv_github.png">opencv_github.png </option><option value="sudoku_colors.png">sudoku_colors.png </option></select> <div><span data-svelte-h="svelte-xq0pt2">Results:</span> <table><thead data-svelte-h="svelte-v4zs5d"><th>text</th> <th>confidence</th> <th>bbox.x0</th> <th>bbox.y0</th> <th>bbox.x1</th> <th>bbox.y1</th> <th>Size (w, h)</th></thead> </table> <hr> <span data-svelte-h="svelte-i4uavb">Progress:</span> <ul></ul></div> 
+			
+			<script>
+				{
+					__sveltekit_x21lh9 = {
+						assets: "/sudoku",
+						base: new URL(".", location).pathname.slice(0, -1),
+						env: {}
+					};
+
+					const element = document.currentScript.parentElement;
+
+					const data = [null,null];
+
+					Promise.all([
+						import("./_app/immutable/entry/start.dd6dd2be.js"),
+						import("./_app/immutable/entry/app.da7fd8df.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 7],
+							data,
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		</div>
+    </body>
+</html>
