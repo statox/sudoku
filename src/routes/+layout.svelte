@@ -1,4 +1,7 @@
 <script lang="ts">
+    import '$lib/styles/new.css';
+    import '$lib/styles/new_theme.css';
+    import '$lib/styles/new_override.css';
     import { base } from '$app/paths';
     import { page } from '$app/stores';
     import { Modals, closeModal } from '$lib/components/Modal';

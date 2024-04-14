@@ -1,0 +1,45 @@
+/* overrides of newcss which should probably be merged in the original file */
+body {
+    max-width: 900px;
+}
+
+@media screen and (max-width: 600px) {
+    body {
+        padding: 0;
+    }
+}
+
+/* Remove underline added by newcss under links */
+a {
+    text-decoration: none;
+}
+
+/* Limit the size of code snippets */
+pre {
+    max-height: 50rem;
+}
+
+/* Center all images */
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+ul {
+    list-style-type: circle;
+}
+
+header {
+    padding-bottom: 0.1rem;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Prevent mobile browsers from zooming when double taping */
+/* https://stackoverflow.com/a/10614533/4194289 */
+* {
+    touch-action: manipulation;
+}

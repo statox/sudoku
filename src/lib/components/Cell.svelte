@@ -118,6 +118,14 @@
         opacity: inherit;
         cursor: not-allowed;
     }
+    button:hover {
+        background: inherit;
+        border: 2px solid var(--nc-lk-1);
+    }
+    button:focus {
+        background: inherit;
+        border: 2px solid var(--nc-lk-1);
+    }
     .cell {
         border: 1px solid var(--nc-tx-2);
         background: inherit;

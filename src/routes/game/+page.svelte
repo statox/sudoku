@@ -102,7 +102,7 @@
 {#if isFr}
     <div>
         <h4>Indices</h4>
-        <div class="indices-controls">
+        <div>
             <button on:click={() => {playHint()}}>Jouer un indice</button>
         </div>
     </div>
@@ -158,9 +158,12 @@
     }
 
     .notes-controls {
-        display: grid;
-        column-gap: 1em;
-        grid-template-columns: repeat(4, 1fr);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5em 1em;
+    }
+    .notes-controls > button {
+        flex-grow: 1;
     }
 
     .highlights-controls {
