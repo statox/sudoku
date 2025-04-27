@@ -119,6 +119,35 @@
     </div>
 </div>
 
+<div>
+    <h4>{isFr ? 'Surligner' : 'Highlight controls'}</h4>
+    <div class="highlights-controls">
+        {#each [1, 2, 3, 4, 5, 6, 7, 8, 9] as value}
+            <button
+                class:selected={$selectedHighlight === value}
+                on:click={() => {
+                    $selectedHighlight = $selectedHighlight === value ? undefined : value;
+                }}>{value}</button
+            >
+        {/each}
+    </div>
+</div>
+<br />
+
+{#key grid}
+    <Sudoku
+        on:cellUpdate={onCellUpdate}
+        on:computeCellNotes={onComputeCellNotes}
+        gridErrors={getAllGridErrors(grid)}
+        gridIsValid={gridIsValid(grid)}
+        {hints}
+        {grid}
+    />
+    {#if !isFr}
+        <GridStatus {grid} />
+    {/if}
+{/key}
+
 {#if isFr}
     <div>
         <h4>Indices</h4>
@@ -165,35 +194,6 @@
     </div>
 {/if}
 
-<div>
-    <h4>{isFr ? 'Surligner' : 'Highlight controls'}</h4>
-    <div class="highlights-controls">
-        {#each [1, 2, 3, 4, 5, 6, 7, 8, 9] as value}
-            <button
-                class:selected={$selectedHighlight === value}
-                on:click={() => {
-                    $selectedHighlight = $selectedHighlight === value ? undefined : value;
-                }}>{value}</button
-            >
-        {/each}
-    </div>
-</div>
-<br />
-
-{#key grid}
-    <Sudoku
-        on:cellUpdate={onCellUpdate}
-        on:computeCellNotes={onComputeCellNotes}
-        gridErrors={getAllGridErrors(grid)}
-        gridIsValid={gridIsValid(grid)}
-        {hints}
-        {grid}
-    />
-    {#if !isFr}
-        <GridStatus {grid} />
-    {/if}
-{/key}
-
 <style>
     button.selected {
         background: #2f81bd;
@@ -216,9 +216,11 @@
 
     .highlights-controls {
         display: grid;
-        max-width: 400px;
         grid-template-columns: repeat(9, 1fr);
         grid-column-gap: 10px;
         grid-row-gap: 10px;
+    }
+    .highlights-controls > button {
+        font-size: 1.5rem;
     }
 </style>
