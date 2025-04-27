@@ -1,12 +1,12 @@
 <script lang="ts">
-    import { gridHasError, gridIsFilled, gridIsValid, type Grid } from "$lib/services/sudoku";
-    import { countSolutions } from "$lib/services/sudoku/solve";
+    import { gridHasError, gridIsFilled, gridIsValid, type Grid } from '$lib/services/sudoku';
+    import { countSolutions } from '$lib/services/sudoku/solve';
 
     export let grid: Grid;
 
     let hasErrors = gridHasError(grid);
     let isFilled = gridIsFilled(grid);
-    let isValid  = gridIsValid(grid);
+    let isValid = gridIsValid(grid);
     let solutionCount = countSolutions(grid);
 </script>
 
@@ -17,10 +17,10 @@
         <div>grid is valid</div>
         <div>grid has solutions</div>
 
-        <div class='status' class:red={hasErrors}>{hasErrors ? 'Has errors' : 'No errors'}</div>
-        <div class='status' class:red={!isFilled}>{isFilled ? 'Is filled' : 'Not filled'}</div>
-        <div class='status' class:red={!isValid}>{isValid ? 'Is valid' : 'Not valid' }</div>
-        <div class='status' class:red={solutionCount !== 'unique'}>{solutionCount}</div>
+        <div class="status" class:red={hasErrors}>{hasErrors ? 'Has errors' : 'No errors'}</div>
+        <div class="status" class:red={!isFilled}>{isFilled ? 'Is filled' : 'Not filled'}</div>
+        <div class="status" class:red={!isValid}>{isValid ? 'Is valid' : 'Not valid'}</div>
+        <div class="status" class:red={solutionCount !== 'unique'}>{solutionCount}</div>
     </div>
 {/key}
 
