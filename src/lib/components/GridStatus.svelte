@@ -11,6 +11,20 @@
 </script>
 
 {#key grid}
+    <div class="messages-container">
+        {#if solutionCount !== 'unique'}
+            <div class="message">⚠️ The grid has no solutions</div>
+            <div class="sub-message">
+                The current configuration can't be solved you probably want to revert your last move
+            </div>
+        {/if}
+        {#if hasErrors || (isFilled && !isValid)}
+            <div class="message">⚠️ The grid is invalid</div>
+            <div class="sub-message">The current configuration violates some rules</div>
+        {/if}
+    </div>
+
+    <br />
     <div class="grid-status">
         <div>grid has errors</div>
         <div>grid is filled</div>
@@ -36,5 +50,22 @@
 
     .red {
         color: red;
+    }
+
+    .messages-container {
+        background-color: var(--nc-d-bg-1);
+        margin: 2em;
+    }
+
+    .message {
+        width: 100%;
+        font-weight: bolder;
+        font-size: 2em;
+
+        color: #ce5b2d;
+    }
+
+    .sub-message {
+        width: 100%;
     }
 </style>
